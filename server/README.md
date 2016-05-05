@@ -32,6 +32,21 @@ mongod --dbpath "E:\MongoDB\data"
 mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\data" --directoryperdb --serviceName "MongoDB" --serviceDisplayName "MongoDB" --install
 ```
 
+### 初始化MongoDB数据库
+
++ 运行mongo.exe
++ 添加数据库port_city_defender：
+
+```cmd
+use port_city_defender
+```
+
++ 插入用户名、密码数据：
+
+```cmd
+db.users.insert({"username": "dog", "password": "123456"})
+```
+
 
 
 ### Start server
