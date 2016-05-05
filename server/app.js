@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var test_routes = require('./routes/test');
 
+var database = require('./database');
+
 var app = express();
 
 // view engine setup
@@ -55,6 +57,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

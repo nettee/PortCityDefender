@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var database = require('../database');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -22,5 +24,12 @@ router.post('/login.do', function(req, res, next) {
 router.get('/dashboard', function(req, res, next) {
     res.send('Hello, Admin.');
 });
+
+router.get('/user/check-password', function(req, res, next) {
+    var username = req.query.username;
+    var password = req.query.password;
+    console.log('username = %s, password = %s', username, password);
+    database.checkPassword(res, username, password);
+})
 
 module.exports = router;
