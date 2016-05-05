@@ -11,7 +11,9 @@ var userSchema = new mongoose.Schema({
     password: String
 });
 
-//var User = db.model('user', userSchema);
+/* this model will correspond to 'users' collection
+ * in MongoDB database
+ */
 var User = db.model('user', userSchema);
 
 /**
@@ -20,19 +22,19 @@ var User = db.model('user', userSchema);
  * @param {String} username
  * @param {String} password
  */
-database.checkPassword = function(res, username, password) {
+database.checkPassword = function (res, username, password) {
     if (!username || username == '') {
         res.send({status: "fail", error: "empty username"});
     } else if (!password || password == '') {
         res.send({status: "fail", error: "empty password"});
     } else {
-        // find in user table
+        // find in 'users' collection
         User.findOne()
             .where('username').equals(username)
             .select('username password')
             .exec(
                 // callback function
-                function(err, user) {
+                function (err, user) {
                     if (err) {
                         res.send({status: "fail", error: "database error"})
                         return;
