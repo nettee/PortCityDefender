@@ -17,13 +17,22 @@ npm install
 
 在Windows环境下：
 
-1. 安装MongoDB
-2. 将C:\Program Files\MongoDB\Server\3.2\bin添加到PATH环境变量
-3. 将MongoDB安装为Windows服务：
++ 安装MongoDB
++ 将C:\Program Files\MongoDB\Server\3.2\bin添加到PATH环境变量
++ 启动MongoDB：
+
+```cmd
+mongod --dbpath "E:\MongoDB\data"
+```
+
++ 访问http://localhost:27017/检查MongoDB是否已经启动，如果看到一行字“It looks like you are trying to access MongoDB over HTTP on the native driver port.”，说明成功。
++ 每次使用MongoDB之前都要启动MongoDB。如果想省去这个麻烦，可以将MongoDB添加到Windows服务：（但是我没有搞定）
 
 ```cmd
 mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\data" --directoryperdb --serviceName "MongoDB" --serviceDisplayName "MongoDB" --install
 ```
+
+
 
 ### Start server
 
