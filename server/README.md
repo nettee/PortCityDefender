@@ -13,6 +13,18 @@ npm install -g express-generator
 npm install
 ```
 
+### Install MongoDB
+
+在Windows环境下：
+
+1. 安装MongoDB
+2. 将C:\Program Files\MongoDB\Server\3.2\bin添加到PATH环境变量
+3. 将MongoDB安装为Windows服务：
+
+```cmd
+mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\data" --directoryperdb --serviceName "MongoDB" --serviceDisplayName "MongoDB" --install
+```
+
 ### Start server
 
 ```shell
