@@ -25,8 +25,9 @@
 
 由于Chrome默认禁用了本地文件访问，要使用Chrome进行测试，使用以下参数启动Chrome：
 ```
---disable-web-security --allow-file-access-from-files --user-data-dir=D:\PortCityDefender\client
+--disable-web-security --allow-file-access-from-files --user-data-dir=D:
 ```
+注意`--user-data-dir`切勿设置为项目目录，因为Chrome会在这个文件夹下面新建一大堆奇怪的文件。
 
 ## 2.真机测试（Android平台）
 
