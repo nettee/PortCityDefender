@@ -6,24 +6,28 @@
 
 * 安装cordova
 
-    ```shell
-    npm install -g cordova
-	```
+```shell
+  npm install -g cordova
+```
     
 * 安装ionic
 
-	```shell
-    npm install -g ionic
-	```
+```shell
+  npm install -g ionic
+```
 	
 * 进入client进行测试（ionic的`--lab`命令可以使web应用在浏览器上以手机屏幕大小的形式出现）
 
-	```shell
-    cd client
-    
-    ionic serve --lab
-	```
-	
+```shell
+  cd client
+  ionic serve --lab
+```
+
+由于Chrome默认禁用了本地文件访问，要使用Chrome进行测试，使用以下参数启动Chrome：
+```
+--disable-web-security --allow-file-access-from-files --user-data-dir=D:\PortCityDefender\client
+```
+
 ## 2.真机测试（Android平台）
 
 ### 配置Android开发环境
