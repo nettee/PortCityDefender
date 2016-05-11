@@ -29,7 +29,9 @@ router.get('/user/check-password', function (req, res, next) {
     var username = req.query.username;
     var password = req.query.password;
     console.log('username = %s, password = %s', username, password);
-    database.checkPassword(res, username, password);
+    database.checkPassword(username, password, function(result) {
+        res.send(result);
+    });
 })
 
 module.exports = router;
