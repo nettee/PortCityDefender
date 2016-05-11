@@ -17,7 +17,9 @@ status, errorcode和error的各项取值及含义：
 | status取值 | errorcode取值 | error取值 | 含义 |
 |----------|----------|----------|----------|  
 | pass | 0 | no error | 无错误 |
-| fail | 1 | user does not exist | 用户名不存在 | 
-| fail | 2 | wrong password | 密码错误 |
-| fail | 3 | database error | 数据库错误 |
+| fail | 1 | empty username | 空用户名 | 
+| fail | 2 | empty password | 空密码 |
+| fail | 3 | user does not exist | 用户名不存在 | 
+| fail | 4 | wrong password | 密码错误 |
+| fail | 5 | database error | 数据库错误 |
 
