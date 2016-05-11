@@ -6,18 +6,24 @@
 
 * 安装cordova
 
+    ```shell
     npm install -g cordova
+	```
     
 * 安装ionic
 
+	```shell
     npm install -g ionic
-
+	```
+	
 * 进入client进行测试（ionic的`--lab`命令可以使web应用在浏览器上以手机屏幕大小的形式出现）
 
+	```shell
     cd client
     
     ionic serve --lab
-
+	```
+	
 ## 2.真机测试（Android平台）
 
 ### 配置Android开发环境
@@ -30,17 +36,21 @@
 
 ### 手机测试
 
-* 进入client
+* 进入client，配置android环境
 
+    ```shell
     cd client
     
     ionic platform add android
 
     ionic build android
+    ```
     
 * 拿出手机，用usb线连接PC，打开usb调试
 
+    ```shell
     ionic run android
+    ```
 
 * 客户端会自动安装到手机上
 
