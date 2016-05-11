@@ -17,16 +17,24 @@ var userSchema = new mongoose.Schema({
 var User = db.model('user', userSchema);
 
 /**
- * Check username and password, send it back to http response
- * @param {Object} res HTTP response object
+ *
  * @param {String} username
  * @param {String} password
+ * @param callback callback function, with one parameter: [result]
  */
-database.checkPassword = function (res, username, password) {
+database.checkPassword = function(username, password, callback) {
     if (!username || username == '') {
-        res.send({status: "fail", error: "empty username"});
+        callback({
+            status: "fail",
+            errorcode: 1,
+            errortext: "empty username"
+        });
     } else if (!password || password == '') {
-        res.send({status: "fail", error: "empty password"});
+        callback({
+            status: "fail",
+            errorcode: 2,
+            errortext: "empty password"
+        });
     } else {
         // find in 'users' collection
         User.findOne()
@@ -36,19 +44,35 @@ database.checkPassword = function (res, username, password) {
                 // callback function
                 function (err, user) {
                     if (err) {
-                        res.send({status: "fail", error: "database error"})
+                        callback({
+                            status: "fail",
+                            errorcode: 5,
+                            errortext: "database error"
+                        });
                         return;
                     }
                     if (user) {
                         console.log('user =', user);
                         if (user.password == password) {
-                            res.send({status: "pass", error: ""});
+                            callback({
+                                status: "pass",
+                                errorcode: 0,
+                                errortext: ""
+                            });
                         } else {
-                            res.send({status: "fail", error: "wrong password"});
+                            callback({
+                                status: "fail",
+                                errorcode: 4,
+                                errortext: "wrong password"
+                            });
                         }
                     } else {
                         console.log('user does not exist');
-                        res.send({status: "fail", error: "user does not exist"});
+                        callback({
+                            status: "fail",
+                            errorcode: 3,
+                            errortext: "user does not exist"
+                        });
                     }
                 }
             );
