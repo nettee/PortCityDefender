@@ -28,16 +28,7 @@ export PATH=/home/dell/Software/mongodb-3.2.6/bin:$PATH
 ```
 
 + 新建文件夹~/data/MongoDB，存放数据库数据
-+ 新建脚本文件start-mongodb.sh： 
-
-```
-#/bin/bash
-
-# start MongoDB service
-mongod --dbpath ~/data/MongoDB/
-```
-
-+ 运行脚本，启动MongoDB，注意命令运行后不会结束，不要终止进程
++ 运行脚本start-mongodb.sh，启动MongoDB，注意命令运行后不会结束，不要终止进程
 + 访问 http://localhost:27017/ 检查MongoDB是否已经启动，如果看到一行字“It looks like you are trying to access MongoDB over HTTP on the native driver port.”，说明成功。
 + 每次使用MongoDB之前都要启动MongoDB
 
@@ -61,7 +52,7 @@ mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\dat
 
 ### 初始化MongoDB数据库
 
-+ 运行mongo.exe
++ 运行mongo
 + 添加数据库port_city_defender：
 
 ```cmd
