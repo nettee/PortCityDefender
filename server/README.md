@@ -1,5 +1,7 @@
 # How to run this server
 
+### Install Nodejs
+
 ### Install express
 
 ```shell
@@ -14,6 +16,30 @@ npm install
 ```
 
 ### Install MongoDB
+
+在Linux环境下：
+
++ 安装MongoDB
++ 将安装目录下的/bin添加到环境变量
+
+```Bash
+export PATH=/home/dell/Software/node-4.4.4/bin:$PATH
+export PATH=/home/dell/Software/mongodb-3.2.6/bin:$PATH
+```
+
++ 新建文件夹~/data/MongoDB，存放数据库数据
++ 新建脚本文件start-mongodb.sh： 
+
+```
+#/bin/bash
+
+# start MongoDB service
+mongod --dbpath ~/data/MongoDB/
+```
+
++ 运行脚本，启动MongoDB，注意命令运行后不会结束，不要终止进程
++ 访问 http://localhost:27017/ 检查MongoDB是否已经启动，如果看到一行字“It looks like you are trying to access MongoDB over HTTP on the native driver port.”，说明成功。
++ 每次使用MongoDB之前都要启动MongoDB
 
 在Windows环境下：
 
