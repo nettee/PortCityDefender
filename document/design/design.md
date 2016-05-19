@@ -12,42 +12,45 @@
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| GET | /info | 获得情报列表 |  所有用户 | 
-| GET | /info/_info_id_ | 获得情报详情 | 所有用户 |
-| POST | /info | 发送情报 | 所有用户 | 
-| POST | /info/_info\_id_ | 在情报中插入图片 | 情报所属用户 |
-| DELETE | /info/_info\_id_ | 删除情报 | 情报所属用户、管理员 |
-| GET | /info?userid=_userid_ | 按发布用户ID搜索情报 | 管理员 |
-| GET | /info?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
+| GET | /information | 获得情报列表 |  所有用户 | 
+| GET | /information?userid=_userid_ | 按发布用户ID搜索情报 | 管理员 |
+| GET | /information?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
+| GET | /information/_info\_id_ | 获得情报详情 | 所有用户 |
+| GET | /information/_info\_id_/replications | 获得情报回复列表 | 所有用户 | 
+| POST | /information | 发送情报 | 所有用户 | 
+| POST | /information/_info\_id_ | 在情报中插入图片 | 情报所属用户 |
+| POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
+| DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户、管理员 |
+
 
 指挥命令：
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| GET | /command?userid=_userid_ | 查看某个用户收到的命令 | 用户自己 | 
-| POST | /command | 发送命令 | 所有用户 | 
+| GET | /commands?userid=_userid_ | 查看某个用户收到的命令 | 用户自己 | 
+| POST | /commands | 发送命令 | 所有用户 | 
 
 文档列表：
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| GET | /doc/_class_/_subclass_/_doc\_name_ | 获得文档 | 所有用户、管理员 | 
-| POST | /doc/_class_/_subclass_/_doc\_name_ | 新建文档 | 管理员 |
-| PUT | /doc/_class_/_subclass_/_doc\_name_ | 更新文档 | 管理员 |
-| DELETE | /doc/_class_/_subclass_/_doc\_name_ | 删除文档 | 管理员 |
+| GET | /documents/_class_/_subclass_/_doc\_name_ | 获得文档 | 所有用户、管理员 | 
+| POST | /documents/_class_/_subclass_/_doc\_name_ | 新建文档 | 管理员 |
+| PUT | /documents/_class_/_subclass_/_doc\_name_ | 更新文档 | 管理员 |
+| DELETE | /documents/_class_/_subclass_/_doc\_name_ | 删除文档 | 管理员 |
 
 用户：
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| GET | /user?level=_level_ | 按级别搜索用户 | 所有用户 |
-| GET | /user?name=_name_ | 按姓名搜索用户 | 所有用户 | 
-| GET | /user | 获得用户列表 | 管理员 |
-| GET | /user?id=_userid_ | 按ID搜索用户 | 管理员 |
-| POST | /user | 新增用户 | 管理员 | 
-| PUT | /user/_userid_ | 编辑用户 | 管理员 | 
-| PUT | /user/_userid_ | 修改密码 | 用户自己 | 
-| DELETE | /user/_userid_ | 删除用户 | 管理员 | 
+| GET | /users | 获得用户列表 | 管理员 |
+| GET | /users?level=_level_ | 按级别搜索用户 | 所有用户 |
+| GET | /users?name=_name_ | 按姓名搜索用户 | 所有用户 | 
+| GET | /users?id=_userid_ | 按ID搜索用户 | 管理员 |
+| POST | /users | 新增用户 | 管理员 | 
+| PUT | /users/_userid_ | 编辑用户 | 管理员 | 
+| PATCH | /users/_userid_ | 修改密码 | 用户自己 | 
+| DELETE | /users/_userid_ | 删除用户 | 管理员 | 
 
 #### 检查用户名和密码
 
