@@ -20,7 +20,7 @@ angular.module('ionicApp', ['ionic'])
 .controller('SignInCtrl', function($scope, $http, $state) {
   
   $scope.signIn = function(user) {
-    $http.get("http://localhost:3000/user/check-password?username=" + user.username + "&password=" + user.password).success(function (response){
+    $http.get("http://121.40.97.40:3000/user/check-password?username=" + user.username + "&password=" + user.password).success(function (response){
     	console.log(response.status);
     	if (response.status === "pass"){
     		$state.go('userpage');
