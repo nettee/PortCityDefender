@@ -34,3 +34,6 @@ node_modules
 
 # WebStorm directory
 .idea
+
+# vim temp file
+*.swp
