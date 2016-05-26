@@ -44,6 +44,7 @@
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
 | GET | /users | 获得用户列表 | 管理员 |
+| GET | /users?region=_region_ | 按区域搜索用户 | 所有用户 |
 | GET | /users?level=_level_ | 按级别搜索用户 | 所有用户 |
 | GET | /users?name=_name_ | 按姓名搜索用户 | 所有用户 | 
 | GET | /users?id=_userid_ | 按ID搜索用户 | 管理员 |
@@ -51,6 +52,15 @@
 | PUT | /users/_userid_ | 编辑用户 | 管理员 | 
 | PATCH | /users/_userid_ | 修改密码 | 用户自己 | 
 | DELETE | /users/_userid_ | 删除用户 | 管理员 | 
+
+区域：
+
+| HTTP方法 | 路径 | 功能 | 权限 |
+|---|---|---|---|
+| GET | /regions | 获得区域列表 | 管理员 |
+| POST | /regions | 添加区域 | 管理员 |
+| DELETE | /regions/_region\_id_ | 删除区域 | 管理员 |
+
 
 #### 检查用户名和密码
 
@@ -65,7 +75,7 @@
 status, errorcode和error的各项取值及含义：
 
 | status取值 | errorcode取值 | error取值 | 含义 |
-|----------|----------|----------|----------|  
+|----------|----------|----------|----------| 
 | pass | 0 | no error | 无错误 |
 | fail | 1 | empty username | 空用户名 | 
 | fail | 2 | empty password | 空密码 |

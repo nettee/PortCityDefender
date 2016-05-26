@@ -37,3 +37,4 @@ node_modules
 
 # vim temp file
 *.swp
+*.~
