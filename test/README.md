@@ -38,11 +38,9 @@
 * 编写shell脚本运行带参数的chrome浏览器
 
     ```
-    newchrome.sh
-    
+    newchrome.sh   
     #!/bin/sh
-    /usr/bin/google-chrome --disable-web-security --allow-file-access-from-files --user-data-dir=/home/dell/ChromeData
-    
+    /usr/bin/google-chrome --disable-web-security --allow-file-access-from-files --user-data-dir=/home/dell/ChromeData    
     ```  
     
     ```shell
@@ -50,3 +48,38 @@
     ```
     
     之后就可以使用`./newchrome.sh`来运行测试用的chrome浏览器
+
+## 2.真机测试（Android）
+
+* 安装`Java`，下载JDK1.8，解压并添加`ID/bin`到环境变量
+
+* 下载`apache-ant`，添加环境变量
+
+* 安装`Android SDK`，启动SDK Manager，下载`android sdk platform-tools`和`android sdk build-tools`和`Android 6.0 sdk`，如果在EXTRA目录下有`Android Support Repository`，一定要下载，之后配置环境变量
+
+* 配置环境变量有很多种方法
+
+    ```shell
+    sudo vim /etc/profile
+    
+    +++ export PATH=/home/dell/ID of JAVA/bin:$PATH
+    +++ export PATH=/home/dell/ID of apache-ant/bin:$PATH
+	+++ export PATH=/home/dell/ID of android sdk/tools:$PATH
+	+++ export PATH=/home/dell/ID of android sdk/platform-tools:$PATH
+    
+    source /etc/profile
+    ```
+* 一般的我们用的是64位系统，所以要支持Android SDK需要安装32位支持库
+
+	```shell
+	sudo apt-get install -y libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1
+	```
+* 现在可以进入项目的**client**部分，使用usb线将手机连至电脑，开启**调试模式**
+
+	```
+	ionic platform add android
+	ionic build android
+	ionic run android
+	```
+
+	即可将应用安装至手机上
