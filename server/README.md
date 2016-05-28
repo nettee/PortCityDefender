@@ -1,4 +1,4 @@
-# Setup
+# SetUp
 
 ### Install Nodejs
 
