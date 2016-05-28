@@ -1,10 +1,17 @@
-# SetUp
+# Set Up
 
 ### Install Nodejs
 
++ 安装Nodejs
++ 将安装目录下的/bin添加到环境变量
+
+```Bash
+export PATH=/home/dell/Software/node-4.4.4/bin:$PATH
+```
+
 ### Install express
 
-```shell
+```Bash
 npm install -g express
 npm install -g express-generator
 ```
@@ -17,7 +24,6 @@ npm install -g express-generator
 + 将安装目录下的/bin添加到环境变量
 
 ```Bash
-export PATH=/home/dell/Software/node-4.4.4/bin:$PATH
 export PATH=/home/dell/Software/mongodb-3.2.6/bin:$PATH
 ```
 
@@ -58,20 +64,10 @@ npm install
 npm start
 ```
 
-Server运行在localhost:3000
+服务器运行在localhost:3000，可以用一下方式测试服务器是否运行：
 
-# 测试GET与POST请求
++ 测试GET请求： http://localhost:3000/test/get
++ 测试带参数的GET请求： http://localhost:3000/test/paramget
++ 测试POST请求： http://localhost:3000/test/post
 
-+ 测试GET请求
-
-  访问 /test/get
-
-+ 测试带参数的GET请求
-
-  访问 /test/paramget
-
-+ 测试POST请求
-
-  访问 /test/post
-
-  **注意：POST请求body的格式应为x-www-form-urlencoded**，即与网页表单得到的POST请求一致
+**注意：POST请求body的格式应为x-www-form-urlencoded**，即与网页表单得到的POST请求一致
