@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-        "postinstall": "echo this-is-postinstall",
         "prestart": "cd scripts && ./start-mongodb.sh && ./import-data.sh",
         "start": "node ./bin/www"
   },

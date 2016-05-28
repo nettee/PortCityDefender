@@ -6,24 +6,41 @@ var users = require('../models/users');
 router.get('/', function (req, res) {
     var query = req.query;
     if (query.id) {
-        res.send('get user by id.');
+        var filter = function (user) {
+            return user.id == query.id;
+        };
     } else if (query.name) {
-        res.send('get user by name.');
+        var filter = function (user) {
+            return user.name == query.name;
+        };
     } else if (query.level) {
-        res.send('get user by level.');
+        var filter = function (user) {
+            return user.level == query.level;
+        };
     } else if (query.region) {
-        res.send('get user by region.');
+        var filter = function (user) {
+            return user.region == query.region;
+        };
     } else {
-        res.send('It seems that you are trying to get users list.');
+        var filter = function (user) {
+            return true;
+        };
     }
+    users.find(filter, function(err, list) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(list);
+        }
+    });
 });
 
 // POST new user
 router.post('/', function(req, res) {
     var user = req.body;
-    users.create(user, function(err, status) {
+    users.create(user, function(err) {
         if (err) {
-            res.status(status).send(err);
+            res.status(500).send(err);
         } else {
             res.status(201).send(user);
         }
@@ -31,13 +48,28 @@ router.post('/', function(req, res) {
 });
 
 // MODIFY user information
-router.put('/', function(req, res) {
-    res.send('It seems that you are trying to modify user');
+router.put('/:id', function(req, res) {
+    var id = req.params.id;
+    var user = req.body;
+    users.updateById(id, user, function(err) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(201).send(user);
+        }
+    });
 });
 
 // DELETE user
-router.delete('/', function(req, res) {
-    res.send('It seems that you are trying to delete user');
+router.delete('/:id', function(req, res) {
+    var id = req.params.id;
+    users.deleteById(id, function(err) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(204).send({});
+        }
+    });
 });
 
 module.exports = router;
