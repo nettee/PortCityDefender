@@ -4,7 +4,7 @@ var database = require('./database');
 var users = {};
 
 var userSchema = new mongoose.Schema({
-    id: Number,
+    id: String,
     name: String,
     level: Number,
     region: String,
@@ -16,6 +16,15 @@ var db = database.connect();
 
 var User = db.model('user', userSchema);
 
+users.isCompleteUser = function(user) {
+    return !!user.id 
+        && !!user.name 
+        && !!user.level
+        && !!user.region 
+        && !!user.description 
+        && !!user.phone;
+};
+
 /**
  *
  * Create an user tuple in database
@@ -23,16 +32,6 @@ var User = db.model('user', userSchema);
  * @param {Function(err)} callback
  */
 users.create = function(user, callback) {
-    if (!user.id 
-            || !user.name 
-            || !user.level
-            || !user.region 
-            || !user.description 
-            || !user.phone) {
-        // user information is not complete
-        callback("user information not complete", 400);
-        return;
-    }
     User(user).save(function(err, result) {
         if (err) {
             console.log(err);
@@ -51,14 +50,33 @@ users.create = function(user, callback) {
  * @param {Function(err, userlist)} callback
  *
  */
-users.find = function(filter, callback) {
-    User.find().exec(function(err, userlist) {
-        if (err) {
-            console.log(err);
-            callback(err, []);
-        } else {
-            callback(null, userlist.filter(filter));
-        }
+users.find = function(condition, callback) {
+    User.find(condition)
+        .exec(function(err, userlist) {
+            if (err) {
+                console.log(err);
+                callback(err, []);
+            } else {
+                callback(null, userlist);
+            }
+        });
+};
+
+users.exists = function(condition, callback) {
+    User.findOne(condition)
+        .exec(function(err, result) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(err, !!result);
+            }
+        });
+};
+
+users.existsId = function(id, callback) {
+    users.exists({'id': id}, function(err, result) {
+        callback(err, result);
     });
 };
 

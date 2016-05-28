@@ -1,2 +1,2 @@
-{"id":0,"name":"admin","level":7,"region":"city","description":"administator","phone":"911"}
-{"id":1,"name":"Laura","level":2,"region":"south","description":"archer","phone":"156-3741"}
+{"id":"admin","name":"管理员","level":0,"region":"city","description":"administator","phone":"911"}
+{"id":"laura","name":"Laura","level":2,"region":"south","description":"archer","phone":"156-3741"}
