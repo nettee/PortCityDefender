@@ -18,8 +18,9 @@ var User = db.model('user', userSchema);
 
 /**
  *
+ * Create an user tuple in database
  * @param {Object} user
- * @param {Function} callback(err, status)
+ * @param {Function(err)} callback
  */
 users.create = function(user, callback) {
     if (!user.id 
@@ -45,8 +46,10 @@ users.create = function(user, callback) {
 
 /**
  *
+ * Read list of users from database
  * @param {Object} user
- * @param {Function} callback(err, userlist)
+ * @param {Function(err, userlist)} callback
+ *
  */
 users.find = function(filter, callback) {
     User.find().exec(function(err, userlist) {
@@ -59,6 +62,13 @@ users.find = function(filter, callback) {
     });
 };
 
+/**
+ * Update user tuple with given id
+ * @param {Number} id
+ * @param {Object} newUser
+ * @param {Function(err)} callback
+ *
+ */
 users.updateById = function(id, newUser, callback) {
     User.where({'id': id})
         .update(newUser)
@@ -73,6 +83,12 @@ users.updateById = function(id, newUser, callback) {
         });
 };
 
+/**
+ * Delete user tuple with given id
+ * @param {Number} id
+ * @param {Function(err)} callback
+ *
+ */
 users.deleteById = function(id, callback) {
     User.remove({'id': id})
         .remove(function(err, result) {
