@@ -1,4 +1,4 @@
-# How to run this server
+# Setup
 
 ### Install Nodejs
 
@@ -7,12 +7,6 @@
 ```shell
 npm install -g express
 npm install -g express-generator
-```
-
-### Install npm modules
-
-```shell
-npm install
 ```
 
 ### Install MongoDB
@@ -30,8 +24,9 @@ export PATH=/home/dell/Software/mongodb-3.2.6/bin:$PATH
 + 新建文件夹~/data/MongoDB，存放数据库数据
 + 运行脚本start-mongodb.sh，启动MongoDB，注意命令运行后不会结束，不要终止进程
 + 访问 http://localhost:27017/ 检查MongoDB是否已经启动，如果看到一行字“It looks like you are trying to access MongoDB over HTTP on the native driver port.”，说明成功。
-+ 每次使用MongoDB之前都要启动MongoDB
++ 现在可以关闭数据库服务器，每次服务器启动前，都会运行脚本自动打开数据库服务器
 
+<!--
 在Windows环境下：
 
 + 安装MongoDB
@@ -49,23 +44,13 @@ mongod --dbpath "E:\MongoDB\data"
 ```cmd
 mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\data" --directoryperdb --serviceName "MongoDB" --serviceDisplayName "MongoDB" --install
 ```
+-->
 
-### 初始化MongoDB数据库
+### Install npm modules
 
-+ 运行mongo
-+ 添加数据库port_city_defender：
-
-```cmd
-use port_city_defender
+```shell
+npm install
 ```
-
-+ 插入用户名、密码数据到users文档集合：
-
-```cmd
-db.users.insert({"username": "dog", "password": "123456"})
-```
-
-
 
 ### Start server
 
