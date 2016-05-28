@@ -50,8 +50,14 @@
 | GET | /users?id=_userid_ | 按ID搜索用户 | 管理员 |
 | POST | /users | 新增用户 | 管理员 | 
 | PUT | /users/_userid_ | 编辑用户 | 管理员 | 
-| PATCH | /users/_userid_ | 修改密码 | 用户自己 | 
+| PATCH | /users/_userid_ | 编辑用户 | 管理员 | 
 | DELETE | /users/_userid_ | 删除用户 | 管理员 | 
+
+密码：
+
+| HTTP方法 | 路径 | 功能 | 权限 |
+|---|---|---|---|
+| PATCH | /shadows/_userid_ | 修改密码 | 用户自己 | 
 
 区域：
 

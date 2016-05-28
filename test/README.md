@@ -2,22 +2,7 @@
 
 ## 1.网页测试
 
-* 从官网上下载Node.js（version 4）的binary code，解压并添加`目录/bin`到环境变量。
-    
-* 安装MongoDB，步骤同Node.js，同样要添加环境变量。
-    
-    ```shell
-    sudo vim /etc/profile
-    
-    +++ export PATH=/home/dell/Install Directory of node.js/bin:$PATH
-    +++ export PATH=/home/dell/ID of MongoDB/bin:$PATH
-    
-    source /etc/profile
-    ```
-
-* 注意用户名和安装目录，添加完环境变量后，重新登陆用户dell即可。
-
-* 现在可以按照server中的描述安装express、express-generator、设置数据库并运行起服务器。
+* 数据库与服务器：无需安装。正常情况下，服务器应该运行在<某个云服务器地址>。如果你想手动运行服务器，请参考server目录下的README
 
 * 安装cordova和ionic
 
@@ -35,19 +20,11 @@
 
 * 获得chrome安装包后，双击安装。
 
-* 编写shell脚本运行带参数的chrome浏览器
+* 启动测试用的chrome浏览器
 
-    ```
-    newchrome.sh   
-    #!/bin/sh
-    /usr/bin/google-chrome --disable-web-security --allow-file-access-from-files --user-data-dir=/home/dell/ChromeData    
-    ```  
-    
-    ```shell
-    chmod +x newchrome.sh
-    ```
-    
-    之后就可以使用`./newchrome.sh`来运行测试用的chrome浏览器
+```Bash
+./newchrome.sh
+```
 
 ## 2.真机测试（Android）
 

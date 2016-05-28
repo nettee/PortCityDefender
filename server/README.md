@@ -1,18 +1,19 @@
-# How to run this server
+# Setup
 
 ### Install Nodejs
 
-### Install express
++ 安装Nodejs
++ 将安装目录下的/bin添加到环境变量
 
-```shell
-npm install -g express
-npm install -g express-generator
+```Bash
+export PATH=/home/dell/Software/node-4.4.4/bin:$PATH
 ```
 
-### Install npm modules
+### Install express
 
-```shell
-npm install
+```Bash
+npm install -g express
+npm install -g express-generator
 ```
 
 ### Install MongoDB
@@ -23,15 +24,15 @@ npm install
 + 将安装目录下的/bin添加到环境变量
 
 ```Bash
-export PATH=/home/dell/Software/node-4.4.4/bin:$PATH
 export PATH=/home/dell/Software/mongodb-3.2.6/bin:$PATH
 ```
 
 + 新建文件夹~/data/MongoDB，存放数据库数据
 + 运行脚本start-mongodb.sh，启动MongoDB，注意命令运行后不会结束，不要终止进程
 + 访问 http://localhost:27017/ 检查MongoDB是否已经启动，如果看到一行字“It looks like you are trying to access MongoDB over HTTP on the native driver port.”，说明成功。
-+ 每次使用MongoDB之前都要启动MongoDB
++ 现在可以关闭数据库服务器，每次服务器启动前，都会运行脚本自动打开数据库服务器
 
+<!--
 在Windows环境下：
 
 + 安装MongoDB
@@ -49,23 +50,13 @@ mongod --dbpath "E:\MongoDB\data"
 ```cmd
 mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\data" --directoryperdb --serviceName "MongoDB" --serviceDisplayName "MongoDB" --install
 ```
+-->
 
-### 初始化MongoDB数据库
+### Install npm modules
 
-+ 运行mongo
-+ 添加数据库port_city_defender：
-
-```cmd
-use port_city_defender
+```shell
+npm install
 ```
-
-+ 插入用户名、密码数据到users文档集合：
-
-```cmd
-db.users.insert({"username": "dog", "password": "123456"})
-```
-
-
 
 ### Start server
 
@@ -73,20 +64,10 @@ db.users.insert({"username": "dog", "password": "123456"})
 npm start
 ```
 
-Server运行在localhost:3000
+服务器运行在localhost:3000，可以用一下方式测试服务器是否运行：
 
-# 测试GET与POST请求
++ 测试GET请求： http://localhost:3000/test/get
++ 测试带参数的GET请求： http://localhost:3000/test/paramget
++ 测试POST请求： http://localhost:3000/test/post
 
-+ 测试GET请求
-
-  访问 /test/get
-
-+ 测试带参数的GET请求
-
-  访问 /test/paramget
-
-+ 测试POST请求
-
-  访问 /test/post
-
-  **注意：POST请求body的格式应为x-www-form-urlencoded**，即与网页表单得到的POST请求一致
+**注意：POST请求body的格式应为x-www-form-urlencoded**，即与网页表单得到的POST请求一致
