@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "prestart": "cd scripts && ./start-mongodb.sh && ./import-data.sh",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "stop": "./stop.sh",
+    "restart": "./stop.sh && node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
