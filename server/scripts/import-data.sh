@@ -1,1 +1,3 @@
-mongoimport --db port_city_defender --collection users --drop --file primer-dataset-users.json
+data_dir="primer-dataset"
+mongoimport --db port_city_defender --collection users --drop \
+    --file "${data_dir}/users.json"
