@@ -60,7 +60,25 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+         .state('menu.contactlists', {
+      url: '/contactlists',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/contactlists.html',
+          controller: 'ContactlistsCtrl'
+        }
+      }
+    })
 
+  .state('menu.single', {
+    url: '/contactlists/:contactId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/contact.html',
+        controller: 'ContactCtrl'
+      }
+    }
+  });
       $urlRouterProvider.otherwise('/login');
 
 })

@@ -76,7 +76,7 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 
 5. PATCH /users/_userid_ 部分更新ID为_userid_的用户的信息。用户请求发送一个（不一定完整的）User对象，服务器将ID为_userid_的用户信息根据User中的属性进行部分更新，返回更新后的User对象，返回201状态码。如果ID为_userid_的用户不存在，返回404状态码。User对象一定要含有ID属性，除ID外的五个属性可包含一个或多个。如果User对象的ID属性和_userid_不等，或User对象的属性有错误，返回400状态码。
 
-6. DELETE /users/_userid_ 删除ID为_userid_的用户。服务器返回一个空对象，返回204状态码。如果ID为_userid_的用户不存在，返回404状态码。
+6. DELETE /users/_userid_ 删除ID为_userid_的用户。服务器返回一个空对象，返回204状态码，即使ID为_userid_的用户不存在。
 
 以上的HTTP请求，如果服务器在处理请求时发生了内部错误，返回500状态码。
 
