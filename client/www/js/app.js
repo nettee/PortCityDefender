@@ -78,7 +78,7 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
         controller: 'ContactCtrl'
       }
     }
-  });
+  })
       $urlRouterProvider.otherwise('/login');
 
 })

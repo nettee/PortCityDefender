@@ -31,7 +31,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   $scope.user = userService.getUser();
 })
 
-<<<<<<< HEAD
+
 .controller('ContactlistsCtrl', function($scope,$http) {
       $http.get("http://121.40.97.40:3000/users")
       .success(function (response){
@@ -45,5 +45,4 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
 .controller('ContactCtrl', function($scope, $stateParams) {
 });
-=======
->>>>>>> 1e49bb11d6920c5bfb51da5650ad4650be9b36a8
+
