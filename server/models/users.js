@@ -5,6 +5,7 @@ var users = {};
 
 var userSchema = new mongoose.Schema({
     id: String,
+    password: String,
     name: String,
     level: Number,
     region: String,
@@ -24,6 +25,20 @@ users.isCompleteUser = function(user) {
         && !!user.description 
         && !!user.phone;
 };
+
+/**
+ * Read one user tuple from database
+ * @param {String} id
+ * @param {Function(err, user)} callback
+ */
+function readOne(id, callback) {
+    User.where({'id': id})
+        .findOne()
+        .select('-_id id name level region description phone') 
+        .exec(function (err, result) {
+            callback(err, result);
+        });
+}
 
 /**
  *
@@ -50,8 +65,9 @@ users.create = function(user, callback) {
  * @param {Function(err, userlist)} callback
  *
  */
-users.find = function(condition, callback) {
+function read(condition, callback) {
     User.find(condition)
+        .select('-_id id name level region description phone')  // remove key '_id'
         .exec(function(err, userlist) {
             if (err) {
                 console.log(err);
@@ -82,21 +98,22 @@ users.existsId = function(id, callback) {
 
 /**
  * Update user tuple with given id
- * @param {Number} id
- * @param {Object} newUser
+ * @param {String} id
+ * @param {Object} updater
  * @param {Function(err)} callback
  *
  */
-users.updateById = function(id, newUser, callback) {
-    User.where({'id': id})
-        .update(newUser)
+function update(id, updater, callback) {
+    delete updater.id; // ensure id not to be updated
+    User.findOneAndUpdate({'id': id}, updater, {new: true})
+        .select('-_id id name level region description phone')
         .exec(function(err, result) {
+            // result: user after updating
             if (err) {
                 console.log(err);
-                callback(err);
+                callback(err, {});
             } else {
-                console.log(result);
-                callback(null);
+                callback(null, result);
             }
         });
 };
@@ -109,15 +126,72 @@ users.updateById = function(id, newUser, callback) {
  */
 users.deleteById = function(id, callback) {
     User.remove({'id': id})
-        .remove(function(err, result) {
-            if (err) {
-                console.log(err);
-                callback(err);
-            } else {
-                console.log(result);
-                callback(null);
-            }
+        .remove(function(err) {
+            callback(err);
         });
 };
+
+/**
+ *
+ * @param {String} id
+ * @param {String} password
+ * @param callback callback function, with one parameter: [result]
+ */
+users.checkPassword = function(id, password, callback) {
+    if (!id || id == '') {
+        callback({
+            status: "fail",
+            errorcode: 1,
+            error: "empty id"
+        });
+    } else if (!password || password == '') {
+        callback({
+            status: "fail",
+            errorcode: 2,
+            error: "empty password"
+        });
+    } else {
+        // find in 'users' collection
+        User.findOne({'id': id})
+            .select('-_id password')
+            .exec(function (err, user) {
+                if (err) {
+                    callback({
+                        status: "fail",
+                        errorcode: 5,
+                        error: "database error"
+                    });
+                    return;
+                }
+                if (user) {
+                    if (user.password == password) {
+                        callback({
+                            status: "pass",
+                            errorcode: 0,
+                            error: ""
+                        });
+                    } else {
+                        callback({
+                            status: "fail",
+                            errorcode: 4,
+                            error: "wrong password"
+                        });
+                    }
+                } else {
+                    console.log('user ID not exist');
+                    callback({
+                        status: "fail",
+                        errorcode: 3,
+                        error: "user ID does not exist"
+                    });
+                }
+            }
+        );
+    }
+};
+
+users.update = update;
+users.read = read;
+users.readOne = readOne;
 
 module.exports = users;
