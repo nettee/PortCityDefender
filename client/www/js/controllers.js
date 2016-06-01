@@ -31,6 +31,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   $scope.user = userService.getUser();
 })
 
+
 .controller('ContactsController', function ($scope, $http, userService) {
   var regionlist = ['south', 'west'];
   /*
@@ -75,3 +76,4 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 .controller('ContactController', function ($scope,userService) {
 
 })
+

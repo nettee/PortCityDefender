@@ -1,75 +1,121 @@
 var express = require('express');
-var router = express.Router();
+var assert = require('assert');
+
 var users = require('../models/users');
 
-// GET users list
-router.get('/', function (req, res) {
-    var query = req.query;
-    if (query.id) {
-        var condition = {'id': query.id};
-    } else if (query.name) {
-        var condition = {'name': query.name};
-    } else if (query.level) {
-        var condition = {'level': query.level};
-    } else if (query.region) {
-        var condition = {'region': query.region};
-    } else {
-        var condition = {};
+var router = express.Router();
+
+/**
+ * check if user object has all six attributes
+ *
+ * used in: 
+ *     PUT /users/_userid_
+ */
+function userCompletementChecker(req, res, next) {
+    console.log('in userCompletementChecker');
+    var user = req.body;
+    if (!users.isCompleteUser(user)) {
+        res.status(400).send({error: 'User information not complete'});
+        res.end();
+        return;
     }
-    users.find(condition, function(err, list) {
+    next();
+}
+
+/** check if user ID exists
+ *
+ * used in:
+ *     GET /users/_userid_
+ *     PUT /users/_userid_
+ *     PATCH /users/_userid_
+ */
+function userExistenceChecker(req, res, next) {
+    console.log('in userExistenceChecker');
+    var id = req.params.id;
+    users.existsId(id, function(err, exists) {
+        if (err) {
+            res.status(500).send({error: err});
+            return;
+        }
+        if (!exists) {
+            res.status(404).send({error: 'user ID does not exist'});
+            return;
+        }
+        next();
+    });
+}
+
+function userListReader(req, res) {
+    var query = req.query;
+    var condition = {};
+    if (query.id) {
+        condition.id = query.id;
+    } 
+    if (query.name) {
+        condition.name = query.name;
+    } 
+    if (query.level) {
+        condition.level = query.level;
+    } 
+    if (query.region) {
+        condition.region = query.region;
+    }
+    users.read(condition, function(err, list) {
         if (err) {
             res.status(500).send(err);
         } else {
             res.status(200).send(list);
         }
     });
-});
+}
 
-// POST new user
-router.post('/', function(req, res) {
+function userReader(req, res) {
+    var id = req.params.id;
+    var condition = {'id': id};
+    users.readOne(id, function(err, user) {
+        if (err) {
+            res.status(500).send({error: err});
+            return;
+        }
+        res.status(200).send(user);
+    });
+}
+
+function userCreator(req, res) {
     var user = req.body;
-    if (!users.isCompleteUser(user)) {
-        res.status(400).send('User information not complete');
-        return;
-    }
     users.create(user, function(err) {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).send({error: err});
         } else {
             res.status(201).send(user);
         }
     });
-});
+}
 
-// MODIFY user information
-router.put('/:id', function(req, res) {
+/**
+ * update user information
+ *
+ * used by: 
+ *     PUT /users/_userid_
+ *     PATCH /users/_userid_
+ */
+function userUpdater(req, res) {
     var id = req.params.id;
     var user = req.body;
-    if (!users.isCompleteUser(user)) {
-        res.status(400).send('User information not complete');
+    if (user.id != id) {
+        res.status(400).send({error: 'user ID is not consistent'});
         return;
     }
-    users.existsId(id, function(err, exists) {
+    users.update(id, user, function(err, result) {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).send({error: err});
             return;
         }
-        if (!exists) {
-            res.status(400).send('user ID does not exist');
-            return;
-        }
-        users.updateById(id, user, function(err) {
-            if (err) {
-                res.status(500).send(err);
-                return;
-            }
-            res.status(201).send(user);
-        });
+        res.status(201).send(result);
     });
-});
+}
 
-// DELETE user
-router.delete('/:id', function(req, res) {
+function userDeleter(req, res) {
     var id = req.params.id;
     users.deleteById(id, function(err) {
         if (err) {
@@ -78,6 +124,24 @@ router.delete('/:id', function(req, res) {
             res.status(204).send({});
         }
     });
-});
+}
+
+// READ users list
+router.get('/', userListReader);
+
+// READ user
+router.get('/:id', userExistenceChecker, userReader);
+
+// CREATE new user
+router.post('/', userCompletementChecker, userCreator);
+
+// UPDATE user information
+router.put('/:id', userCompletementChecker, userExistenceChecker, userUpdater);
+
+// partly UPDATE user information
+router.patch('/:id', userExistenceChecker, userUpdater);
+
+// DELETE user
+router.delete('/:id', userDeleter);
 
 module.exports = router;

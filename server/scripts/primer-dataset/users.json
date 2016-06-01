@@ -1,21 +1,21 @@
-{"id": "admin", "name": "管理员", "level": 0, "region": "center", "description": "管理员", "phone": "911"}
-{"id": "zhaojh", "name": "赵建华", "level": 1, "region": "north-west", "description": "司令员", "phone": "025-83593433"}
-{"id": "quyz", "name": "瞿裕忠", "level": 1, "region": "south-east", "description": "政委", "phone": ""}
-{"id": "changhainie", "name": "聂长海", "level": 2, "region": "south-east", "description": "副司令员", "phone": ""}
-{"id": "cfyuan", "name": "袁春风", "level": 2, "region": "north-east", "description": "政治部主任", "phone": "025-83594243"}
-{"id": "txp", "name": "陶先平", "level": 2, "region": "south-west", "description": "后勤部部长", "phone": "025-83593694"}
-{"id": "yuy", "name": "俞扬", "level": 3, "region": "north-east", "description": "参谋1", "phone": ""}
-{"id": "lxie", "name": "谢磊", "level": 3, "region": "south-west", "description": "参谋2", "phone": ""}
-{"id": "yuhuang", "name": "黄宇", "level": 3, "region": "south-east", "description": "参谋3", "phone": ""}
-{"id": "suf", "name": "苏丰", "level": 3, "region": "south-west", "description": "参谋4", "phone": ""}
-{"id": "whu", "name": "胡伟", "level": 3, "region": "north-east", "description": "参谋5", "phone": ""}
-{"id": "waxili", "name": "王晓亮", "level": 3, "region": "north-west", "description": "干事1", "phone": "025-89680912"}
-{"id": "myou", "name": "胡昊", "level": 3, "region": "north-west", "description": "干事2", "phone": "025-89686690"}
-{"id": "zszhang", "name": "张泽生", "level": 3, "region": "north-east", "description": "干事3", "phone": "025-83592760"}
-{"id": "yinyt", "name": "尹一通", "level": 3, "region": "south-west", "description": "干事4", "phone": ""}
-{"id": "lwj", "name": "李武军", "level": 3, "region": "south-east", "description": "干事5", "phone": ""}
-{"id": "ln", "name": "李宁", "level": 3, "region": "north-west", "description": "助理员1", "phone": "025-83594589"}
-{"id": "syh", "name": "史颖欢", "level": 3, "region": "south-west", "description": "助理员2", "phone": ""}
-{"id": "tangjie", "name": "唐杰", "level": 3, "region": "south-east", "description": "助理员3", "phone": "025-83593460"}
-{"id": "shanglin", "name": "商琳", "level": 3, "region": "north-east", "description": "助理员4", "phone": "025-83686556"}
-{"id": "qzz", "name": "钱柱中", "level": 3, "region": "north-east", "description": "助理员5", "phone": ""}
+{"id": "admin", "password": "admin", "name": "管理员", "level": 0, "region": "center", "description": "管理员", "phone": "911"}
+{"id": "zhaojh", "password": "zhaojh", "name": "赵建华", "level": 1, "region": "north-west", "description": "司令员", "phone": "025-83593433"}
+{"id": "quyz", "password": "quyz", "name": "瞿裕忠", "level": 1, "region": "south-east", "description": "政委", "phone": ""}
+{"id": "changhainie", "password": "changhainie", "name": "聂长海", "level": 2, "region": "south-east", "description": "副司令员", "phone": ""}
+{"id": "cfyuan", "password": "cfyuan", "name": "袁春风", "level": 2, "region": "north-east", "description": "政治部主任", "phone": "025-83594243"}
+{"id": "txp", "password": "txp", "name": "陶先平", "level": 2, "region": "south-west", "description": "后勤部部长", "phone": "025-83593694"}
+{"id": "yuy", "password": "yuy", "name": "俞扬", "level": 3, "region": "north-east", "description": "参谋1", "phone": ""}
+{"id": "lxie", "password": "lxie", "name": "谢磊", "level": 3, "region": "south-west", "description": "参谋2", "phone": ""}
+{"id": "yuhuang", "password": "yuhuang", "name": "黄宇", "level": 3, "region": "south-east", "description": "参谋3", "phone": ""}
+{"id": "suf", "password": "suf", "name": "苏丰", "level": 3, "region": "south-west", "description": "参谋4", "phone": ""}
+{"id": "whu", "password": "whu", "name": "胡伟", "level": 3, "region": "north-east", "description": "参谋5", "phone": ""}
+{"id": "waxili", "password": "waxili", "name": "王晓亮", "level": 3, "region": "north-west", "description": "干事1", "phone": "025-89680912"}
+{"id": "myou", "password": "myou", "name": "胡昊", "level": 3, "region": "north-west", "description": "干事2", "phone": "025-89686690"}
+{"id": "zszhang", "password": "zszhang", "name": "张泽生", "level": 3, "region": "north-east", "description": "干事3", "phone": "025-83592760"}
+{"id": "yinyt", "password": "yinyt", "name": "尹一通", "level": 3, "region": "south-west", "description": "干事4", "phone": ""}
+{"id": "lwj", "password": "lwj", "name": "李武军", "level": 3, "region": "south-east", "description": "干事5", "phone": ""}
+{"id": "ln", "password": "ln", "name": "李宁", "level": 3, "region": "north-west", "description": "助理员1", "phone": "025-83594589"}
+{"id": "syh", "password": "syh", "name": "史颖欢", "level": 3, "region": "south-west", "description": "助理员2", "phone": ""}
+{"id": "tangjie", "password": "tangjie", "name": "唐杰", "level": 3, "region": "south-east", "description": "助理员3", "phone": "025-83593460"}
+{"id": "shanglin", "password": "shanglin", "name": "商琳", "level": 3, "region": "north-east", "description": "助理员4", "phone": "025-83686556"}
+{"id": "qzz", "password": "qzz", "name": "钱柱中", "level": 3, "region": "north-east", "description": "助理员5", "phone": ""}
