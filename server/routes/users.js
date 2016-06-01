@@ -62,7 +62,7 @@ function userListReader(req, res) {
     }
     users.read(condition, function(err, list) {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).send({error: err});
         } else {
             res.status(200).send(list);
         }

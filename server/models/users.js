@@ -29,7 +29,9 @@ users.isCompleteUser = function(user) {
 /**
  * Read one user tuple from database
  * @param {String} id
- * @param {Function(err, user)} callback
+ * @param {Function} callback
+ *
+ * callback signature: function callback(err, user)
  */
 function readOne(id, callback) {
     User.where({'id': id})
@@ -44,7 +46,9 @@ function readOne(id, callback) {
  *
  * Create an user tuple in database
  * @param {Object} user
- * @param {Function(err)} callback
+ * @param {Function} callback
+ *
+ * callback signature: function callback(err)
  */
 users.create = function(user, callback) {
     User(user).save(function(err, result) {
@@ -61,8 +65,10 @@ users.create = function(user, callback) {
 /**
  *
  * Read list of users from database
- * @param {Object} user
- * @param {Function(err, userlist)} callback
+ * @param {Object} condition
+ * @param {Function} callback
+ *
+ * callback signature: function callback(err, userlist)
  *
  */
 function read(condition, callback) {
