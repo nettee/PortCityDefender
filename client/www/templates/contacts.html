@@ -19,10 +19,10 @@
         <ion-item class="item-accordion"
                   ng-repeat="item in group.items"
                   ng-show="isGroupShown(group)"
-                  href="#/menu/contacts/{{item.id}}">
-          {{item.name}}
+                  href="#/menu/contacts/{{item[0]}}">
+          {{item[1]}}
           &nbsp;
-          {{item.level}}
+          {{item[2]}}
         </ion-item>
       </div>
     </ion-list>
