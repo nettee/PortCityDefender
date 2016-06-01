@@ -73,7 +73,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   };
 })
 
-.controller('ContactController', function ($scope,userService) {
+    .controller('ContactController', function ($scope,userService) {
 
 })
 
