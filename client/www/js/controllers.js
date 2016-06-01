@@ -31,3 +31,47 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   $scope.user = userService.getUser();
 })
 
+.controller('ContactsController', function ($scope, $http, userService) {
+  var regionlist = ['south', 'west'];
+  /*
+  $http.get("http://121.40.97.40:3000/regions")
+    .success(function (response) {
+      regionlist = response;
+    })
+    .error(function (response) {
+      alert("Fail to get the regions");
+      console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
+    })*/
+
+  $scope.groups = [];
+
+  for (var i = 0; i < regionlist.length; i++) {
+    $scope.groups[i] = {
+      name: regionlist[i],
+      items: [],
+      show: false
+    };
+
+    var userlist = userService.getUsersByRegion(regionlist[i]);
+
+    for (var j = 0; j < userlist.length; j++) {
+      var usertemp = [userlist[j].id,userlist[j].name,userlist[j].level];
+      $scope.groups[i].items.push(usertemp);
+    }
+  }
+
+  /*
+   * if given group is the selected group, deselect it
+   * else, select the given group
+   */
+  $scope.toggleGroup = function(group) {
+    group.show = !group.show;
+  };
+  $scope.isGroupShown = function(group) {
+    return group.show;
+  };
+})
+
+.controller('ContactController', function ($scope,userService) {
+
+})

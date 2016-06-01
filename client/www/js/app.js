@@ -56,7 +56,18 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
         url: '/contacts',
         views: {
           'menuContent': {
-            templateUrl: 'templates/contacts.html'
+            templateUrl: 'templates/contacts.html',
+            controller: 'ContactsController'
+          }
+        }
+      })
+
+      .state('menu.single', {
+        url: '/contacts/:contactId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/contact.html',
+            controller: 'ContactController'
           }
         }
       })
