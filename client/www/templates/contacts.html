@@ -19,7 +19,7 @@
           Area {{group.name}}
         </ion-item>
         <ion-item class="item-accordion"
-                  ng-repeat="item in group.items | filter:name"
+                  ng-repeat="item in group.items"
                   ng-show="isGroupShown(group)"
                   href="#/menu/contacts/{{item.id}}">
           {{item.name}}

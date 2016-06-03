@@ -47,6 +47,7 @@ function userExistenceChecker(req, res, next) {
 
 function userListReader(req, res) {
     var query = req.query;
+    console.log('query =', query);
     var condition = {};
     if (query.id) {
         condition.id = query.id;
@@ -62,7 +63,7 @@ function userListReader(req, res) {
     }
     users.read(condition, function(err, list) {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).send({error: err});
         } else {
             res.status(200).send(list);
         }

@@ -68,6 +68,33 @@ app.factory('userService', function($http){
 
     return userlist;
   }
+
+  var getUserFromId = function (id) {
+    var usertemp = {
+      id : "txp",
+      name : "陶先平",
+      level : 2,
+      region : "south",
+      description : "后勤部部长",
+      phone : "12345",
+    };
+    $http.get("http://121.40.97.40:3000/users?id=" + id)
+      .success(function (response) {
+        response = response[0];
+        usertemp.id = response.id;
+        usertemp.name = response.name;
+        usertemp.level = response.level;
+        usertemp.region = response.region;
+        usertemp.description = response.description;
+        usertemp.phone = response.phone;
+      })
+      .error(function (response) {
+        alert("Fail to get the user by id : " + id);
+        console.log("app userService method-getUserFromId Fail to get---error message : ", response.error);
+      })
+    return usertemp;
+  }
+
   return {
     getUsersByRegion : function (region) {
       //return usersInRegion(region);
@@ -81,6 +108,10 @@ app.factory('userService', function($http){
 
     getUser : function () {
       return user;
+    },
+
+    getUserById : function (username) {
+      return getUserFromId(username);
     },
 
     setUsername : function(id){
