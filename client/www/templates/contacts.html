@@ -16,7 +16,7 @@
                   ng-class="{active: isGroupShown(group)}">
           <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
           &nbsp;
-          Area {{group.name}}
+          {{group.name}}区
         </ion-item>
         <ion-item class="item-accordion"
                   ng-repeat="item in group.items"

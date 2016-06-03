@@ -31,7 +31,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.user = userService.getUser();
   })
 
-
   .controller('ContactsController', function ($scope, $http, userService) {
     var regionlist = [];
     $scope.groups = [];
@@ -63,7 +62,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
-              console.log("This time i is : " + i);
               $scope.groups[i].items.push(response[j]);
             }
             $scope.groups[i].isfill = true;
@@ -96,7 +94,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
                 $scope.searchResults.push(response[i]);
               }
             }
-           // console.log("result is : " + $scope.searchResults[0].name);
           })
           .error(function (response) {
             alert("Fail to get the users" + region);
