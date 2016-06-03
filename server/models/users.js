@@ -72,6 +72,7 @@ users.create = function(user, callback) {
  *
  */
 function read(condition, callback) {
+    console.log('condition =', condition);
     User.find(condition)
         .select('-_id id name level region description phone')  // remove key '_id'
         .exec(function(err, userlist) {
