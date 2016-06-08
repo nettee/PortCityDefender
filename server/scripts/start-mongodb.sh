@@ -5,6 +5,10 @@ mongo_pid=`ps -e | grep "mongo"`
 dbpath="$HOME/data/MongoDB"
 date=`date "+%Y-%m-%d.%H:%M:%S"`
 
+if [ ! -d "$dbpath" ]; then
+    mkdir -p "$dbpath"
+fi
+
 if [ -z "$mongo_pid" ]; then
     mongod --dbpath "$dbpath" --logpath "${dbpath}/log.${date}" &
     echo 'MongoDB server started'
