@@ -1,0 +1,14 @@
+{
+  "name": "PortCityDefender-test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "echo testing..."
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "chai": "^3.5.0",
+    "mongoose": ">=2.7.0",
+    "request": "^2.72.0"
+  }
+}
