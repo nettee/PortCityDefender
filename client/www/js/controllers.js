@@ -106,6 +106,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('ContactController', function ($scope,$stateParams, userService) {
     var username = $stateParams.contactId;
-    $scope.contact = userService.getUserById(username);
+    userService.getUserById(username, function (response) {
+      $scope.contact = response;
+    });
   })
 
