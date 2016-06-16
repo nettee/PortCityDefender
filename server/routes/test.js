@@ -23,4 +23,18 @@ router.post('/post', function (req, res, next) {
     res.send(req.body);
 });
 
+router.post('/image', function(req, res) {
+    req.on('data', function(chunk) {
+        console.log('on data');
+        console.log(chunk);
+        res.writeHead('200', {'Content-Type': 'image/png'});
+        res.write(chunk);
+        res.end();
+    });
+
+    req.on('end', function() {
+        console.log('on end');
+    });
+});
+
 module.exports = router;
