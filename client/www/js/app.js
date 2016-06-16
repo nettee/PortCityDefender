@@ -1,37 +1,78 @@
-angular.module('ionicApp', ['ionic'])
+angular.module('ionicApp', ['ionic','ionicApp.controllers'])
+  .run(function($ionicPlatform) {
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
 
-.config(function($stateProvider, $urlRouterProvider) {
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+    });
+  })
 
-  $stateProvider
-    .state('signin', {
-      url: '/sign-in',
-      templateUrl: 'templates/sign-in.html',
-      controller: 'SignInCtrl'
-    })
-    .state('userpage', {
-      url: '/user-page',
-      templateUrl: 'templates/user-page.html'
-    })
+  .config(function($stateProvider, $urlRouterProvider) {
 
-   $urlRouterProvider.otherwise('/sign-in');
+    $stateProvider
+
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginController'
+      })
+
+      .state('menu', {
+        url: '/menu',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'MenuController'
+      })
+
+      .state('menu.firstpage', {
+        url: '/firstpage',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/firstpage.html',
+            controller: 'FirstController'
+          }
+        }
+      })
+
+      .state('menu.userpage', {
+        url: '/userpage',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/userpage.html',
+            controller: 'UserController'
+          }
+        }
+      })
+
+      .state('menu.contacts', {
+        url: '/contacts',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/contacts.html',
+            controller: 'ContactsController'
+          }
+        }
+      })
+
+      .state('menu.single', {
+        url: '/contacts/:contactId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/contact.html',
+            controller: 'ContactController'
+          }
+        }
+      })
+
+      $urlRouterProvider.otherwise('/login');
 
 })
 
-.controller('SignInCtrl', function($scope, $http, $state) {
-  
-  $scope.signIn = function(user) {
-    $http.get("http://localhost:3000/user/check-password?username=" + user.username + "&password=" + user.password).success(function (response){
-    	console.log(response.status);
-    	if (response.status === "pass"){
-    		$state.go('userpage');
-    	}
-    	else
-    		alert("用户名或密码错误！");
-    })
-    .error(function (){
-    	alert("fail")
-	})
-    
-  };
-  
-})

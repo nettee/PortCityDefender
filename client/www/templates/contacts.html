@@ -1,0 +1,42 @@
+<ion-view view-title="通讯录" >
+  <ion-content>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search" ng-model="searchcontent" ng-change="search(searchcontent)">
+      </label>
+    </div>
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+      </ion-refresher>
+    <span ng-if="searchisnull">
+    <ion-list>
+      <div ng-repeat="group in groups">
+        <ion-item class="item-stable"
+                  ng-click="toggleGroup(group)"
+                  ng-class="{active: isGroupShown(group)}">
+          <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+          &nbsp;
+          {{group.name}}区
+        </ion-item>
+        <ion-item class="item-accordion"
+                  ng-repeat="item in group.items"
+                  ng-show="isGroupShown(group)"
+                  href="#/menu/contacts/{{item.id}}">
+          {{item.name}}
+          &nbsp;
+          {{item.level}}
+        </ion-item>
+      </div>
+    </ion-list>
+    </span>
+     <span ng-if="!searchisnull">
+       <ion-list>
+      <ion-item ng-repeat="item in searchResults" href="#/menu/contacts/{{item.id}}">
+        {{item.name}}
+         &nbsp;
+        {{item.level}}
+      </ion-item>
+    </ion-list>
+     </span>
+  </ion-content>
+</ion-view>

@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var database = require('../database');
+var database = require('../models/database');
+var users = require('../models/users');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -29,7 +30,7 @@ router.get('/user/check-password', function (req, res, next) {
     var username = req.query.username;
     var password = req.query.password;
     console.log('username = %s, password = %s', username, password);
-    database.checkPassword(username, password, function(result) {
+    users.checkPassword(username, password, function(result) {
         res.send(result);
     });
 })
