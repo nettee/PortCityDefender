@@ -37,8 +37,14 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| GET | /commands?userid=_userid_ | 查看某个用户收到的命令 | 用户自己 | 
+| GET | /commands | 查看命令列表 | 管理员 |
+| GET | /commands?receiver=_userid_ | 查看某个用户收到的命令 | 用户自己 | 
 | POST | /commands | 发送命令 | 所有用户 | 
+
+指挥命令为一个Command对象，包含`receiver`, `sender`, `content`三个属性，分别代表命令的接收者（ID）、发送者（ID）、内容。
+
+1. GET /commands/ 获得命令列表。服务器返回Command对象的数组，返回200状态码。不带查询参数时，返回所有命令的列表；带有查询参数receiver时，返回按发送者进行筛选后的命令列表。如果查询参数名称不正确，结果是未定义的。
+2. POST /commands 新增一个命令。用户请求发送一个Command对象，服务器返回新增的Command对象，返回201状态码。多次发送该请求时，服务器每次会尝试新增一个命令。如果Command对象的三个属性不完整，服务器返回400状态码。
 
 文档列表：
 
