@@ -23,7 +23,7 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
 | GET | /information | 获得情报列表 |  所有用户 | 
-| GET | /information?userid=_userid_ | 按发布用户ID搜索情报 | 管理员 |
+| GET | /information?publisher=_userid_ | 按发布用户ID搜索情报 | 管理员 |
 | GET | /information?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
 | GET | /information/_info\_id_ | 获得情报详情 | 所有用户 |
 | GET | /information/_info\_id_/replications | 获得情报回复列表 | 所有用户 | 
@@ -32,6 +32,15 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 | POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
 | DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户、管理员 |
 
+情报为一个Information对象，包含`id`, `publisher`, `text`, `images`, `urgent`, `replications`六个属性，分别代表情报ID、情报发布者（ID）、情报文本、图片列表、是否紧急、回复列表。
+
+回复为一个Replication对象，包含`publisher`, `content`两个属性，分别代表回复发布者（ID）、回复内容。
+
+1. GET /information 获得情报列表。服务器返回Information对象的数组，返回200状态码。不带查询参数时，返回所有情报的列表；带有查询参数时，返回情报列表进行筛选后的结果。如果有多个查询参数，则进行多重筛选。如果查询参数名称不正确，结果是未定义的。
+
+2. GET /information/_info\_id_ 获得ID为_info\_id_的情报信息。服务器返回一个Info对象，返回200状态码。如果ID为_info\_id_的情报不存在，返回404状态码。
+
+3. POST /information 新增一个情报。用户请求发送一个Information对象，服务器返回新增的Information对象，返回201状态码。多次发送该请求时，服务器每次会尝试新增一个情报。如果情报ID已存在，服务器返回400状态码。
 
 指挥命令：
 
@@ -44,6 +53,7 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 指挥命令为一个Command对象，包含`receiver`, `sender`, `content`三个属性，分别代表命令的接收者（ID）、发送者（ID）、内容。
 
 1. GET /commands/ 获得命令列表。服务器返回Command对象的数组，返回200状态码。不带查询参数时，返回所有命令的列表；带有查询参数receiver时，返回按发送者进行筛选后的命令列表。如果查询参数名称不正确，结果是未定义的。
+
 2. POST /commands 新增一个命令。用户请求发送一个Command对象，服务器返回新增的Command对象，返回201状态码。多次发送该请求时，服务器每次会尝试新增一个命令。如果Command对象的三个属性不完整，服务器返回400状态码。
 
 文档列表：
