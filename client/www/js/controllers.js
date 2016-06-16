@@ -102,6 +102,31 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = false;
       }
     }
+    $scope.doRefresh=function(){
+      var regionlist = [];
+      $scope.groups = [];
+
+      $http.get("http://121.40.97.40:3000/regions")
+        .success(function (response) {
+          regionlist = response;
+          for (var i = 0; i < regionlist.length; i++) {
+            $scope.groups[i] = {
+              name: regionlist[i],
+              items: [],
+              show: false,
+              isfill: false
+            };
+            $scope.toggleGroup($scope.groups[i]);
+          }
+          $scope.$broadcast('scroll.refreshComplete');
+        })
+        .error(function (response) {
+          alert("Fail to get the regions");
+          console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
+        })
+
+    }
+
   })
 
   .controller('ContactController', function ($scope,$stateParams, userService) {
