@@ -73,6 +73,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       }
       group.show = !group.show;
     };
+
     $scope.isGroupShown = function(group) {
       return group.show;
     };
@@ -116,7 +117,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
               show: false,
               isfill: false
             };
-            $scope.toggleGroup($scope.groups[i]);
+      //      $scope.toggleGroup($scope.groups[i]);
           }
           $scope.$broadcast('scroll.refreshComplete');
         })
