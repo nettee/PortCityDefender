@@ -14,9 +14,9 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 
 #### RESTful接口
 
-服务器接收HTTP请求对情报信息、指挥命令、文档列表、用户信息进行操作。如无特殊说明，下面接口中request和response的格式都为JSON。GET方法返回的状态码为200，POST、PUT、返回的状态码为201，DELETE返回的状态码为204；出错情况下返回的状态码会特殊说明。
+服务器接收HTTP请求对情报信息、指挥命令、文档列表、用户信息进行操作。如无特殊说明，下面接口中request和response的格式都为JSON。正常情况下，GET方法返回的状态码为200，POST、PUT、返回的状态码为201，DELETE返回的状态码为204；出错情况下返回的状态码会特殊说明。
 
-根据RESTful接口的语义，GET、PUT、DELETE方法都是幂等的，即多次发送GET、PUT、DELETE方法的请求，作用应该和发送一次的效果相同。POST方法不是幂等的。下面对于GET、PUT、DELETE方法不再做特殊说明，认为是幂等的。
+根据RESTful接口的语义，GET、PUT、DELETE方法都是幂等的，即多次发送GET、PUT、DELETE方法的请求，效果应该和发送一次的效果相同。POST方法不是幂等的。下面对于GET、PUT、DELETE方法不再做特殊说明，认为是幂等的。
 
 情报信息：
 
@@ -26,13 +26,14 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 | GET | /information?publisher=_userid_ | 按发布用户ID搜索情报 | 管理员 |
 | GET | /information?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
 | GET | /information/_info\_id_ | 获得情报详情 | 所有用户 |
-| GET | /information/_info\_id_/replications | 获得情报回复列表 | 所有用户 | 
 | POST | /information | 发送情报 | 所有用户 | 
-| POST | /information/_info\_id_ | 在情报中插入图片 | 情报所属用户 |
+| GET | /information/_info\_id_/images | 获得情报图片列表 | 所有用户 |
+| POST | /information/_info\_id_/images | 在情报中插入图片 | 情报所属用户 |
+| GET | /information/_info\_id_/replications | 获得情报回复列表 | 所有用户 | 
 | POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
-| DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户、管理员 |
+| DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户 |
 
-情报为一个Information对象，包含`id`, `publisher`, `text`, `images`, `urgent`, `replications`六个属性，分别代表情报ID、情报发布者（ID）、情报文本、图片列表、是否紧急、回复列表。
+情报为一个Information对象，包含`id`, `publisher`, `text`, `urgent`, `updated`, `images`,  `replications`六个属性，分别代表情报ID、情报发布者（ID）、情报文本、是否紧急、更新时间、图片列表、回复列表。
 
 回复为一个Replication对象，包含`publisher`, `content`两个属性，分别代表回复发布者（ID）、回复内容。
 
@@ -131,6 +132,5 @@ status, errorcode和error的各项取值及含义：
 | fail | 3 | user does not exist | 用户名不存在 | 
 | fail | 4 | wrong password | 密码错误 |
 | fail | 5 | database error | 数据库错误 |
-
 
 

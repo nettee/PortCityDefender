@@ -11,11 +11,13 @@ var userSchema = new mongoose.Schema({
     region: String,
     description: String,
     phone: String
+}, {
+    collection: 'users' // specify collection name in database
 });
 
 var db = database.connect();
 
-var User = db.model('user', userSchema);
+var User = db.model('users', userSchema);
 
 users.isCompleteUser = function(user) {
     return !!user.id 

@@ -1,3 +1,11 @@
+#!/bin/bash
+
 data_dir="primer-dataset"
-mongoimport --db port_city_defender --collection users --drop \
-    --file "${data_dir}/users.json"
+
+db="port_city_defender"
+
+collections=("users" "informations")
+
+for collection in ${collections[@]}; do
+    mongoimport --db "$db" --collection "$collection" --drop --file "${data_dir}/${collection}.json"
+done
