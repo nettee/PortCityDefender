@@ -141,7 +141,18 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $scope.contact = response;
     });
   })
-  
+
   .controller('InfoController', function ($scope) {
-    
+
   })
+
+  .controller('commandController', function ($scope,$state) {
+
+    $scope.newCommand = function(){
+      console.log("in new Command click")
+      $state.go('menu.newCommand');
+    }
+  })
+.controller('newCommandController',function($scope){
+
+})
