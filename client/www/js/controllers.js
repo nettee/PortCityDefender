@@ -141,7 +141,46 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $scope.contact = response;
     });
   })
-  
+
   .controller('InfoController', function ($scope) {
-    
+
+    $scope.informations = [];
+    $scope.informations[0] = {
+      id: 1,
+      publisher:"txp",
+      text: "This is a \"Facebook\" styled Card. The header is created from a Thumbnail List item,the content is from a card-body consisting of an image and paragraph text. The footerconsists of tabs, icons aligned left, within the card-footer.",
+      images:[{path : "img/txp2.png"}],
+      urgent: true,
+      replications: [],
+      time: "2016-06-22"
+    }
+
+    $scope.informations[1] = {
+      id: 1,
+      publisher:"txp",
+      text: "This is a \"Facebook\" styled Card. The header is created from a Thumbnail List item,the content is from a card-body consisting of an image and paragraph text. The footerconsists of tabs, icons aligned left, within the card-footer.",
+      images:[{path : "img/txp2.png"}],
+      urgent: true,
+      replications: [],
+      time: "2016-06-22"
+    }
+
+    $scope.properTime = function (time) {
+      return time;
+    }
+
+    $scope.properContent = function (text) {
+      var num = 10 * 2;
+      var i = num;
+      for (i = num;i < text.length;i++){
+        if (text[i] == ' ')
+          break;
+        if (i == 30)
+          break;
+      }
+      var content = text.substring(0,i);
+      content = content.concat("... ");
+      return content;
+    }
   })
+
