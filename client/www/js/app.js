@@ -72,6 +72,15 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
         }
       })
 
+      .state('menu.information', {
+        url: '/information',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/information.html',
+            controller: 'InfoController'
+          }
+        }
+      })
       $urlRouterProvider.otherwise('/login');
 
 })

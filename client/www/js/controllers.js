@@ -141,4 +141,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $scope.contact = response;
     });
   })
-
+  
+  .controller('InfoController', function ($scope) {
+    
+  })
