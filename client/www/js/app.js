@@ -81,6 +81,25 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+
+      .state('menu.command', {
+        url: '/command',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/command.html',
+            controller: 'commandController'
+          }
+        }
+      })
+      .state('menu.newCommand', {
+        url: '/newCommand',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/newCommand.html',
+            controller: 'newCommandController'
+          }
+        }
+      })
       $urlRouterProvider.otherwise('/login');
 
 })
