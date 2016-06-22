@@ -29,6 +29,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('UserController', function ($scope,userService) {
     $scope.user = userService.getUser();
+    $scope.doRefresh=function() {
+      $scope.user = userService.getUser();
+      $scope.$broadcast('scroll.refreshComplete');
+    }
   })
 
   .controller('ContactsController', function ($scope, $http, userService) {
@@ -118,8 +122,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
               isfill: false
             };
       //      $scope.toggleGroup($scope.groups[i]);
+            $scope.$broadcast('scroll.refreshComplete');
           }
-          $scope.$broadcast('scroll.refreshComplete');
+
         })
         .error(function (response) {
           alert("Fail to get the regions");

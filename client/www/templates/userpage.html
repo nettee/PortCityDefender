@@ -1,5 +1,7 @@
 <ion-view title="个人信息">
   <ion-content >
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"  refreshing-text="Refreshing!" >
+    </ion-refresher>
     <div class="list" style="margin-top: 0px; background-color: #EEEEEE;">
     <div class="item" style="margin-top: 13px;" href="#">
       姓名：  {{user.name}}
