@@ -190,6 +190,26 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("in new Command click")
       $state.go('menu.newCommand');
     }
+    $scope.commandList=[];
+    $scope.commandList[0]={
+      id:0,
+      sender: 'dwc',
+      receiver: 'txp',
+      img:'img/dwc.jpg',
+      content:"我马上要去你办公室，请准备好迎接",
+      time:"2016-06-23"
+    }
+    $scope.commandList[1]={
+      id:1,
+      sender:'yyt',
+      receiver:'txp',
+      img:'img/yyt.jpg',
+      content:"你还是要提高一下自己的姿势水平",
+      time:"2016-06-24"
+    }
+  })
+  .controller('singleCommandController',function($scope){
+    console.log("in singleCommandController")
   })
 .controller('newCommandController',function($scope){
 
