@@ -35,7 +35,7 @@ informations.read = function(condition, callback) {
             if (err) {
                 console.log(err);
             }
-            callback(null, infolist);
+            callback(err, infolist);
         });
 };
 
