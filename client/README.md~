@@ -15,6 +15,8 @@ npm install -g cordova
 npm install -g ionic
 ```
 
+
+
 # 1.网页测试
 
 ### 安装chrome
@@ -48,7 +50,7 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
 ### 手机测试
 
-* 配置android环境
+* 进入client，配置android环境
 
 ```shell
 cd client

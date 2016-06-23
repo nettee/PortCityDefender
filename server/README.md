@@ -58,11 +58,15 @@ mongod --logpath "E:\MongoDB\data\logs.log" --logappend --dbpath "E:\MongoDB\dat
 npm install
 ```
 
-### Start server
+# Start
+
+### 启动服务器
 
 ```shell
 npm start
 ```
+
+### 测试服务器是否工作正常
 
 服务器运行在localhost:3000，可以用一下方式测试服务器是否运行：
 
