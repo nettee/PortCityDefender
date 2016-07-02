@@ -14,7 +14,17 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 
 #### RESTful接口
 
-服务器接收HTTP请求对情报信息、指挥命令、文档列表、用户信息进行操作。如无特殊说明，下面接口中request和response的格式都为JSON。正常情况下，GET方法返回的状态码为200，POST、PUT、返回的状态码为201，DELETE返回的状态码为204；出错情况下返回的状态码会特殊说明。
+服务器接收HTTP请求对情报信息、指挥命令、文档列表、用户信息进行操作。如无特殊说明，下面接口中request和response的格式都为JSON，request和response的header中Content-Type应为application/json。
+常见的返回状态码如下：
++ 200 OK - [GET]：服务器成功返回用户请求的数据
++ 201 Created - [POST/PUT/PATCH]：用户新建或修改数据成功
++ 204 No Content - [DELETE]：用户删除数据成功
++ 400 Invalid Request：用户发出的请求有语法错误，如JSON的格式错误
++ 401 Unauthorized：用户没有权限，token错误
++ 403 Forbidden：用户的访问被禁止，如普通用户试图删除其他用户发布的情报
++ 404 Not Found：用户试图获取不存在的资源，如查看命令详情，但命令ID不存在
++ 409 Conflict：被请求的资源和资源当前状态存在冲突，如用户试图新建一个命令，但该ID的命令已经存在
++ 422 Unprocessable Entity：请求格式正确，但是由于含有语义错误，无法响应。如用户发送PUT请求修改每个情报的内容，但发送的JSON对象不完整。
 
 根据RESTful接口的语义，GET、PUT、DELETE方法都是幂等的，即多次发送GET、PUT、DELETE方法的请求，效果应该和发送一次的效果相同。POST方法不是幂等的。下面对于GET、PUT、DELETE方法不再做特殊说明，认为是幂等的。
 
@@ -37,9 +47,16 @@ client端要实现登录界面和用户主页，server端要连接上mongoDB数�
 
 回复为一个Replication对象，包含`publisher`, `content`两个属性，分别代表回复发布者（ID）、回复内容。
 
-1. GET /information 获得情报列表。服务器返回Information对象的数组，返回200状态码。不带查询参数时，返回所有情报的列表；带有查询参数时，返回情报列表进行筛选后的结果。如果有多个查询参数，则进行多重筛选。如果查询参数名称不正确，结果是未定义的。
+1. GET /information 获得情报列表。
+    + 返回内容：Information对象的数组
+    + 返回状态码：200
+    + 说明：不带查询参数时，返回所有情报的列表；带有查询参数时，返回情报列表进行筛选后的结果。如果有多个查询参数，则进行多重筛选
+    + 例外情况：如果查询参数名称不正确，结果是未定义的
 
-2. GET /information/_info\_id_ 获得ID为_info\_id_的情报信息。服务器返回一个Info对象，返回200状态码。如果ID为_info\_id_的情报不存在，返回404状态码。
+2. GET /information/_info\_id_ 获得ID为_info\_id_的情报信息
+    + 返回内容：Information对象
+    + 返回状态码：200
+    + 如果ID为_info\_id_的情报不存在，返回404状态码。
 
 3. POST /information 新增一个情报。用户请求发送一个Information对象，服务器返回新增的Information对象，返回201状态码。多次发送该请求时，服务器每次会尝试新增一个情报。如果情报ID已存在，服务器返回400状态码。
 
