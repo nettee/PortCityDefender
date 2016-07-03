@@ -36,6 +36,5 @@ node_modules
 # WebStorm directory
 .idea
 
-# vim temp file
-*.swp
-*.~
+*.swp # vim temp file
+*~ # gedit temp file
