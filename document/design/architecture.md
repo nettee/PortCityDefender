@@ -33,9 +33,11 @@
 | GET | /authentications/_username_ | 用户登录 | 用户名为_username_的用户 |
 | PUT | /authentications/_username_ | 修改密码 | 用户名为_username_的用户 |
 
-认证信息为一个Authentication对象，包含`username`, `password`两个属性，分别代表用户名和密码。
+认证信息为一个Authentication对象，包含的属性有
++ `username`：用户名
++ `password`：密码
 
-1. POST /authentications 用户注册（新建认证信息）
+1. POST /authentications：用户注册（新建认证信息）
   + 发送认证信息：管理员的用户名和密码
   + 发送数据：要新建的Authentication对象
   + 返回状态码：201
@@ -44,7 +46,7 @@
     + 认证信息错误：返回401状态码
     + 注册的用户名已存在：返回409状态码
 
-2. GET /authentications/_username_ 用户登录（获取认证信息）
+2. GET /authentications/_username_：用户登录（获取认证信息）
   + 发送认证信息：登录用户的用户名和密码
   + 发送数据：无
   + 返回状态码：200
@@ -53,7 +55,7 @@
     + 认证信息错误：返回401状态码
     + 认证信息与URL中的_username_不一致：返回403状态码
 
-3. PUT /authentications/_username_ 修改密码（修改认证信息）
+3. PUT /authentications/_username_：修改密码（修改认证信息）
   + 发送认证信息：用户自己的用户名和密码
   + 发送数据：Authentication对象，username属性应和_username_一致，password属性为新的密码
   + 返回状态码：201
@@ -90,9 +92,15 @@
 | PATCH | /users/_userid_ | 部分更新用户信息 | 管理员 | 
 | DELETE | /users/_userid_ | 删除用户 | 管理员 | 
 
-用户数据为一个User对象，含有`id`,`name`,`level`,`region`,`description`,`phone`六个属性，分别代表用户的ID、姓名、级别、区域、描述、电话。
+用户数据为一个User对象，包含的属性有：
++ `id`：用户ID
++ `name`：姓名
++ `level`：级别
++ `region`：区域
++ `description`：描述
++ `phone`：电话
 
-1. POST /users 新建用户
+1. POST /users：新建用户
   + 发送数据：要新建的User对象
   + 返回状态码：201
   + 返回数据：新建的User对象
@@ -101,20 +109,20 @@
     + 用户ID已存在：返回409状态码
     + 发送数据User对象的属性不完整：返回422状态码
 
-2. GET /users 获得用户列表
+2. GET /users：获得用户列表
   + 返回状态码：200
   + 返回数据：不带查询参数时，返回所有用户的列表；带有查询参数时，返回用户列表进行筛选后的结果。如果有多个查询参数，则进行多重筛选
   + 异常情况
     + 如果查询参数名称不正确，结果是未定义的
 
-2. GET /users/_userid_ 获得ID为_userid_的用户的信息
+2. GET /users/_userid_：获得ID为_userid_的用户的信息
   + 发送数据：无
   + 返回状态码：200
   + 返回数据：ID为_userid_的User对象
   + 异常情况
     + ID为_userid_的用户不存在：返回404状态码
 
-4. PUT /users/_userid_ 修改ID为_userid_的用户的信息
+4. PUT /users/_userid_：修改ID为_userid_的用户的信息
   + 发送数据：一个完整的User对象，代表用户信息的预期修改结果
   + 返回状态码：201
   + 返回数据：修改后的User对象
@@ -124,7 +132,7 @@
     + 发送数据User对象的属性不完整：返回422状态码
     + 发送数据User对象的id属性和_userid_不等：返回422状态码
 
-5. PATCH /users/_userid_ 部分修改ID为_userid_的用户的信息
+5. PATCH /users/_userid_：部分修改ID为_userid_的用户的信息
   + 发送数据：一个（不一定完整的）User对象，包含User对象的若干个属性，每个属性代表用户信息的预期修改结果
   + 返回状态码：201
   + 返回数据：修改后的User对象
@@ -133,7 +141,7 @@
     + ID为_userid_的用户不存在：返回404状态码
     + User对象含有id属性且和_userid_不等：返回422状态码
 
-6. DELETE /users/_userid_ 删除ID为_userid_的用户
+6. DELETE /users/_userid_：删除ID为_userid_的用户
   + 发送数据：无
   + 返回状态码：204
   + 返回数据：空对象
@@ -144,54 +152,112 @@
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
+| POST | /information | 发送情报 | 所有用户 | 
+| POST | /information/_info\_id_/images | 在情报中插入图片 | 情报所属用户 |
+| POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
 | GET | /information | 获得情报列表 |  所有用户 | 
 | GET | /information?publisher=_userid_ | 按发布用户ID搜索情报 | 管理员 |
 | GET | /information?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
 | GET | /information/_info\_id_ | 获得情报详情 | 所有用户 |
-| POST | /information | 发送情报 | 所有用户 | 
-| GET | /information/_info\_id_/images | 获得情报图片列表 | 所有用户 |
-| POST | /information/_info\_id_/images | 在情报中插入图片 | 情报所属用户 |
-| GET | /information/_info\_id_/replications | 获得情报回复列表 | 所有用户 | 
-| POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
 | DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户 |
 
-情报为一个Information对象，包含`id`, `publisher`, `text`, `urgent`, `updated`, `images`,  `replications`六个属性，分别代表情报ID、情报发布者（ID）、情报文本、是否紧急、更新时间、图片列表、回复列表。
 
-回复为一个Replication对象，包含`publisher`, `content`两个属性，分别代表回复发布者（ID）、回复内容。
+情报为一个Information对象，包含的属性有
++ `id`：情报ID
++ `publisher`：情报发布者 - User对象
++ `text`：情报文本
++ `urgent`：情报是否紧急
++ `updated_time`：更新时间
++ `images`：图片列表 - Image对象的数组
++ `replications`：回复列表 - Replication对象的数组
 
-1. GET /information 获得情报列表。
-    + 返回内容：Information对象的数组
-    + 返回状态码：200
-    + 说明：不带查询参数时，返回所有情报的列表；带有查询参数时，返回情报列表进行筛选后的结果。如果有多个查询参数，则进行多重筛选
-    + 例外情况：如果查询参数名称不正确，结果是未定义的
+图片为一个Image对象，包含的属性有
++ `id`：图片ID
++ `size`：图片大小（字节）
 
-2. GET /information/_info\_id_ 获得ID为_info\_id_的情报信息
-    + 返回状态码：200
-    + 返回内容：Information对象
-    + 如果ID为_info\_id_的情报不存在，返回404状态码。
+回复为一个Replication对象，包含的属性有
++ `publisher`：回复发布者 - User对象
++ `content`：回复内容
 
-3. POST /information 新增一个情报。用户请求发送一个Information对象，服务器返回新增的Information对象，返回201状态码。多次发送该请求时，服务器每次会尝试新增一个情报。如果情报ID已存在，服务器返回400状态码。
+1. POST /information：新增一个情报
+  + 发送数据：要新建的Information对象（只包含`publisher`, `text`, `urgent`属性）
+  + 返回状态码：201
+  + 返回内容：新建的Information对象，其中`id`属性设置为情报的ID，`updated_time`属性设置为服务器收到请求的时间，`images`属性和`replications`属性设置为空数组
+  + 说明：多次发送该请求，每次都会新增一个情报，每个情报的ID都是不同的。
+  + 异常情况
+    + Information对象的属性不完整：返回422状态码
+
+1. POST /information/_info\_id_/images：在情报中插入图片
+  + 发送数据：二进制数据，图片文件的内容。请求头部的Content-Type应设为图片所对应的MIME类型，如JPEG文件为image/jpeg，PNG文件为image/png
+  + 返回状态码：201
+  + 返回内容：新建的图片对应的Image对象
+  + 说明：服务器保存图片，并将新建的图片的Image对象添加到ID为_info\_id_的Information对象的`images`属性中
+  + 异常情况
+    + ID为_info\_id_的情报不存在：返回404状态码
+
+1. POST /information/_info\_id_/replications：新建情报回复
+  + 发送数据：要新建的Replication对象
+  + 返回状态码：201
+  + 返回内容：新建的情报对应的Replication对象
+  + 说明：服务器将新建的回复的Replication对象添加到ID为_info\_id_的Information对象的`replications`属性中
+  + 异常情况
+    + ID为_info\_id_的情报不存在：返回404状态码
+
+1. GET /information：获得情报列表
+  + 发送数据：无
+  + 返回状态码：200
+  + 返回内容：Information对象的数组
+  + 说明：不带查询参数时，返回所有情报的列表；带有查询参数时，返回情报列表进行筛选后的结果。如果有多个查询参数，则进行多重筛选
+  + 异常情况
+    + 如果查询参数名称不正确，结果是未定义的
+
+2. GET /information/_info\_id_：获取ID为_info\_id_的情报
+  + 发送数据：无
+  + 返回状态码：200
+  + 返回内容：id属性为_info\_id_的Information对象
+  + 异常情况
+    + ID为_info\_id_的情报不存在：返回404状态码
+
+1. DELETE /information/_info\_id_：删除ID为_info\_id_的情报
+  + 发送数据：无
+  + 返回状态码：204
+  + 返回内容：空对象
+  + 异常情况
+    + ID为_info\_id_的情报不存在：返回404状态码
 
 #### 指挥命令
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
+| POST | /commands | 发送命令 | 所有用户 | 
 | GET | /commands | 查看命令列表 | 管理员 |
 | GET | /commands?receiver=_userid_ | 查看某个用户收到的命令 | 用户自己 | 
-| POST | /commands | 发送命令 | 所有用户 | 
 
-指挥命令为一个Command对象，包含`receiver`, `sender`, `content`三个属性，分别代表命令的接收者（ID）、发送者（ID）、内容。
+指挥命令为一个Command对象，包含的属性有
++ `receiver`：接收者 - User对象
++ `sender`：发送者 - User对象
++ `content`：内容
++ `updated_time`：更新时间
 
-1. GET /commands/ 获得命令列表。服务器返回Command对象的数组，返回200状态码。不带查询参数时，返回所有命令的列表；带有查询参数receiver时，返回按发送者进行筛选后的命令列表。如果查询参数名称不正确，结果是未定义的。
+2. POST /commands：新增一个命令
+  + 发送数据：要新建的Command对象（只需包含`receiver`，`sender`，`content`属性）
+  + 返回状态码：201
+  + 返回内容：新建的Command对象，其中`updated_time`属性设置为服务器收到请求的时间
+  + 说明：多次发送该请求时，每次会新增一个命令
+  + 异常情况
+    + Command对象的属性不完整：返回422状态码
 
-2. POST /commands 新增一个命令。用户请求发送一个Command对象，服务器返回新增的Command对象，返回201状态码。多次发送该请求时，服务器每次会尝试新增一个命令。如果Command对象的三个属性不完整，服务器返回400状态码。
+1. GET /commands/：获得命令列表
+  + 发送数据：无
+  + 返回状态码：200
+  + 返回内容：Command对象的数组。不带查询参数时，返回所有命令的列表；带有查询参数receiver时，返回按发送者ID进行筛选后的命令列表
 
 #### 文档列表
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| GET | /documents/_class_/_subclass_/_doc\_name_ | 获得文档 | 所有用户、管理员 | 
 | POST | /documents/_class_/_subclass_/_doc\_name_ | 新建文档 | 管理员 |
+| GET | /documents/_class_/_subclass_/_doc\_name_ | 获得文档 | 所有用户、管理员 | 
 | PUT | /documents/_class_/_subclass_/_doc\_name_ | 更新文档 | 管理员 |
 | DELETE | /documents/_class_/_subclass_/_doc\_name_ | 删除文档 | 管理员 |
 
