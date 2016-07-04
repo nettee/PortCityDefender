@@ -63,6 +63,8 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         console.log('caused development error handler');
+        console.log(err.message);
+        console.log(err.stack);
         var status = err.status || 500;
         res.status(status);
         res.send({

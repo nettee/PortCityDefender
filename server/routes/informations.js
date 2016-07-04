@@ -1,7 +1,12 @@
 var express = require('express');
 var assert = require('assert');
+var fs = require('fs');
+var util = require('util');
+
+var mime = require('mime');
 
 var informations = require('../models/informations');
+var images = require('../models/images');
 
 var router = express.Router();
 
@@ -77,6 +82,35 @@ function infoDeleter(req, res, next) {
     });
 }
 
+function infoImageCreator(req, res, next) {
+    if (!req.is('image/*')) {
+        var error = new Error('Content-Type should be image/*');
+        error.status = 406;
+        return next(error);
+    }
+
+    var id = req.params.id;
+    var size = req.get('Content-Length');
+    var mime_type = req.get('Content-Type');
+
+    images.create({size: size, mime_type: mime_type}, function(err, image) {
+        if (err) {
+            return next(new Error(err));
+        }
+        var filename = util.format('%s.%s', image.id, mime.extension(mime_type));
+        var filepath = util.format('data/images/%s', filename);
+        var out_file = fs.createWriteStream(filepath);
+        req.pipe(out_file);
+        console.log('write file to', filepath);
+        informations.addImageById(id, image, function(err) {
+            if (err) {
+                return next(new Error(err));
+            }
+            res.status(201).send(image);
+        });
+    });
+}
+
 // CREATE new info 
 router.post('/', infoEssentialChecker, infoCreator);
 
@@ -88,6 +122,9 @@ router.get('/:id', infoExistenceChecker, infoReader);
 
 // DELETE info
 router.delete('/:id', infoExistenceChecker, infoDeleter);
+
+// CREATE info image
+router.post('/:id/images', infoImageCreator);
 
 
 module.exports = router;
