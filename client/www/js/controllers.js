@@ -79,6 +79,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     };
 
     $scope.isGroupShown = function(group) {
+
       return group.show;
     };
 
@@ -184,34 +185,132 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   })
 
 
-  .controller('commandController', function ($scope,$state) {
+  .controller('commandController', function ($scope,$state,commandService) {
 
     $scope.newCommand = function(){
       console.log("in new Command click")
       $state.go('menu.newCommand');
     }
-    $scope.commandList=[];
-    $scope.commandList[0]={
-      id:0,
-      sender: 'dwc',
-      receiver: 'txp',
-      img:'img/dwc.jpg',
-      content:"我马上要去你办公室，请准备好迎接",
-      time:"2016-06-23"
-    }
-    $scope.commandList[1]={
-      id:1,
-      sender:'yyt',
-      receiver:'txp',
-      img:'img/yyt.jpg',
-      content:"你还是要提高一下自己的姿势水平",
-      time:"2016-06-24"
-    }
+    $scope.commandList=commandService.getCommandList()
   })
-  .controller('singleCommandController',function($scope){
-    console.log("in singleCommandController")
+  .controller('singleCommandController',function($scope,$stateParams,commandService){
+    var index= $stateParams.commandId;
+    $scope. command=commandService.getCommandByIndex(index);
   })
-.controller('newCommandController',function($scope){
-
+.controller('newCommandController',function($scope,$state){
+  var sendcommand={};
+  $scope.sendCommand=function(command){
+    sendcommand =command;
+    sendcommand.sender="mymy";
+    //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
+    //实现的回调函数中注意传进去的是一个command.receiverList
+    $state.go("menu.command");
+  }
+  $scope.chooseReceiver=function(){
+    console.log("into chooseReceiver")
+    $state.go('menu.commandReceiver')
+  }
 })
+
+  .controller('commandReceiverController',function($scope,$http){
+    console.log("into commandReceiverController")
+    $scope.updateReceiver=function(){
+
+    }
+    var regionlist = [];
+    $scope.groups = [];
+
+    $http.get("http://121.40.97.40:3000/regions")
+      .success(function (response) {
+        regionlist = response;
+        for (var i = 0; i < regionlist.length; i++) {
+          $scope.groups[i] = {
+            name: regionlist[i],
+            items: [],
+            show: false,
+            isfill: false
+          };
+        }
+
+
+      })
+      .error(function (response) {
+        alert("Fail to get the regions");
+        console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
+      })
+    $scope.toggleGroup = function(group) {
+      if (group.isfill == false){
+        $http.get("http://121.40.97.40:3000/users?region=" + group.name)
+          .success(function (response) {
+            var i = regionlist.indexOf(group.name);
+            for (var j = 0;j < response.length;j++){
+              $scope.groups[i].items.push(response[j]);
+            }
+            $scope.groups[i].isfill = true;
+          })
+          .error(function (response) {
+            alert("Fail to get the users by region : " + regionlist[i]);
+            console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
+          })
+      }
+      group.show = !group.show;
+    };
+
+    $scope.isGroupShown = function(group) {
+
+      return group.show;
+    };
+
+    /**
+     * Below is the search
+     */
+    $scope.searchisnull = true;
+    $scope.searchResults = [];
+    $scope.search = function (searchcontent) {
+      if (searchcontent == '')
+        $scope.searchisnull = true;
+      else {
+        $scope.searchResults.splice(0,$scope.searchResults.length);
+        $http.get("http://121.40.97.40:3000/users")
+          .success(function (response) {
+            for (var i in response){
+              if (response[i].name.indexOf(searchcontent) != -1){
+                $scope.searchResults.push(response[i]);
+              }
+            }
+          })
+          .error(function (response) {
+            alert("Fail to get the users" + region);
+            console.log("app userService method-filter Fail to get---error message : ", response.error);
+          })
+        $scope.searchisnull = false;
+      }
+    }
+    $scope.doRefresh=function(){
+      var regionlist = [];
+      $scope.groups = [];
+
+      $http.get("http://121.40.97.40:3000/regions")
+        .success(function (response) {
+          regionlist = response;
+          for (var i = 0; i < regionlist.length; i++) {
+            $scope.groups[i] = {
+              name: regionlist[i],
+              items: [],
+              show: false,
+              isfill: false
+            };
+            //      $scope.toggleGroup($scope.groups[i]);
+            $scope.$broadcast('scroll.refreshComplete');
+          }
+
+        })
+        .error(function (response) {
+          alert("Fail to get the regions");
+          console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
+        })
+
+    }
+
+  })
 

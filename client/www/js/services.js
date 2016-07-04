@@ -78,3 +78,37 @@ app.factory('userService', function($http){
   };
 });
 
+app.factory('commandService',function($http){
+
+  var commandList ={}
+  var draftCommand={}
+  var draftCommand={
+    sender: 'mymy',
+    receiver:'default' ,
+    content: 'default content'
+}
+  commandList[0]={
+    id:0,
+    sender: 'dwc',
+    receiver: 'txp',
+    img:'img/dwc.jpg',
+    content:"我马上要去你办公室，请准备好迎接",
+    time:"2016-06-23"
+  }
+  commandList[1]={
+    id:1,
+    sender:'yyt',
+    receiver:'txp',
+    img:'img/yyt.jpg',
+    content:"你还是要提高一下自己的姿势水平",
+    time:"2016-06-24"
+  }
+  return {
+    getCommandList:function(){
+      return commandList;
+    },
+    getCommandByIndex:function(index){
+      return  commandList[index];
+    }
+  }
+})

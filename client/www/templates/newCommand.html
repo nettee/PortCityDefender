@@ -1,9 +1,23 @@
 <ion-view view-title="新建命令">
   <ion-nav-buttons side="right">
-
   </ion-nav-buttons>
-
   <ion-content>
+    <div class="list">
 
-  </ion-content>
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="接收者" ng-model="command.receiver">
+        </label>
+        <button class="button button-light icon ion-person-add " ng-click="chooseReceiver()">
+        </button>
+      </div>
+      <div class="item item-input-inset">
+      <label class="item-input">
+          <textarea cols="15" style="width:300px;height:400px" placeholder="请输入......" ng-model="command.content"></textarea>
+        </label>
+        </div>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive"   ng-click = "sendCommand(command)">发送命令</button>
+      </div>
+    </div>
 </ion-view>

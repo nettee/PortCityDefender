@@ -5,20 +5,22 @@
   </ion-nav-buttons>
 
   <ion-content>
-   <div class="list">
+    <div class="list">
 
-          <ion-item ng-repeat="command in commandList"
-             href="#/menu/command/{{command.id}}"
-             class="item item-accordion item-thumbnail-left item-button-right">
-           <img ng-src="{{ command.img }}">
-            <h2>{{ command.sender}}</h2>
-            <p>{{ command.content}}
-             </p>
-             		<ion-button class="button button-clear icon ion-ios-arrow-right"></ion-button>
+      <ion-item ng-repeat="command in commandList"
+                href="#/menu/command/{{command.id}}"
+                class="item item-accordion item-thumbnail-left ">
+        <img ng-src="{{ command.img }}">
+        <h2>{{ command.sender}}</h2>
+        <p>{{ command.content}}
+        </p>
+              <span class="item-note">
+                  {{command.time}}
+                </span>
 
-          </ion-item>
+      </ion-item>
 
 
-        </div>
+    </div>
   </ion-content>
 </ion-view>

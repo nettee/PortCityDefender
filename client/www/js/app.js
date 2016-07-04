@@ -110,6 +110,15 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+      .state('menu.commandReceiver',{
+        url:'/commandReceiver',
+        views:{
+          'menuContent':{
+            templateUrl:'templates/commandReceiver.html',
+            controller:'commandReceiverController'
+          }
+        }
+      })
       $urlRouterProvider.otherwise('/login');
 
 })

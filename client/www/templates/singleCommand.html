@@ -1,27 +1,19 @@
 <ion-view title="命令详情">
   <ion-content >
-    <div class="list" style="margin-top: 0px; background-color: #EEEEEE;">
-      <div class="item" style="margin-top: 13px;" href="#">
-        姓名：  {{contact.name}}
-      </div>
-      <div class="item" href="#">
-        用户名：  {{contact.id}}
-      </div>
-      <div class="item" href="#">
-        区域：  {{contact.region}}
-      </div>
-      <div class="item" href="#">
-        级别：  {{contact.level}}
-      </div>
-      <div class = "item item-button-right">
-        电话：  {{contact.phone}}
-        <button class = "button button-clear" style="padding: 3px; padding-left: 10px;">
-          <i class = "icon ion-ios-telephone-outline" style="color: #00BFFF"></i>
-        </button>
+    <div class="list card">
+
+      <div class="item item-avatar">
+        <img src="{{ command.img }}">
+        <h2>{{command.sender}}</h2>
+        <p>{{command.time}}</p>
       </div>
 
-      <div class="item" href="#" style="margin-top: 13px;">
-        描述：  {{contact.description}}
+      <div class="item item-body">
+        <p>
+          {{command.content}}
+        </p>
       </div>
+
+    </div>
   </ion-content >
 </ion-view>
