@@ -82,6 +82,17 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
         }
       })
 
+      .state('menu.newInformation', {
+        url: '/newInformation',
+        views:{
+          'menuContent': {
+            templateUrl: 'templates/newInformation.html',
+            controller: 'newInformationController'
+          }
+        }
+
+      })
+
       .state('menu.command', {
         url: '/command',
         views: {
@@ -91,6 +102,9 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+
+
+
       .state('menu.singleCommand', {
         url: '/command/:commandId',
         views: {
