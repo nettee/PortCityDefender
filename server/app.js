@@ -41,14 +41,32 @@ app.use(function (req, res, next) {
 
 // error handlers
 
-// development error handler
-// will print stacktrace
+/* development error handler, will print stacktrace
+ *
+ * this error handler can be triggered by `next(error)`,
+ * where error is an `Error` object created by `new Error(message)`
+ *
+ * Example:
+ *
+ * function do_get(req, res, next) {
+ *   if (something_wrong) {
+ *     var error = new Error('some message');
+ *     error.status = 503;
+ *   } else {
+ *     do_something();
+ *   }
+ *
+ */
+
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
+        console.log('caused development error handler');
+        var status = err.status || 500;
+        res.status(status);
+        res.send({
+            status: status,
             message: err.message,
-            error: err
+            stack: err.stack,
         });
     });
 }
@@ -56,6 +74,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+    console.log('caused production error handler');
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
