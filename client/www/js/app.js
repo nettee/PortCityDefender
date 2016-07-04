@@ -91,6 +91,16 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+      .state('menu.singleCommand', {
+        url: '/command/:commandId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/singleCommand.html',
+            controller: 'singleCommandController'
+          }
+        }
+      })
+
       .state('menu.newCommand', {
         url: '/newCommand',
         views: {

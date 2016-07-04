@@ -36,7 +36,6 @@ Information.schema.pre('save', function(next) {
     next();
 });
 
-
 informations.hasEssentials = function(info) {
     console.log(info);
     console.log('publisher' in info);
