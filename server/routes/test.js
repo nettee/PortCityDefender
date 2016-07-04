@@ -1,7 +1,9 @@
 var url = require('url');
+var fs = require('fs');
 
 var express = require('express');
 var router = express.Router();
+
 
 /* This module deals with requests that
  * starts with /test
@@ -35,6 +37,12 @@ router.post('/image', function(req, res) {
     req.on('end', function() {
         console.log('on end');
     });
+});
+
+router.get('/cat', function(req, res) {
+    var options = {encoding: 'utf8', flag: 'r'};
+    var fileReadStream = fs.createReadStream('/private/text/a.txt', options);
+    res.end();
 });
 
 module.exports = router;

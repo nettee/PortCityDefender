@@ -143,7 +143,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope) {
+  .controller('InfoController', function ($scope, $state) {
+    $scope.newInformation = function() {
+      console.log("in new Information click");
+      $state.go('menu.newInformation');
+    }
+
     $scope.informations = [];
     $scope.informations[0] = {
       id: 1,
@@ -184,34 +189,82 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
+  .controller('newInformationController', function ($scope, $ionicActionSheet) {
+    $scope.showPictureChoice = function () {
+      var hideSheet = $ionicActionSheet.show({
+        buttons:[
+          { text: '<b>拍照</b>'},
+          { text: '从<b>相册</b>中选择'}],
+        tittleText: '上传图片',
+        cancelText: '取消',
+        cancel: function () {
+          //do nothing just cancel
+        },
+        buttonClicked: function (index) {
+          if (index == 0){
+            //do nothing
+          }
+          if (index == 1){
+            $scope.readAlbum();
+          }
+        }
+      })
+    }
+
+    $scope.readAlbum = function () {
+      if (!window.imagePicker) {
+        alert('您的环境不支持相册上传');
+        return;
+      }
+
+      var options = {
+        maximumImagesCount: 1,
+        width: 800,
+        height: 800,
+        quality: 80
+      };
+
+      $cordovaImagePicker.getPictures(options).then(function (result) {
+        var uri = result[0];
+        var name = uri;
+        alert("app-information-newInformation-picture uri : " + uri);
+        if (name.indexOf('/')){
+          var i = name.lastIndexOf('/');
+          name = name.substring(i + 1);
+        }
+      }, function (error) {
+        alert(error);
+      });
+    }
+  })
 
   .controller('commandController', function ($scope,$state,commandService) {
 
     $scope.newCommand = function(){
-      console.log("in new Command click")
+      console.log("in new Command click");
       $state.go('menu.newCommand');
     }
     $scope.commandList=commandService.getCommandList()
   })
+
   .controller('singleCommandController',function($scope,$stateParams,commandService){
     var index= $stateParams.commandId;
     $scope. command=commandService.getCommandByIndex(index);
   })
-.controller('newCommandController',function($scope,$state){
-  var sendcommand={};
-  $scope.sendCommand=function(command){
-    sendcommand =command;
-    sendcommand.sender="mymy";
-    //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
-    //实现的回调函数中注意传进去的是一个command.receiverList
-    $state.go("menu.command");
-  }
-  $scope.chooseReceiver=function(){
-    console.log("into chooseReceiver")
-    $state.go('menu.commandReceiver')
-  }
-})
-
+ .controller('newCommandController',function($scope,$state) {
+   var sendcommand = {};
+   $scope.sendCommand = function (command) {
+     sendcommand = command;
+     sendcommand.sender = "mymy";
+     //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
+     //实现的回调函数中注意传进去的是一个command.receiverList
+     $state.go("menu.command");
+   }
+   $scope.chooseReceiver = function () {
+     console.log("into chooseReceiver")
+     $state.go('menu.commandReceiver')
+   }
+ })
   .controller('commandReceiverController',function($scope,$http){
     console.log("into commandReceiverController")
     $scope.updateReceiver=function(){

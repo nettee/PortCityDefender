@@ -1,0 +1,27 @@
+<ion-view view-title="写情报">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" menu-toggle="right" ng-click="popover.show($event)">
+      发布
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-list>
+      <ion-item class="item item-input">
+        <textarea placeholder="填写情报..." rows="12"></textarea>
+      </ion-item>
+      <ion-item ng-click="showPictureChoice()">
+        <div align="left">
+          插入图片
+        </div>
+        <!--有待于完善
+        <div align="right">
+          <span>
+            <ion-button style="display:inline" class="button button-clear icon ion-ios-arrow-right"></ion-button>
+          </span>
+        </div>
+        -->
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
