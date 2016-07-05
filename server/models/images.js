@@ -21,7 +21,9 @@ Image.schema.pre('save', function(next) {
 
 var headers = '-_id id size mime_type';
 
-var images = {};
+var images = {
+    image_dir: 'data/images',
+};
 
 images.create = function(image, callback) {
     Image(image).save(function(err, doc) {
@@ -36,6 +38,19 @@ images.create = function(image, callback) {
             mime_type: doc.mime_type
         });
     });
+};
+
+images.readOne = function(id, callback) {
+    Image.where({'id': id})
+        .findOne()
+        .select(headers)
+        .exec(function(err, doc) {
+            if (doc) {
+                callback(err, doc.toObject());
+            } else {
+                callback(err, null);
+            }
+        });
 };
 
 module.exports = images;

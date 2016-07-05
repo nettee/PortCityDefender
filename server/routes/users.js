@@ -78,6 +78,7 @@ function userReader(req, res) {
             res.status(500).send({error: err});
             return;
         }
+        // FIXME check user == null and return 404
         res.status(200).send(user);
     });
 }

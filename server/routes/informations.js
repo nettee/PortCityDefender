@@ -66,6 +66,7 @@ function infoReader(req, res, next) {
         if (err) {
             next(new Error(err));
         } else {
+            // FIXME check info == null, return 404
             res.status(200).send(info);
         }
     });
@@ -97,8 +98,7 @@ function infoImageCreator(req, res, next) {
         if (err) {
             return next(new Error(err));
         }
-        var filename = util.format('%s.%s', image.id, mime.extension(mime_type));
-        var filepath = util.format('data/images/%s', filename);
+        var filepath = util.format('%s/%s.%s', images.image_dir, image.id, mime.extension(mime_type));
         var out_file = fs.createWriteStream(filepath);
         req.pipe(out_file);
         console.log('write file to', filepath);
