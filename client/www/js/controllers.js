@@ -195,7 +195,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         buttons:[
           { text: '<b>拍照</b>'},
           { text: '从<b>相册</b>中选择'}],
-        tittleText: '上传图片',
         cancelText: '取消',
         cancel: function () {
           //do nothing just cancel
@@ -224,7 +223,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         quality: 80
       };
 
-      $cordovaImagePicker.getPictures(options).then(function (result) {
+      imagePicker.getPictures(function (result) {
         var uri = result[0];
         var name = uri;
         alert("app-information-newInformation-picture uri : " + uri);
@@ -234,7 +233,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         }
       }, function (error) {
         alert(error);
-      });
+      }, options);
     }
   })
 
