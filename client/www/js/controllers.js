@@ -223,7 +223,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         quality: 80
       };
 
-      imagePicker.getPictures(options).then(function (result) {
+      imagePicker.getPictures(function (result) {
         var uri = result[0];
         var name = uri;
         alert("app-information-newInformation-picture uri : " + uri);
@@ -233,7 +233,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         }
       }, function (error) {
         alert(error);
-      });
+      }, options);
     }
   })
 
