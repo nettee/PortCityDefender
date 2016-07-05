@@ -111,4 +111,30 @@ app.factory('commandService',function($http){
       return  commandList[index];
     }
   }
-})
+});
+
+app.factory('informationService', function () {
+  var user = {
+    id : "",
+    name : "",
+    level : 1,
+    region : "",
+    description : "",
+    phone : ""
+  };
+
+  var information = {
+    id: 1,
+    publisher: user,
+    text: "",
+    images:[],
+    urgent: false,
+    replications: [],
+    time: ""
+  };
+
+  return {
+    informationInstance : information
+  };
+
+});

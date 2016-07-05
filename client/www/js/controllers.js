@@ -189,7 +189,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, userService, informationService) {
+    $scope.information = informationService.informationInstance;
+
     $scope.showPictureChoice = function () {
       var hideSheet = $ionicActionSheet.show({
         buttons:[
@@ -211,6 +213,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
     $scope.readAlbum = function () {
+
       if (!window.imagePicker) {
         alert('您的环境不支持相册上传');
         return;
