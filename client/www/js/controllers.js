@@ -234,6 +234,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           var i = name.lastIndexOf('/');
           name = name.substring(i + 1);
         }
+        alert(name);
       }, function (error) {
         alert(error);
       }, options);
