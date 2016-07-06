@@ -113,19 +113,11 @@ app.factory('commandService',function($http){
   }
 });
 
-app.factory('informationService', function () {
-  var user = {
-    id : "",
-    name : "",
-    level : 1,
-    region : "",
-    description : "",
-    phone : ""
-  };
+app.factory('informationService', function ($http) {
 
-  var information = {
+  var infoExample = {
     id: 1,
-    publisher: user,
+    publisher: "",
     text: "",
     images:[],
     urgent: false,
@@ -133,8 +125,66 @@ app.factory('informationService', function () {
     time: ""
   };
 
+
+  function sendInformation(information){
+    var publishinfo = {
+      publisher: "",
+      text: "",
+      urgent: false
+    }
+
+    publishinfo.text = information.text;
+    publishinfo.publisher = information.publisher;
+    publishinfo.urgent = information.urgent;
+
+    $http({
+      method : "POST",
+      url : "http://121.40.97.40:3000/information",
+      data : publishinfo
+    }).success(function (response) {
+      console.log(response.publisher + "succeed in sending information to serve at time : " + response.time);
+    }).error(function (response) {
+      console.log("Fail to send information to server");
+    });
+
+    for (var i=0;i<1;i++){//var i in information.images){
+      var str = "img/ben.png"//information.images[i].split(".");
+      var type = str[str.length - 1];
+      var s = "image/";
+      if (type[0] == 'j')
+        s += "jpeg";
+      if (type[0] == 'p')
+        s += "png";
+      alert(s);
+      alert(information.images[i]);
+      $http({
+        method : "POST",
+        url : "http://121.40.97.40:3000/information/" + information.id + "/images",
+        data : str,
+        headers : {
+          'Content-Type' : s,
+          //'Content-Length' : file.length
+        }
+      })
+    }
+  }
+
+  function getInformationList(callback){
+    $http({
+      method : "GET",
+      url : "http://121.40.97.40:3000/information"
+    }).success(function (response) {
+      console.log("Get information list from server");
+      callback(response);
+    }).error(function (response) {
+      console.log("Gail to get information list from server");
+    })
+  }
+
   return {
-    informationInstance : information
+    informationInstance : infoExample,
+    sendInformation : sendInformation,
+    getInformationList : getInformationList
   };
 
 });
