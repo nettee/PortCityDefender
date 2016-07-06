@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prestart": "cd scripts && ./start-mongodb.sh && ./import-data.sh",
-    "start": "node ./bin/www",
+    "prestart": "./start-mongodb.sh && cd data && ./initialize.sh",
+    "start": "node ./bin/www &",
+    "prestop": "cd data && ./finalize.sh",
     "stop": "./stop.sh",
     "test": "mocha test --recursive"
   },
