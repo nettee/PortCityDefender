@@ -1,14 +1,53 @@
 <ion-view view-title="通讯录" >
   <ion-nav-buttons side = "right">
-    <button class = "button button-clear" ng-click = "updateReceiver()" >确认</button>
+    <button class = "button button-clear" ng-click = "updateReceiver(groups)" >确认</button>
   </ion-nav-buttons>
   <ion-content>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search" ng-model="searchcontent" ng-change="search(searchcontent)">
+      </label>
+    </div>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+    </ion-refresher>
+    <span ng-if="searchisnull">
     <ion-list>
-
-      <ion-checkbox ng-model="filter.red">Red</ion-checkbox>
-      <ion-checkbox ng-model="filter.yellow">Yellow</ion-checkbox>
-      <ion-checkbox ng-model="filter.pink">Pink</ion-checkbox>
-
+      <div ng-repeat="group in groups">
+        <ion-item class="item-stable"
+                  ng-click="toggleGroup(group)"
+                  ng-class="{active: isGroupShown(group)}">
+          <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+          &nbsp;
+          {{group.name}}区
+        </ion-item>
+        <ion-checkbox class="item-accordion"
+                  ng-repeat="item in group.items"
+                  ng-show="isGroupShown(group)"
+                  ng-model="item.ischecked">
+          {{item.name}}
+          &nbsp;
+          <div>
+            <div id="classBackground">
+              <span id="classValue">
+                {{item.ischecked}}
+                {{item.level}}
+              </span>
+            </div>
+          </div>
+        </ion-checkbox>
+      </div>
     </ion-list>
+    </span>
+     <span ng-if="!searchisnull">
+       <ion-list>
+      <ion-checkbox ng-repeat="item in searchResults" ng-model="item.ischecked">
+        {{item.name}}
+         &nbsp;
+        {{item.ischecked}}
+        {{item.level}}
+      </ion-checkbox>
+    </ion-list>
+     </span>
   </ion-content>
 </ion-view>

@@ -78,15 +78,17 @@ app.factory('userService', function($http){
   };
 });
 
-app.factory('commandService',function($http){
+app.factory('commandService',function($http,userService){
 
-  var commandList ={}
-  var draftCommand={}
+  var commandList =[]
+  var mygroups=[]
+  var receiverList=[]
   var draftCommand={
     sender: 'mymy',
     receiver:'default' ,
     content: 'default content'
 }
+  /*
   commandList[0]={
     id:0,
     sender: 'dwc',
@@ -102,13 +104,89 @@ app.factory('commandService',function($http){
     img:'img/yyt.jpg',
     content:"你还是要提高一下自己的姿势水平",
     time:"2016-06-24"
+  }*/
+  var fillCommand=function(callback)
+  {
+    $http.get("http://121.40.97.40:3000/commands?receiver=" + userService.getUser().id)
+      .success(function (response) {
+       // commandList = response;
+        callback(response);
+      })
+      .error(function () {
+        alert("get command List failed");
+      })
+  }
+  receiverList[0]={
+    id:null,
+    name:null
+  }
+  var setmyReceiverList=function(){
+    receiverList=[];
+    for(var i=0;i<mygroups.length;i++){
+     // console.log("hahha"+mygroups[i])
+      for (var j=0;j<mygroups[i].items.length;j++){
+        //  console.log(mygroups[i].items[j]);
+           if(mygroups[i].items[j].ischecked == true){
+              var receiver={
+                id:mygroups[i].items[j].id,
+                name:mygroups[i].items[j].name
+              }
+             receiverList.push(receiver);
+           }
+      }
+    }
   }
   return {
-    getCommandList:function(){
-      return commandList;
+    getCommandList:function(callback){
+      fillCommand(callback);
+     // console.log("get Command List"+commandList);
+    },
+    setCommandList:function(CommandList){
+      commandList=CommandList;
     },
     getCommandByIndex:function(index){
+     // console.log(index);
+      console.log("in get command by index   "+commandList.length);
       return  commandList[index];
+    },
+    getGroups:function(){
+      return mygroups;
+    },
+    updateGroups:function(group,i){
+      mygroups[i]=group;
+    },
+    updateReceiver:function(groups){
+      mygroups=groups;
+     // console.log("in updateReceiver,before ger receiverList"+groups[0].items[0].ischecked);
+      setmyReceiverList();
+      for (var ii=0;ii<receiverList.length;ii++) {
+        console.log("hhhhhin updateReceiver,after ger receiverList" + receiverList[ii].name);
+      }
+    },
+    getReceiverList:function(){
+      //for (var ii=0;ii<receiverList.length;ii++) {
+        //console.log("in updateReceiver,after ger receiverList" + receiverList[ii].name);
+      //}
+      return receiverList;
+    },
+    sendCommand: function(ReceiverList,content){
+      myid=userService.getUser().id;
+      console.log("in send command");
+      for(var i in ReceiverList) {
+        console.log("in send command"+ReceiverList[i].name);
+        command={
+          receiver:ReceiverList[i].id,
+          sender:myid,
+          content:content
+        }
+        console.log("in send command"+command.receiver+"  "+command.sender+"  "+command.content);
+        $http.post("http://121.40.97.40:3000/commands",command)
+         .success(function(response){
+           console.log(response.updated_time);
+         })
+          .error(function(response){
+          })
+      }
     }
   }
 })

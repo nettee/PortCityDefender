@@ -3,21 +3,29 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="list">
-
-      <div class="item item-input-inset">
-        <label class="item-input-wrapper">
-          <input type="text" placeholder="接收者" ng-model="command.receiver">
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+      </ion-refresher>
+      <div class="item item-input-inset item item-icon-right">
+       <!-- <label class="item-input-wrapper">
+          <input type="text" placeholder="接收者" ng-model="receiverList">
         </label>
+        !-->
+        <div ng-repeat="receiver in receiverList">
+          <div class="item ">
+            {{receiver.name}}
+          </div>
+        </div>
         <button class="button button-light icon ion-person-add " ng-click="chooseReceiver()">
         </button>
+
       </div>
       <div class="item item-input-inset">
       <label class="item-input">
-          <textarea cols="15" style="width:300px;height:400px" placeholder="请输入......" ng-model="command.content"></textarea>
+          <textarea cols="15" style="width:300px;height:400px" placeholder="请输入......" ng-model="content"></textarea>
         </label>
         </div>
       <div class="padding">
-        <button type="submit" class="button button-block button-positive"   ng-click = "sendCommand(command)">发送命令</button>
+        <button type="submit" class="button button-block button-positive"   ng-click = "sendCommand(content)">发送命令</button>
       </div>
     </div>
 </ion-view>

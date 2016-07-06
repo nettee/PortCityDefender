@@ -244,31 +244,55 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("in new Command click");
       $state.go('menu.newCommand');
     }
-    $scope.commandList=commandService.getCommandList()
+    $scope.$on('$ionicView.beforeEnter',function(){
+    commandService.getCommandList(function(response){
+      $scope.commandList=response;
+      commandService.setCommandList($scope.commandList);
+      })
+    }
+    )
   })
 
   .controller('singleCommandController',function($scope,$stateParams,commandService){
     var index= $stateParams.commandId;
     $scope. command=commandService.getCommandByIndex(index);
   })
- .controller('newCommandController',function($scope,$state) {
+ .controller('newCommandController',function($scope,$state,commandService) {
    var sendcommand = {};
-   $scope.sendCommand = function (command) {
-     sendcommand = command;
-     sendcommand.sender = "mymy";
+   $scope.receiverList=commandService.getReceiverList();
+   //console.log("in newCommand controller  "+$scope.receiverList.length);
+   //for (var receiver in $scope.receiverList) {
+   //  console.log(receiver.name);
+   //}
+   $scope.$on('$ionicView.beforeEnter',function(){
+     $scope.receiverList=commandService.getReceiverList();
+   })
+   $scope.doRefresh=function() {
+     $scope.receiverList=commandService.getReceiverList();
+     $scope.$broadcast('scroll.refreshComplete');
+   }
+     $scope.sendCommand = function (content) {
+     //sendcommand = command;
+     //sendcommand.sender = "mymy";
+       for (var ii=0;ii<$scope.receiverList.length;ii++) {
+         console.log("aaaaaan updateReceiver,after ger receiverList" + $scope.receiverList[ii].id);
+       }
+       commandService.sendCommand($scope.receiverList,content);
      //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
      //实现的回调函数中注意传进去的是一个command.receiverList
      $state.go("menu.command");
    }
    $scope.chooseReceiver = function () {
-     console.log("into chooseReceiver")
+    // console.log("into chooseReceiver")
      $state.go('menu.commandReceiver')
    }
  })
-  .controller('commandReceiverController',function($scope,$http){
+  .controller('commandReceiverController',function($scope,$http,$state,$ionicHistory,commandService){
     console.log("into commandReceiverController")
-    $scope.updateReceiver=function(){
-
+    $scope.updateReceiver=function(groups){
+      commandService.updateReceiver(groups);
+    //  $ionicHistory.goBack();
+      $state.go('menu.newCommand',{},{reload:true});
     }
     var regionlist = [];
     $scope.groups = [];
@@ -284,13 +308,19 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             isfill: false
           };
         }
-
-
+        $scope.toggleGroup($scope.groups);
       })
       .error(function (response) {
         alert("Fail to get the regions");
         console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
       })
+    function objMerger(obj1, obj2)
+    {
+      for(var r in obj2){
+        eval("obj1."+r+"=obj2."+r);
+      }
+      return obj1;
+    }
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
         $http.get("http://121.40.97.40:3000/users?region=" + group.name)
@@ -298,15 +328,20 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
               $scope.groups[i].items.push(response[j]);
+              var check={ischecked:false};
+              $scope.groups[i].items[j]=objMerger($scope.groups[i].items[j],check);
             }
             $scope.groups[i].isfill = true;
+            group.show = !group.show;
+            commandService.updateGroups(group,i);
           })
           .error(function (response) {
             alert("Fail to get the users by region : " + regionlist[i]);
             console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
           })
+      }else {
+        group.show = !group.show;
       }
-      group.show = !group.show;
     };
 
     $scope.isGroupShown = function(group) {
@@ -324,6 +359,21 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = true;
       else {
         $scope.searchResults.splice(0,$scope.searchResults.length);
+       /*
+        groups=commandService.getGroups();
+        console.log("heheheh"+groups);
+        for(var group in groups) {
+          console.log("hehehhehe"+group.items);
+          for (var item in group.items) {
+            console.log("he"+item.name);
+            if (item.name.indexOf(searchcontent) != -1) {
+              $scope.searchResults.push(item);
+            }
+          }
+        }
+        $scope.searchisnull=false;
+       */
+
         $http.get("http://121.40.97.40:3000/users")
           .success(function (response) {
             for (var i in response){
@@ -337,6 +387,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             console.log("app userService method-filter Fail to get---error message : ", response.error);
           })
         $scope.searchisnull = false;
+
       }
     }
     $scope.doRefresh=function(){
@@ -359,7 +410,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
         })
         .error(function (response) {
-          alert("Fail to get the regions");
+         // alert("Fail to get the regions");
           console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
         })
 

@@ -119,6 +119,7 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
         url: '/newCommand',
         views: {
           'menuContent': {
+            cache:'false',
             templateUrl: 'templates/newCommand.html',
             controller: 'newCommandController'
           }
