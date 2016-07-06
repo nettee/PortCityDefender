@@ -229,16 +229,20 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       imagePicker.getPictures(function (result) {
         var uri = result[0];
         var name = uri;
-        alert("app-information-newInformation-picture uri : " + uri);
+        $scope.selectImage = true;
+        $scope.images.push(uri);
+        //alert("app-information-newInformation-picture uri : " + uri);
         if (name.indexOf('/')){
           var i = name.lastIndexOf('/');
           name = name.substring(i + 1);
         }
-        alert(name);
+        //alert(name);
       }, function (error) {
         alert(error);
       }, options);
     }
+    $scope.images = [];
+    $scope.selectImage = false;
   })
 
   .controller('commandController', function ($scope,$state,commandService) {
