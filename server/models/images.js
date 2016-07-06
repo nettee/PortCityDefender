@@ -12,7 +12,7 @@ var imageSchema = new mongoose.Schema({
     collection: 'images'
 });
 
-var Image = db.model('image', imageSchema);
+var Image = db.model('images', imageSchema);
 
 Image.schema.pre('save', function(next) {
     this.id = this._id;
@@ -25,18 +25,27 @@ var images = {
     image_dir: 'data/images',
 };
 
-images.create = function(image, callback) {
+images.sanitize = function(image) {
+    return {
+        id: image._id,
+        size: image.size,
+        mime_type: image.mime_type,
+    };
+};
+
+images.create = function(info_id, image, callback) {
     Image(image).save(function(err, doc) {
         if (err) {
             console.log(err);
         } else {
             console.log('saved', doc);
         }
-        callback(err, {
+        var result = {
             id: doc.id,
             size: doc.size,
             mime_type: doc.mime_type
-        });
+        };
+        callback(err, result, doc._id);
     });
 };
 

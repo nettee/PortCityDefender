@@ -94,15 +94,23 @@ function infoImageCreator(req, res, next) {
     var size = req.get('Content-Length');
     var mime_type = req.get('Content-Type');
 
-    images.create({size: size, mime_type: mime_type}, function(err, image) {
+    var extension = mime.extension(mime_type);
+    if (!extension) {
+        var error = new Error(util.format('Invalid MIME type %s', mime_type));
+        error.status = 406;
+        return next(error);
+    }
+
+    images.create(id, {size: size, mime_type: mime_type}, function(err, image, image_id) {
+        console.log('image_id =', image_id);
         if (err) {
             return next(new Error(err));
         }
-        var filepath = util.format('%s/%s.%s', images.image_dir, image.id, mime.extension(mime_type));
+        var filepath = util.format('%s/%s.%s', images.image_dir, image.id, extension);
         var out_file = fs.createWriteStream(filepath);
         req.pipe(out_file);
         console.log('write file to', filepath);
-        informations.addImageById(id, image, function(err) {
+        informations.addImageById(id, image_id, function(err) {
             if (err) {
                 return next(new Error(err));
             }
