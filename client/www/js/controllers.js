@@ -189,7 +189,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet, userService, informationService) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, userService, informationService) {
     $scope.information = informationService.informationInstance;
 
     $scope.showPictureChoice = function () {
@@ -210,6 +210,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           }
         }
       })
+
+      $timeout(function() {
+        hideSheet();
+      }, 3000);
     }
 
     $scope.readAlbum = function () {
@@ -220,23 +224,17 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       }
 
       var options = {
-        maximumImagesCount: 1,
+        maximumImagesCount: 2,
         width: 800,
         height: 800,
         quality: 80
       };
 
       imagePicker.getPictures(function (result) {
-        var uri = result[0];
-        var name = uri;
         $scope.selectImage = true;
-        $scope.images.push(uri);
-        //alert("app-information-newInformation-picture uri : " + uri);
-        if (name.indexOf('/')){
-          var i = name.lastIndexOf('/');
-          name = name.substring(i + 1);
+        for (var i in result){
+          $scope.images.push(result[i]);
         }
-        //alert(name);
       }, function (error) {
         alert(error);
       }, options);
