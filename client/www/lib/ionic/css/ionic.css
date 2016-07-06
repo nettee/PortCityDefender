@@ -3808,7 +3808,7 @@ a.subdued {
     pointer-events: none; }
   .action-sheet-open .action-sheet-backdrop {
     pointer-events: auto; }
-
+/*
 .platform-android .action-sheet-backdrop.active {
   background-color: rgba(0, 0, 0, 0.2); }
 
@@ -3838,7 +3838,7 @@ a.subdued {
 
 .platform-android .action-sheet-has-icons .button {
   padding-left: 56px; }
-
+*/
 .backdrop {
   position: fixed;
   top: 0;

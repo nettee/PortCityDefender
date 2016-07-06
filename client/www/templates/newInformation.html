@@ -8,20 +8,24 @@
   <ion-content>
     <ion-list>
       <ion-item class="item item-input">
-        <textarea placeholder="填写情报..." rows="12"></textarea>
+        <textarea style="overflow:hidden; resize:none;" placeholder="填写情报..." rows="12"></textarea>
       </ion-item>
-      <ion-item ng-click="showPictureChoice()">
-        <div align="left">
-          插入图片
-        </div>
-        <!--有待于完善
-        <div align="right">
-          <span>
-            <ion-button style="display:inline" class="button button-clear icon ion-ios-arrow-right"></ion-button>
-          </span>
-        </div>
-        -->
+      <ion-item ng-click="showPictureChoice()" class="item-icon-right">
+        插入图片
+        <i class="icon ion-ios-arrow-right"></i>
       </ion-item>
+
+      <div class="card" ng-show="selectImage">
+        <div class="row">
+          <div ng-repeat="imagepath in images">
+            <div class="col col-33"><img src="{{imagepath}}" width="70" height="70"></div>
+          </div>
+        </div>
+      </div>
+
+      <ion-checkbox ng-model="information.urgent">
+        紧急发布
+      </ion-checkbox>
     </ion-list>
   </ion-content>
 </ion-view>

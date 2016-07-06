@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prestart": "cd scripts && ./start-mongodb.sh && ./import-data.sh",
-    "start": "node ./bin/www",
+    "prestart": "./start-mongodb.sh && cd data && ./initialize.sh",
+    "start": "node ./bin/www &",
+    "prestop": "cd data && ./finalize.sh",
     "stop": "./stop.sh",
     "test": "mocha test --recursive"
   },
@@ -15,6 +16,7 @@
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
+    "mime": "^1.3.4",
     "mocha": "^2.5.3",
     "mongoose": ">=2.7.0",
     "morgan": "~1.6.1",

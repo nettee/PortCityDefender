@@ -189,13 +189,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, userService, informationService) {
+    $scope.information = informationService.informationInstance;
+
     $scope.showPictureChoice = function () {
       var hideSheet = $ionicActionSheet.show({
         buttons:[
           { text: '<b>拍照</b>'},
           { text: '从<b>相册</b>中选择'}],
-        tittleText: '上传图片',
         cancelText: '取消',
         cancel: function () {
           //do nothing just cancel
@@ -209,33 +210,37 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           }
         }
       })
+
+      $timeout(function() {
+        hideSheet();
+      }, 3000);
     }
 
     $scope.readAlbum = function () {
+
       if (!window.imagePicker) {
         alert('您的环境不支持相册上传');
         return;
       }
 
       var options = {
-        maximumImagesCount: 1,
+        maximumImagesCount: 2,
         width: 800,
         height: 800,
         quality: 80
       };
 
-      $cordovaImagePicker.getPictures(options).then(function (result) {
-        var uri = result[0];
-        var name = uri;
-        alert("app-information-newInformation-picture uri : " + uri);
-        if (name.indexOf('/')){
-          var i = name.lastIndexOf('/');
-          name = name.substring(i + 1);
+      imagePicker.getPictures(function (result) {
+        $scope.selectImage = true;
+        for (var i in result){
+          $scope.images.push(result[i]);
         }
       }, function (error) {
         alert(error);
-      });
+      }, options);
     }
+    $scope.images = [];
+    $scope.selectImage = false;
   })
 
   .controller('commandController', function ($scope,$state,commandService) {

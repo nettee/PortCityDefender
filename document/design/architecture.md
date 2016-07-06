@@ -10,6 +10,11 @@
 
 服务器接收HTTP请求对情报信息、指挥命令、文档列表、用户信息进行操作。如无特殊说明，下面接口中request和response的格式都为JSON，request和response的header中Content-Type应为application/json。
 
+如果response是表示一个错误（4xx和5xx返回码），返回一个Error对象，Error对象的属性有
+
++ `status`：状态码
++ `message`：错误信息
+
 常见的返回状态码如下：
 
 + 200 OK - [GET]：服务器成功返回用户请求的数据
@@ -19,13 +24,14 @@
 + 401 Unauthorized：用户没有权限，token错误
 + 403 Forbidden：用户的访问被禁止，如普通用户试图删除其他用户发布的情报
 + 404 Not Found：用户试图获取不存在的资源，如查看命令详情，但命令ID不存在
++ 406 Not Acceptable：请求数据的格式错误，如要求application/json的格式，但请求的格式是text/plain
 + 409 Conflict：被请求的资源和资源当前状态存在冲突，如用户试图新建一个命令，但该ID的命令已经存在
 + 422 Unprocessable Entity：请求格式正确，但是由于含有语义错误，无法响应。如用户发送PUT请求修改每个情报的内容，但发送的JSON对象不完整
 + 500 Internal Server Error：服务器内部错误，如数据库访问出错
 
 根据RESTful接口的语义，GET、PUT、DELETE方法都是幂等的，即多次发送GET、PUT、DELETE方法的请求，效果应该和发送一次的效果相同。POST方法不是幂等的。下面对于GET、PUT、DELETE方法不再做特殊说明，认为是幂等的。
 
-#### 注册和登录（认证信息）
+### 注册和登录（认证信息）
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
@@ -77,7 +83,7 @@
 1. 当认证信息错误时（用户名或密码错误），返回401状态码
 2. 当认证信息的权限不满足所要求的权限时（如权限要求管理员，但认证信息为普通用户），返回403状态码
 
-#### 用户
+### 用户
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
@@ -148,19 +154,7 @@
   + 异常情况
     + ID为_userid_的用户不存在：返回404状态码
 
-#### 情报信息
-
-| HTTP方法 | 路径 | 功能 | 权限 |
-|---|---|---|---|
-| POST | /information | 发送情报 | 所有用户 | 
-| POST | /information/_info\_id_/images | 在情报中插入图片 | 情报所属用户 |
-| POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
-| GET | /information | 获得情报列表 |  所有用户 | 
-| GET | /information?publisher=_userid_ | 按发布用户ID搜索情报 | 管理员 |
-| GET | /information?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
-| GET | /information/_info\_id_ | 获得情报详情 | 所有用户 |
-| DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户 |
-
+### 情报信息
 
 情报为一个Information对象，包含的属性有
 + `id`：情报ID
@@ -174,26 +168,41 @@
 图片为一个Image对象，包含的属性有
 + `id`：图片ID
 + `size`：图片大小（字节）
++ `mime_type`：图片MIME类型，如"image/bmp", "image/png"
 
 回复为一个Replication对象，包含的属性有
 + `publisher`：回复发布者 - User对象
 + `content`：回复内容
 
+| HTTP方法 | 路径 | 功能 | 权限 |
+|---|---|---|---|
+| POST | /information | 发送情报 | 所有用户 | 
+| POST | /information/_info\_id_/images | 在情报中插入图片 | 情报所属用户 |
+| POST | /information/_info\_id_/replications | 添加回复 | 所有用户 | 
+| GET | /information | 获得情报列表 |  所有用户 | 
+| GET | /information?publisher=_userid_ | 按发布用户ID搜索情报 | 管理员 |
+| GET | /information?keyword=_keyword_ | 按关键字搜索情报 | 管理员 |
+| GET | /information/_info\_id_ | 获得情报详情 | 所有用户 |
+| DELETE | /information/_info\_id_ | 删除情报 | 情报所属用户 |
+
 1. POST /information：新增一个情报
-  + 发送数据：要新建的Information对象（只包含`publisher`, `text`, `urgent`属性）
+  + 发送数据：要新建的Information对象（只包含`publisher`, `text`, `urgent`属性，其中`publisher`只需设置为用户的id即可，不需要完整的User对象）
   + 返回状态码：201
-  + 返回内容：新建的Information对象，其中`id`属性设置为情报的ID，`updated_time`属性设置为服务器收到请求的时间，`images`属性和`replications`属性设置为空数组
+  + 返回内容：新建的Information对象，其中`id`属性设置为情报的ID，`publisher`属性设置为完整的User对象，`updated_time`属性设置为服务器收到请求的时间，`images`属性和`replications`属性设置为空数组
   + 说明：多次发送该请求，每次都会新增一个情报，每个情报的ID都是不同的。
+  + 使用模式：客户端在发布一个情报的时候，先发送一个POST /information请求，发送情报的文本信息；再发送若干个POST /information请求，发送情报中的图片
   + 异常情况
     + Information对象的属性不完整：返回422状态码
 
-1. POST /information/_info\_id_/images：在情报中插入图片
-  + 发送数据：二进制数据，图片文件的内容。请求头部的Content-Type应设为图片所对应的MIME类型，如JPEG文件为image/jpeg，PNG文件为image/png
+1. POST /information/_id_/images：在情报中插入图片
+  + 发送数据：二进制数据，图片文件的内容。请求头部的Content-Type应设为图片所对应的MIME类型(image/*)，如JPEG文件为image/jpeg，PNG文件为image/png
   + 返回状态码：201
   + 返回内容：新建的图片对应的Image对象
   + 说明：服务器保存图片，并将新建的图片的Image对象添加到ID为_info\_id_的Information对象的`images`属性中
+  + 使用模式：参见POST /information条目
   + 异常情况
-    + ID为_info\_id_的情报不存在：返回404状态码
+    + ID为_id_的情报不存在：返回404状态码
+    + 请求头部的Content-Type不是图片MIME类型(image/*)：返回406状态码
 
 1. POST /information/_info\_id_/replications：新建情报回复
   + 发送数据：要新建的Replication对象
@@ -215,6 +224,7 @@
   + 发送数据：无
   + 返回状态码：200
   + 返回内容：id属性为_info\_id_的Information对象
+  + 使用模式：客户端在查看情报信息时，先发送GET /information请求获得Information对象；再根据Information对象的`images`属性，发送GET /images/_id_请求获得图片
   + 异常情况
     + ID为_info\_id_的情报不存在：返回404状态码
 
@@ -224,6 +234,19 @@
   + 返回内容：空对象
   + 异常情况
     + ID为_info\_id_的情报不存在：返回404状态码
+
+#### 图片
+
+| HTTP方法 | 路径 | 功能 | 权限 |
+|---|---|---|---|
+| GET | /images/_id_ | 获取图片 | 所有用户 |
+
+1. GET /images/_id_：获取图片
+  + 发送数据：无
+  + 返回状态码：200
+  + 返回数据：ID为_id_的图片，以二进制流的形式返回，Content-Length设置为图片的字节数（对应于Image对象的`size`属性），Content-Type设置为图片的MIME类型（对应于Image对象的`mime_type`属性）
+  + 异常情况
+    + ID为_id_的图片不存在：返回404状态码
 
 #### 指挥命令
 
@@ -240,9 +263,9 @@
 + `updated_time`：更新时间
 
 2. POST /commands：新增一个命令
-  + 发送数据：要新建的Command对象（只需包含`receiver`，`sender`，`content`属性）
+  + 发送数据：要新建的Command对象（只需包含`receiver`，`sender`，`content`属性，其中`receiver`和`sender`只需设置为用户的id即可，不需要完整的User对象）
   + 返回状态码：201
-  + 返回内容：新建的Command对象，其中`updated_time`属性设置为服务器收到请求的时间
+  + 返回内容：新建的Command对象，其中`receiver`和`sender`属性设置为完整的User对象，`updated_time`属性设置为服务器收到请求的时间
   + 说明：多次发送该请求时，每次会新增一个命令
   + 异常情况
     + Command对象的属性不完整：返回422状态码
@@ -269,5 +292,3 @@
 | GET | /regions | 获得区域列表 | 所有用户 |
 | POST | /regions | 添加区域 | 管理员 |
 | DELETE | /regions/_region\_id_ | 删除区域 | 管理员 |
-
-

@@ -1,40 +1,40 @@
 var mongoose = require('mongoose');
 var database = require('./database');
 
-var informations = {};
+var db = database.connect();
 
 var informationSchema = new mongoose.Schema({
     id: String,
     publisher: String,
     text: String,
-    updated: Date,
+    updated_time: Date,
     urgent: Boolean,
-    images: [String],
-    replications: [String],
+    images: [{
+        id: String,
+        size: Number,
+        mime_type: String
+    }],
+    replications: [String]
 }, {
     // specify collecion name in database
     collection: 'informations'
 });
 
-var headers = '-_id id publisher text urgent updated images replications';
+var headers = '-_id id publisher text urgent updated_time images replications';
 var essentials = ['publisher', 'text', 'urgent'];
-
-var db = database.connect();
 
 var Information = db.model('information', informationSchema);
 
-/* automately set `updated`, `id`, `images`, `replications`
+/* automately set `updated_time`, `id`, `images`, `replications`
  * attribute before save a document
  */
 Information.schema.pre('save', function(next) {
-    this.updated = new Date;
-    console.log('automately set updated to be', this.updated);
-    this.id = this._id;
-    console.log('automately set id to be', this.id);
-    this.images = [];
-    this.replications = [];
+    this.updated_time = new Date;
+    console.log('automately set updated_time to be', this.updated_time);
     next();
 });
+
+var informations = {};
 
 informations.hasEssentials = function(info) {
     console.log(info);
@@ -54,20 +54,32 @@ informations.hasEssentials = function(info) {
  * callback signature: function callback(err)
  */
 informations.create = function(info, callback) {
-    Information(info).save(info, function(err, doc) {
+    info.images = [];
+    info.replications = [];
+    Information(info).save(function(err, doc) {
         if (err) {
             console.log(err);
         } else {
             console.log('saved ', doc);
         }
         callback(err, {
-            id: doc.id,
+            id: doc._id,
             publisher: doc.publisher,
             text: doc.text,
             urgent: doc.urgent,
             updated: doc.updated,
             images: doc.images,
             replications: doc.replications,
+        });
+    });
+};
+
+informations.addImageById = function(id, image, callback) {
+    Information.findOne({'id': id}, function(err, doc) {
+        doc.images.push(image);
+        doc.markModified('images');
+        doc.save(function(err) {
+            callback(err);
         });
     });
 };
@@ -89,8 +101,8 @@ informations.readOne = function(id, callback) {
     Information.where({'id': id})
         .findOne()
         .select(headers)
-        .exec(function(err, result) {
-            callback(err, result);
+        .exec(function(err, doc) {
+            callback(err, doc.toObject());
         });
 };
 
@@ -106,6 +118,18 @@ informations.existsId = function(id, callback) {
         callback(err, result);
     });
 };
+
+//informations.update = function(id, updater, callback) {
+//    console.log('updater =', updater);
+//    Information.findOneAndUpdate({'id': id}, updater, {new: true})
+////        .select(headers)
+//        .exec(function(err, result) {
+//            if (err) {
+//                console.log(err);
+//            }
+//            callback(err, result);
+//        });
+//};
 
 informations.deleteById = function(id, callback) {
     Information.remove({'id': id})
