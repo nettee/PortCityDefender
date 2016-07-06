@@ -28,6 +28,17 @@ users.isCompleteUser = function(user) {
         && !!user.phone;
 };
 
+users.sanitize = function(user) {
+    return {
+        id: user.id,
+        name: user.name,
+        level: user.level,
+        region: user.region,
+        description: user.description,
+        phone: user.phone,
+    };
+};
+
 /**
  * Read one user tuple from database
  * @param {String} id
@@ -35,12 +46,23 @@ users.isCompleteUser = function(user) {
  *
  * callback signature: function callback(err, user)
  */
-function readOne(id, callback) {
+users.readOne = function(id, callback) {
     User.where({'id': id})
         .findOne()
         .select('-_id id name level region description phone') 
         .exec(function (err, result) {
             callback(err, result);
+        });
+}
+
+/*
+ * used by same level
+ */
+users.readOneWithId = function(id, callback) {
+    User.where({'id': id})
+        .findOne()
+        .exec(function (err, doc) {
+            callback(err, doc);
         });
 }
 
@@ -201,6 +223,5 @@ users.checkPassword = function(id, password, callback) {
 
 users.update = update;
 users.read = read;
-users.readOne = readOne;
 
 module.exports = users;
