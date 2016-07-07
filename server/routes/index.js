@@ -40,6 +40,15 @@ router.get('/dashboard/users', function(req, res, next) {
     });
 });
 
+router.get('/dashboard/users/_new', function(req, res, next) {
+   res.render('dashboard_users', {
+       subsystem: 'user',
+       data: {
+           do: 'new',
+       }
+   });
+});
+
 router.get('/dashboard/users/:id', function(req, res, next) {
     console.log('ha');
     var id = req.params.id;

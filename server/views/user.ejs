@@ -2,8 +2,18 @@
 
     <%
     var user = data.user;
+        console.log(data.do);
     %>
-    <h2 class="sub-header"><%= user.name %></h2>
+
+    <h2 class="sub-header">
+        <% if (data.do == 'new') { %>
+        新增用户
+        <% } else if (data.do == 'edit') { %>
+        编辑用户
+        <% } else { %>
+        <%= user.name %>
+        <% } %>
+    </h2>
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -20,8 +30,20 @@
             <tbody>
             <%
             var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
-            if (data.do) {
+            if (data.do == 'new') {
             %>
+            <tr>
+                <%
+                for (var _ of attr_names) {
+                %>
+                <td>
+                    <div class="input-group">
+                        <input type="text" class="form-control"">
+                    </div>
+                </td>
+                <% } %>
+            </tr>
+            <% } else if (data.do == 'edit') { %>
             <tr>
                 <%
                 for (var attr_name of attr_names) {
@@ -46,11 +68,32 @@
             <% } %>
             </tbody>
         </table>
-        <% if (data.do ) { %>
+
+        <% if (data.do == 'delete') { %>
+        <div class="alert alert-danger" role="alert">确定要删除该用户吗？</div>
+        <% } else if (data.do == 'deleted') { %>
+        <div class="alert alert-success" role="alert">用户已删除</div>
+        <% } %>
+
+        <% if (data.do == 'new') { %>
         <div class="btn-toolbar" role="toolbar" aria-label="...">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-primary"
-                        onclick="alert('submitting!');">提交
+                        onclick="alert('submitting!');">新建
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default"
+                        onclick="window.location = '..';">取消
+                </button>
+            </div>
+        </div>
+
+        <% } else if (data.do == 'edit') { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary"
+                        onclick="alert('submitting!');">修改
                 </button>
             </div>
             <div class="btn-group" role="group" aria-label="...">
@@ -58,6 +101,27 @@
                         onclick="window.location = '<%= user.id %>';">取消
                 </button>
             </div>
+        </div>
+
+        <% } else if (data.do == 'delete') { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-danger"
+                        onclick="window.location = '<%= user.id %>?do=deleted';">删除
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default"
+                        onclick="window.location = '<%= user.id %>';">取消
+                </button>
+            </div>
+        </div>
+
+        <% } else if (data.do == 'deleted') { %>
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default"
+                    onclick="window.location = '..';">返回
+            </button>
         </div>
 
         <% } else { %>
@@ -75,7 +139,7 @@
                         <% if (user.id == 'admin') { %>
                         disabled="disabled"
                         <% } %>
-                        onclick="window.location = '<%= user.id %>/delete';">删除
+                        onclick="window.location = '<%= user.id %>?do=delete';">删除
                 </button>
             </div>
         </div>

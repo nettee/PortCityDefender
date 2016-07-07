@@ -2,7 +2,9 @@
 
     <h2 class="sub-header">用户列表</h2>
 
-    <button type="button" class="btn btn-default">新增用户</button>
+    <button type="button" class="btn btn-default"
+            onclick="window.location = 'users/_new';">新增用户
+    </button>
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -47,7 +49,7 @@
                                     <% if (user.id == 'admin') { %>
                                     disabled="disabled"
                                     <% } %>
-                                    onclick="window.location = 'users/<%= user.id %>/delete';">删除</button>
+                                    onclick="window.location = 'users/<%= user.id %>?do=delete';">删除</button>
                         </div>
                     </div>
                 </td>
