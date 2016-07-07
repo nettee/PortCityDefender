@@ -31,7 +31,30 @@ router.get('/dashboard/users', function(req, res, next) {
         if (err) {
             return next(new Error(err));
         }
-        res.render('dashboard_users', {users: users});
+        res.render('dashboard_users', {
+            subsystem: 'users',
+            data: {
+                users: users,
+            }
+        });
+    });
+});
+
+router.get('/dashboard/users/:id', function(req, res, next) {
+    console.log('ha');
+    var id = req.params.id;
+    users.readOne(id, function(err, user) {
+        if (err) {
+            return next(new Error(err));
+        }
+        console.log('hei');
+        res.render('dashboard_users', {
+            subsystem: 'user',
+            data: {
+                user: user,
+                do: req.query.do,
+            }
+        });
     });
 });
 
