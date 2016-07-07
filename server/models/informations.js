@@ -114,8 +114,8 @@ informations.addImageById = function(_id, image_id, callback) {
 
 informations.read = function(condition, callback) {
     console.log('condition =', condition);
-//    Information.find(condition)
     Information.find()
+        .sort({'updated_time': -1})
         .populate([
             {path: 'publisher'},
             {path: 'images'},

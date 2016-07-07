@@ -3,7 +3,7 @@
 # deploy to remote server
 
 user=gcws
-host=aliyun.nemoworks.info
+host=121.40.97.40
 
 local_server_dir=`pwd`
 

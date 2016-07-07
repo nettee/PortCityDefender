@@ -117,10 +117,11 @@ app.factory('commandService',function($http,userService){
         alert("get command List failed");
       })
   }
+  /*
   receiverList[0]={
     id:null,
     name:null
-  }
+  }*/
   var setmyReceiverList=function(){
     receiverList=[];
     for(var i=0;i<mygroups.length;i++){
@@ -173,21 +174,26 @@ app.factory('commandService',function($http,userService){
     sendCommand: function(ReceiverList,content){
       myid=userService.getUser().id;
       console.log("in send command");
+      command=[];
       for(var i in ReceiverList) {
         console.log("in send command"+ReceiverList[i].name);
-        command={
+        command[i]={
           receiver:ReceiverList[i].id,
           sender:myid,
           content:content
         }
+
         console.log("in send command"+command.receiver+"  "+command.sender+"  "+command.content);
         $http.post(ipAddress + "/commands",command)
+
          .success(function(response){
            console.log(response.updated_time);
          })
           .error(function(response){
           })
       }
+      receiverList=[];
+      console.log("cleaning finished")
     }
   }
 });

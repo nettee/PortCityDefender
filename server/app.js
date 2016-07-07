@@ -25,7 +25,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // routes, see routes/*.js
 app.use('/', routes);
@@ -65,8 +65,10 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         console.log('caused development error handler');
-        console.log(err.message);
-        console.log(err.stack);
+        if (err.status != 404) {
+            console.log(err.message);
+            console.log(err.stack);
+        }
         var status = err.status || 500;
         res.status(status);
         res.send({

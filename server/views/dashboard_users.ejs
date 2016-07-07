@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://v3.bootcss.com/examples/dashboard/ -->
+<html lang="zh-CN">
+
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+    <title>控制台 - 用户管理</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/public/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/public/stylesheets/dashboard.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/dashboard">港城卫士</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/login">登出</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/dashboard/users">用户管理</a></li>
+            <li><a href="/dashboard/informations">情报管理</a></li>
+            <li><a href="/dashboard/documents">文档管理</a></li>
+            <li><a href="/dashboard/regions">区域管理</a></li>
+          </ul>
+        </div>
+
+        <% if (subsystem == 'users') { %>
+          <% include users.ejs %>
+        <% } else if (subsystem == 'user') { %>
+          <% include user.ejs %>
+        <% } else { %>
+          <% include users.ejs %>
+        <% } %>
+
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/public/javascripts/jquery.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="/public/javascripts/holder.min.js"></script>
+
+</body><div></div></html>
