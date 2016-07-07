@@ -137,6 +137,16 @@ app.factory('commandService',function($http,userService){
       }
     }
   }
+
+  var setAllContactsNotChoose=function() {
+    for (var i = 0; i < mygroups.length; i++) {
+      // console.log("hahha"+mygroups[i])
+      for (var j = 0; j < mygroups[i].items.length; j++) {
+        mygroups[i].items[j].ischecked=false;
+      }
+    }
+  }
+
   return {
     getCommandList:function(callback){
       fillCommand(callback);
@@ -190,6 +200,7 @@ app.factory('commandService',function($http,userService){
           })
       }
       receiverList=[];
+      setAllContactsNotChoose();
       console.log("cleaning finished")
     }
   }

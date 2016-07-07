@@ -256,7 +256,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('singleCommandController',function($scope,$stateParams,commandService){
     var index= $stateParams.commandId;
-    $scope. command=commandService.getCommandByIndex(index);
+    $scope.command=commandService.getCommandByIndex(index);
+    //content=content.replace('\n', '<br>').replace('\t', '<br>').replace('\r', '<br>');//正确
+    //console.log(content);
+    $scope.contentArray=$scope.command.content.split("\n");
+    //$scope.command.content = content;
   })
  .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
    var sendcommand = {};
