@@ -1,0 +1,85 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <%
+    var user = data.user;
+    %>
+    <h2 class="sub-header"><%= user.name %></h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>级别</th>
+                <th>区域</th>
+                <th>描述</th>
+                <th>电话</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+            var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
+            if (data.do) {
+            %>
+            <tr>
+                <%
+                for (var attr_name of attr_names) {
+                    var attr = user[attr_name];
+                %>
+                <td>
+                    <div class="input-group">
+                        <input type="text" class="form-control" <% if (attr_name == 'id') { %> readonly <% } %> placeholder="<%= attr %>">
+                    </div>
+                </td>
+                <% } %>
+            </tr>
+            <% } else { %>
+            <tr>
+                <%
+                for (var attr_name of attr_names) {
+                    var attr = user[attr_name];
+                %>
+                <td><%= attr %></td>
+                <% } %>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+        <% if (data.do ) { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary"
+                        onclick="alert('submitting!');">提交
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default"
+                        onclick="window.location = '<%= user.id %>';">取消
+                </button>
+            </div>
+        </div>
+
+        <% } else { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default"
+                        <% if (user.id == 'admin') { %>
+                        disabled="disabled"
+                        <% } %>
+                        onclick="window.location = '<%= user.id %>?do=edit';">编辑
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-danger"
+                        <% if (user.id == 'admin') { %>
+                        disabled="disabled"
+                        <% } %>
+                        onclick="window.location = '<%= user.id %>/delete';">删除
+                </button>
+            </div>
+        </div>
+        <% } %>
+    </div>
+
+</div>

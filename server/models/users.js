@@ -40,6 +40,29 @@ users.sanitize = function(user) {
 };
 
 /**
+ *
+ * Read list of users from database
+ * @param {Object} condition
+ * @param {Function} callback
+ *
+ * callback signature: function callback(err, userlist)
+ *
+ */
+users.read = function(condition, callback) {
+    console.log('condition =', condition);
+    User.find(condition)
+        .select('-_id id name level region description phone')  // remove key '_id'
+        .exec(function(err, userlist) {
+            if (err) {
+                console.log(err);
+                callback(err, []);
+            } else {
+                callback(null, userlist);
+            }
+        });
+};
+
+/**
  * Read one user tuple from database
  * @param {String} id
  * @param {Function} callback
@@ -86,29 +109,6 @@ users.create = function(user, callback) {
     });
 };
 
-/**
- *
- * Read list of users from database
- * @param {Object} condition
- * @param {Function} callback
- *
- * callback signature: function callback(err, userlist)
- *
- */
-function read(condition, callback) {
-    console.log('condition =', condition);
-    User.find(condition)
-        .select('-_id id name level region description phone')  // remove key '_id'
-        .exec(function(err, userlist) {
-            if (err) {
-                console.log(err);
-                callback(err, []);
-            } else {
-                callback(null, userlist);
-            }
-        });
-};
-
 users.exists = function(condition, callback) {
     User.findOne(condition)
         .exec(function(err, result) {
@@ -134,7 +134,7 @@ users.existsId = function(id, callback) {
  * @param {Function(err)} callback
  *
  */
-function update(id, updater, callback) {
+users.update = function(id, updater, callback) {
     delete updater.id; // ensure id not to be updated
     User.findOneAndUpdate({'id': id}, updater, {new: true})
         .select('-_id id name level region description phone')
@@ -220,8 +220,5 @@ users.checkPassword = function(id, password, callback) {
         );
     }
 };
-
-users.update = update;
-users.read = read;
 
 module.exports = users;

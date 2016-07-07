@@ -1,4 +1,5 @@
 var app = angular.module('ionicApp.services',[])
+var ipAddress = "http://localhost:3000"//http://121.40.97.40:3000
 
 app.factory('userService', function($http){
   /**A user contains 6 properties
@@ -35,7 +36,7 @@ app.factory('userService', function($http){
   }
 
   var fillUser = function (id) {
-    $http.get("http://121.40.97.40:3000/users?id=" + id)
+    $http.get(ipAddress + "/users?id=" + id)
       .success(function (response) {
         response = response[0];
         user.name = response.name;
@@ -53,7 +54,7 @@ app.factory('userService', function($http){
 
 
   var getUserById = function (id, callback) {
-    $http.get("http://121.40.97.40:3000/users?id=" + id)
+    $http.get(ipAddress + "/users?id=" + id)
       .success(function (response) {
         response = response[0];
         callback(response);
@@ -107,7 +108,7 @@ app.factory('commandService',function($http,userService){
   }*/
   var fillCommand=function(callback)
   {
-    $http.get("http://121.40.97.40:3000/commands?receiver=" + userService.getUser().id)
+    $http.get(ipAddress + "/commands?receiver=" + userService.getUser().id)
       .success(function (response) {
        // commandList = response;
         callback(response);
@@ -191,8 +192,10 @@ app.factory('commandService',function($http,userService){
           sender:myid,
           content:content
         }
-        console.log("in send command"+command[i].receiver+"  "+command[i].sender+"  "+command[i].content);
-        $http.post("http://121.40.97.40:3000/commands",command[i])
+
+        console.log("in send command"+command.receiver+"  "+command.sender+"  "+command.content);
+        $http.post(ipAddress + "/commands",command)
+
          .success(function(response){
            console.log(response.updated_time);
          })
@@ -207,19 +210,28 @@ app.factory('commandService',function($http,userService){
 });
 
 app.factory('informationService', function ($http) {
+  var user = {
+    id : "",
+    name : "",
+    level : 1,
+    region : "",
+    description : "",
+    phone : "",
+  }
 
   var infoExample = {
     id: 1,
-    publisher: "",
+    publisher: user,
     text: "",
     images:[],
     urgent: false,
     replications: [],
-    time: ""
+    updated_time: ""
   };
 
 
-  function sendInformation(information){
+
+  function sendInformation(information, callback){
     var publishinfo = {
       publisher: "",
       text: "",
@@ -232,40 +244,91 @@ app.factory('informationService', function ($http) {
 
     $http({
       method : "POST",
-      url : "http://121.40.97.40:3000/information",
+      url : ipAddress + "/information",
       data : publishinfo
     }).success(function (response) {
-      console.log(response.publisher + "succeed in sending information to serve at time : " + response.time);
+      console.log(response.publisher.name + " succeed in sending information to serve at time : " + response.updated_time);
+      callback(response);
     }).error(function (response) {
       console.log("Fail to send information to server");
     });
+  }
 
-    for (var i=0;i<1;i++){//var i in information.images){
-      var str = "img/ben.png"//information.images[i].split(".");
+  function sendImages(information, images) {
+    /*for (var i in images){
+      var picUrl = images[i];
+      var str = picUrl.split(".");
       var type = str[str.length - 1];
       var s = "image/";
+
       if (type[0] == 'j')
         s += "jpeg";
       if (type[0] == 'p')
-        s += "png";
-      alert(s);
-      alert(information.images[i]);
-      $http({
-        method : "POST",
-        url : "http://121.40.97.40:3000/information/" + information.id + "/images",
-        data : str,
-        headers : {
-          'Content-Type' : s,
-          //'Content-Length' : file.length
+        s += "png";*/
+    for (var i = 0;i < 1;i++){
+      var picUrl = "/img/txp.png";
+      var s = "image/png";
+      var xhr = new XMLHttpRequest();
+      console.log("......");
+      xhr.open("get", picUrl, true);
+      xhr.responseType = "blob";
+      xhr.onload = function() {
+        if (this.status == 200) {
+          var blob = this.response;
+          console.log(blob.size);
+          $http({
+            method : "POST",
+            url : ipAddress + "/information/" + information.id + "/images",
+            data : blob,
+            headers : {
+              'Content-Type' : s,
+              'Content-Length' : blob.size
+            }
+          }).success(function (response) {
+            information.images[i] = response;
+            console.log("发送图片成功");
+          }).error(function (error) {
+            console.log("发送图片失败");
+          })
         }
-      })
+        else{
+          console.log("失败");
+        }
+      }
+      xhr.send();
+      /*$http({
+        method : "GET",
+        url : picUrl
+      }).success(function (data, status, headers, config) {
+        console.log("获取图片二进制");
+        var blob = new Blob([data], {type : s});
+        console.log(blob);
+        var url = ipAddress + "/information/" + information.id + "/images";
+        console.log(url);
+        $http({
+          method : "POST",
+          url : ipAddress + "/information/" + information.id + "/images",
+          data : data,
+          headers : {
+            'Content-Type' : s,
+            'Content-Length' : 13995
+          }
+        }).success(function (response) {
+          information.images[i] = response;
+          console.log("发送图片成功");
+        }).error(function (error) {
+          console.log("发送图片失败");
+        })
+      }).error(function (error) {
+        console.log("获得图片数据失败")
+      });*/
     }
   }
 
   function getInformationList(callback){
     $http({
       method : "GET",
-      url : "http://121.40.97.40:3000/information"
+      url : ipAddress + "/information"
     }).success(function (response) {
       console.log("Get information list from server");
       callback(response);
@@ -275,9 +338,49 @@ app.factory('informationService', function ($http) {
   }
 
   return {
-    informationInstance : infoExample,
+    informationInstance : function(){
+      infoExample.text = "";
+      infoExample.images = [];
+      return infoExample;
+    },
     sendInformation : sendInformation,
+    sendImages : sendImages,
     getInformationList : getInformationList
   };
 
+});
+
+app.factory('detailInformationService', function ($http) {
+  var detailInfo;
+
+  function setDetailInfo(info) {
+    detailInfo = info;
+    console.log("啊？")
+  }
+
+  function getDetailInfo(){
+    console.log("啊！")
+    return detailInfo;
+  }
+
+  function getImages(infomation, callback){
+    var images = detailInfo.images;
+    for (var i in images){
+      $http({
+        method : "GET",
+        url : ipAddress + "/images/" + images[i].id,
+      }).success(function (data, status, headers, config) {
+        console.log("成功获取图片（根据ID）");
+        callback(data);
+      }).error(function (response) {
+        console.log("获取图片失败（根据ID）");
+      })
+    }
+  }
+
+  return {
+    setDetailInfo : setDetailInfo,
+    getDetailInfo : getDetailInfo,
+    getImages : getImages
+  }
 });

@@ -6,12 +6,12 @@
 
   <ion-content>
     <div ng-repeat="info in informations">
-      <div class="list card">
+      <div class="list card" ng-click="showDetailInformation(info)">
 
         <div class="item item-avatar">
           <img src="img/txp.png">
-          <h2>{{info.publisher}}</h2>
-          <p>{{properTime(info.time)}}</p>
+          <h2>{{info.publisher.name}}</h2>
+          <p>{{properTime(info.updated_time)}}</p>
         </div>
 
         <div class="item item-body">

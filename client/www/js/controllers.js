@@ -144,7 +144,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state, informationService) {
+  .controller('InfoController', function ($scope, $state, informationService, detailInformationService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
       $state.go('menu.newInformation');
@@ -176,10 +176,38 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       content = content.concat("... ");
       return content;
     }
+
+    $scope.showDetailInformation = function (info) {
+      detailInformationService.setDetailInfo(info);
+      $state.go('menu.detailInformation',{infoID :info.id});
+    }
+  })
+
+  .controller('detailInformationController', function ($scope, $stateParams, detailInformationService) {
+    $scope.detailInfo = detailInformationService.getDetailInfo();
+
+    $scope.images = [];
+    $scope.pictureSource = [];
+
+    detailInformationService.getImages($scope.detailInfo, function (response) {
+      console.log("以上是图片");
+      var binaryData = [];
+      binaryData.push(response);
+      var blob = new Blob(binaryData,{type : "image/png"});
+      console.log("接收图片大小" + blob.size)
+      $scope.images.push(response);
+      var str = webkitURL.createObjectURL(blob);
+      var src = str.replace(new RegExp("%3A","gm"),":");
+      src = src.slice(5);
+      $scope.pictureSource.push(src);
+      console.log(src);
+    })
+
+
   })
 
   .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService) {
-    $scope.information = informationService.informationInstance;
+    $scope.information = informationService.informationInstance();
     $scope.information.publisher = userService.getUser().id;
     $scope.images = [];
     $scope.selectImage = false;
@@ -234,7 +262,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
     $scope.publishInformation = function () {
       $scope.information.images = $scope.images;
-      informationService.sendInformation($scope.information);
+      informationService.sendInformation($scope.information, function (response) {
+        $scope.information = response;
+        informationService.sendImages(response, $scope.images);
+      });
       $state.go('menu.information');
     }
   })
@@ -262,7 +293,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.contentArray=$scope.command.content.split("\n");
     //$scope.command.content = content;
   })
+
  .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
+
    var sendcommand = {};
    $scope.receiverList=commandService.getReceiverList();
    //console.log("in newCommand controller  "+$scope.receiverList.length);
@@ -292,6 +325,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
      $state.go('menu.commandReceiver')
    }
  })
+
   .controller('commandReceiverController',function($scope,$http,$state,$ionicHistory,commandService){
     console.log("into commandReceiverController")
     $scope.updateReceiver=function(groups){
