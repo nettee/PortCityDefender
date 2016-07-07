@@ -1,30 +1,42 @@
 var express = require('express');
+var util = require('util');
 var router = express.Router();
 
 var database = require('../models/database');
 var users = require('../models/users');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Express'});
-});
-
-router.get('/login', function (req, res, next) {
+function loginHandler(req, res, next) {
     res.render('login');
-});
+}
+
+router.get('/', loginHandler);
+router.get('/login', loginHandler);
 
 router.post('/login.do', function (req, res, next) {
-    res.send(req.body);
-    console.log('username = %s', req.body.username);
-    console.log('password = %s', req.body.password);
-
-    // FIXME
+    var username = req.body.username;
+    var password = req.body.password;
+    console.log('username =', username, 'password =', password);
+    if (username != "admin") {
+        res.redirect('/login');
+    }
     res.redirect('/dashboard');
 });
 
-router.get('/dashboard', function (req, res, next) {
-    res.send('Hello, Admin.');
+router.get('/dashboard', function(req, res, next) {
+    res.redirect('/dashboard/users');
 });
+
+router.get('/dashboard/users', function(req, res, next) {
+    users.read({}, function(err, users) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.render('dashboard_users', {users: users});
+    });
+});
+
+
+
 
 router.get('/user/check-password', function (req, res, next) {
     var username = req.query.username;
@@ -33,6 +45,6 @@ router.get('/user/check-password', function (req, res, next) {
     users.checkPassword(username, password, function(result) {
         res.send(result);
     });
-})
+});
 
 module.exports = router;

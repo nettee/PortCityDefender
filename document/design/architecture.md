@@ -202,7 +202,7 @@
   + 使用模式：参见POST /information条目
   + 异常情况
     + ID为_id_的情报不存在：返回404状态码
-    + 请求头部的Content-Type不是图片MIME类型(image/*)：返回406状态码
+    + 请求头部的Content-Type不是图片MIME类型(image/*)，或MIME类型错误（如image/jpg）：返回406状态码
 
 1. POST /information/_info\_id_/replications：新建情报回复
   + 发送数据：要新建的Replication对象

@@ -52,9 +52,8 @@ commands.sanitize = function(command) {
  * @param {Function} callback
  *
  * callback signature: 
- * @param {Object} receiver - complete User object
- * @param {Object} sender - complete User object
- * @param {String} content
+ * @param err
+ * @param {Object} result - complete Command object
  */
 commands.create = function(command, callback) {
     console.log('command =', command);
