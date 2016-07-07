@@ -30,7 +30,6 @@
           <div>
             <div id="classBackground">
               <span id="classValue">
-                {{item.ischecked}}
                 {{item.level}}
               </span>
             </div>
@@ -44,7 +43,6 @@
       <ion-checkbox ng-repeat="item in searchResults" ng-model="item.ischecked">
         {{item.name}}
          &nbsp;
-        {{item.ischecked}}
         {{item.level}}
       </ion-checkbox>
     </ion-list>

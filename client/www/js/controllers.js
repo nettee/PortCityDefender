@@ -250,7 +250,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $state.go('menu.newCommand');
     }
     $scope.$on('$ionicView.beforeEnter',function(){
-    commandService.getCommandList(function(response){
+        commandService.getCommandList(function(response){
       $scope.commandList=response;
       commandService.setCommandList($scope.commandList);
       })
@@ -262,7 +262,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     var index= $stateParams.commandId;
     $scope. command=commandService.getCommandByIndex(index);
   })
- .controller('newCommandController',function($scope,$state,commandService) {
+ .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
    var sendcommand = {};
    $scope.receiverList=commandService.getReceiverList();
    //console.log("in newCommand controller  "+$scope.receiverList.length);
@@ -285,8 +285,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
        commandService.sendCommand($scope.receiverList,content);
      //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
      //实现的回调函数中注意传进去的是一个command.receiverList
-     $state.go("menu.command");
-   }
+       $ionicHistory.goBack(-2);
+     }
    $scope.chooseReceiver = function () {
     // console.log("into chooseReceiver")
      $state.go('menu.commandReceiver')
@@ -364,21 +364,22 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = true;
       else {
         $scope.searchResults.splice(0,$scope.searchResults.length);
-       /*
+
         groups=commandService.getGroups();
         console.log("heheheh"+groups);
-        for(var group in groups) {
-          console.log("hehehhehe"+group.items);
-          for (var item in group.items) {
-            console.log("he"+item.name);
-            if (item.name.indexOf(searchcontent) != -1) {
-              $scope.searchResults.push(item);
+        for(var i in groups) {
+          console.log("hehehhehe"+groups[i].items);
+          group=groups[i].items;
+          for (var j in group) {
+            console.log("he"+group[j].name);
+            if (group[j].name.indexOf(searchcontent) != -1||group[j].id.indexOf(searchcontent) != -1) {
+              $scope.searchResults.push(group[j]);
             }
           }
         }
         $scope.searchisnull=false;
-       */
 
+        /*
         $http.get("http://121.40.97.40:3000/users")
           .success(function (response) {
             for (var i in response){
@@ -392,7 +393,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             console.log("app userService method-filter Fail to get---error message : ", response.error);
           })
         $scope.searchisnull = false;
-
+        */
       }
     }
     $scope.doRefresh=function(){

@@ -5,7 +5,7 @@
       <div class="item item-avatar">
         <img src="{{ command.img }}">
         <h2>{{command.sender.name}}</h2>
-        <p>{{command.time}}</p>
+        <p>{{command.updated_time.split('T')[0]}}</p>
       </div>
 
       <div class="item item-body">
