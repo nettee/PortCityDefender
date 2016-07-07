@@ -1,6 +1,6 @@
 angular.module('ionicApp', ['ionic','ionicApp.controllers'])
   .run(function($rootScope, $ionicPlatform) {
-    $rootScope.ipAddress = "http://121.40.97.40:3000";//"http://121.40.97.40:3000";
+    $rootScope.ipAddress = "http://localhost:3000"//http://121.40.97.40:3000
 
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -92,7 +92,16 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
             controller: 'newInformationController'
           }
         }
+      })
 
+      .state('menu.detailInformation', {
+        url: '/information/:infoID',
+        views : {
+          'menuContent':{
+            templateUrl : 'templates/detailInformation.html',
+            controller  : 'detailInformationController'
+          }
+        }
       })
 
       .state('menu.command', {
@@ -104,8 +113,6 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
-
-
 
       .state('menu.singleCommand', {
         url: '/command/:commandId',
@@ -127,6 +134,7 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+
       .state('menu.commandReceiver',{
         url:'/commandReceiver',
         views:{
@@ -136,6 +144,7 @@ angular.module('ionicApp', ['ionic','ionicApp.controllers'])
           }
         }
       })
+
       $urlRouterProvider.otherwise('/login');
 
 })
