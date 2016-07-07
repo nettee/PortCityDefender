@@ -86,6 +86,7 @@ commands.create = function(command, callback) {
 
 commands.read = function(callback) {
     Command.find()
+        .sort({'updated_time': -1}) 
         .populate('receiver sender') // association query
         .select(headers)
         .exec(function(err, docs) {
