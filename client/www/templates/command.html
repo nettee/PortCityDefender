@@ -8,10 +8,10 @@
     <div class="list">
 
       <ion-item ng-repeat="command in commandList"
-                href="#/menu/command/{{command.id}}"
+                href="#/menu/command/{{$index}}"
                 class="item item-accordion item-thumbnail-left ">
         <img ng-src="{{ command.img }}">
-        <h2>{{ command.sender}}</h2>
+        <h2>{{ command.sender.name}}</h2>
         <p>{{ command.content}}
         </p>
               <span class="item-note">
