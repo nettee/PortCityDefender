@@ -2,7 +2,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('LoginController', function($scope, $http, $state, userService) {
     $scope.signIn = function(user) {
-      $http.get("http://121.40.97.40:3000/user/check-password?username=" + user.username + "&password=" + user.password)
+      alert($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password);
+      $http.get($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password)
         .success(function (response){
           console.log(response.status);
           if (response.status === "pass"){
@@ -39,7 +40,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     var regionlist = [];
     $scope.groups = [];
 
-    $http.get("http://121.40.97.40:3000/regions")
+    $http.get($scope.ipAddress + "/regions")
       .success(function (response) {
         regionlist = response;
         for (var i = 0; i < regionlist.length; i++) {
@@ -62,7 +63,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
      */
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
-        $http.get("http://121.40.97.40:3000/users?region=" + group.name)
+        $http.get($scope.ipAddress + "/users?region=" + group.name)
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
@@ -93,7 +94,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = true;
       else {
         $scope.searchResults.splice(0,$scope.searchResults.length);
-        $http.get("http://121.40.97.40:3000/users")
+        $http.get($scope.ipAddress + "/users")
           .success(function (response) {
             for (var i in response){
               if (response[i].name.indexOf(searchcontent) != -1){
@@ -112,7 +113,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       var regionlist = [];
       $scope.groups = [];
 
-      $http.get("http://121.40.97.40:3000/regions")
+      $http.get($scope.ipAddress + "/regions")
         .success(function (response) {
           regionlist = response;
           for (var i = 0; i < regionlist.length; i++) {
@@ -143,44 +144,32 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state) {
+  .controller('InfoController', function ($scope, $state, informationService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
       $state.go('menu.newInformation');
     }
 
-    $scope.informations = [];
-    $scope.informations[0] = {
-      id: 1,
-      publisher:"txp",
-      text: "This is a \"Facebook\" styled Card. The header is created from a Thumbnail List item,the content is from a card-body consisting of an image and paragraph text. The footerconsists of tabs, icons aligned left, within the card-footer.",
-      images:[{path : "img/txp2.png"}],
-      urgent: true,
-      replications: [],
-      time: "2016-06-22"
-    }
-
-    $scope.informations[1] = {
-      id: 1,
-      publisher:"txp",
-      text: "This is a \"Facebook\" styled Card. The header is created from a Thumbnail List item,the content is from a card-body consisting of an image and paragraph text. The footerconsists of tabs, icons aligned left, within the card-footer.",
-      images:[{path : "img/txp2.png"}],
-      urgent: true,
-      replications: [],
-      time: "2016-06-22"
-    }
+    $scope.$on('$ionicView.beforeEnter', function(){
+      informationService.getInformationList(function (response) {
+        $scope.informations = response;
+      })
+    });
 
     $scope.properTime = function (time) {
       return time;
     }
 
     $scope.properContent = function (text) {
+      if (text.length <= 40)
+        return text;
+
       var num = 10 * 2;
       var i = num;
       for (i = num;i < text.length;i++){
         if (text[i] == ' ')
           break;
-        if (i == 30)
+        if (i == 40)
           break;
       }
       var content = text.substring(0,i);
@@ -189,8 +178,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, userService, informationService) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService) {
     $scope.information = informationService.informationInstance;
+    $scope.information.publisher = userService.getUser().id;
+    $scope.images = [];
+    $scope.selectImage = false;
 
     $scope.showPictureChoice = function () {
       var hideSheet = $ionicActionSheet.show({
@@ -239,8 +231,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         alert(error);
       }, options);
     }
-    $scope.images = [];
-    $scope.selectImage = false;
+
+    $scope.publishInformation = function () {
+      $scope.information.images = $scope.images;
+      informationService.sendInformation($scope.information);
+      $state.go('menu.information');
+    }
   })
 
   .controller('commandController', function ($scope,$state,commandService) {
@@ -302,7 +298,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     var regionlist = [];
     $scope.groups = [];
 
-    $http.get("http://121.40.97.40:3000/regions")
+    $http.get($scope.ipAddress + "/regions")
       .success(function (response) {
         regionlist = response;
         for (var i = 0; i < regionlist.length; i++) {
@@ -328,7 +324,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
-        $http.get("http://121.40.97.40:3000/users?region=" + group.name)
+        $http.get($scope.ipAddress + "/users?region=" + group.name)
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
@@ -364,22 +360,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = true;
       else {
         $scope.searchResults.splice(0,$scope.searchResults.length);
-       /*
-        groups=commandService.getGroups();
-        console.log("heheheh"+groups);
-        for(var group in groups) {
-          console.log("hehehhehe"+group.items);
-          for (var item in group.items) {
-            console.log("he"+item.name);
-            if (item.name.indexOf(searchcontent) != -1) {
-              $scope.searchResults.push(item);
-            }
-          }
-        }
-        $scope.searchisnull=false;
-       */
-
-        $http.get("http://121.40.97.40:3000/users")
+        $http.get($scope.ipAddress + "/users")
           .success(function (response) {
             for (var i in response){
               if (response[i].name.indexOf(searchcontent) != -1){
@@ -399,7 +380,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       var regionlist = [];
       $scope.groups = [];
 
-      $http.get("http://121.40.97.40:3000/regions")
+      $http.get($scope.ipAddress + "/regions")
         .success(function (response) {
           regionlist = response;
           for (var i = 0; i < regionlist.length; i++) {

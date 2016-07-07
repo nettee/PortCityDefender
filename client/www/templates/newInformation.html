@@ -1,14 +1,14 @@
 <ion-view view-title="写情报">
   <ion-nav-buttons side="right">
-    <button class="button button-clear" menu-toggle="right" ng-click="popover.show($event)">
+    <button class="button button-clear" menu-toggle="right" ng-click="publishInformation()">
       发布
     </button>
   </ion-nav-buttons>
 
-  <ion-content>
+  <ion-content overflow-scroll="true" style="overflow:auto;">
     <ion-list>
       <ion-item class="item item-input">
-        <textarea style="overflow:hidden; resize:none;" placeholder="填写情报..." rows="12"></textarea>
+        <textarea ng-model="information.text" style="overflow:hidden; resize:none;" placeholder="填写情报..." rows="12"></textarea>
       </ion-item>
       <ion-item ng-click="showPictureChoice()" class="item-icon-right">
         插入图片
