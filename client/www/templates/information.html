@@ -12,10 +12,14 @@
           <img src="img/txp.png">
           <h2>{{info.publisher.name}}</h2>
           <p>{{properTime(info.updated_time)}}</p>
+          <div align="right" ng-show="info.urgent">
+            <span class="badge badge-assertive">紧急</span>
+          </div>
         </div>
 
         <div class="item item-body">
           <p>{{properContent(info.text)}}</p>
+
         </div>
 
       </div>

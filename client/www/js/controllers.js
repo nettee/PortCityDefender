@@ -144,7 +144,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state, informationService, detailInformationService) {
+  .controller('InfoController', function ($scope, $state, informationService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
       $state.go('menu.newInformation');
@@ -157,7 +157,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
 
     $scope.properTime = function (time) {
-      return time;
+      var date = new Date(time);
+      return date.toLocaleString()
     }
 
     $scope.properContent = function (text) {
@@ -178,32 +179,32 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
     $scope.showDetailInformation = function (info) {
-      detailInformationService.setDetailInfo(info);
       $state.go('menu.detailInformation',{infoID :info.id});
     }
   })
 
   .controller('detailInformationController', function ($scope, $stateParams, detailInformationService) {
-    $scope.detailInfo = detailInformationService.getDetailInfo();
-
+    $scope.infoID = $stateParams.infoID;
     $scope.images = [];
     $scope.pictureSource = [];
 
-    detailInformationService.getImages($scope.detailInfo, function (response) {
-      console.log("以上是图片");
-      var binaryData = [];
-      binaryData.push(response);
-      var blob = new Blob(binaryData,{type : "image/png"});
-      console.log("接收图片大小" + blob.size)
-      $scope.images.push(response);
-      var str = webkitURL.createObjectURL(blob);
-      var src = str.replace(new RegExp("%3A","gm"),":");
-      src = src.slice(5);
-      $scope.pictureSource.push(src);
-      console.log(src);
+    detailInformationService.getInformation($scope.infoID, function(response){
+      $scope.detailInfo = response;
+      detailInformationService.getImages($scope.detailInfo, function (data) {
+        console.log("以上是图片");
+        var binaryData = [];
+        binaryData.push(data);
+        var blob = new Blob(binaryData,{type : "image/png"});
+        console.log("接收图片大小" + blob.size)
+        $scope.images.push(blob);
+        var str = webkitURL.createObjectURL(blob);
+        $scope.pictureSource.push(str);
+      })
     })
 
-
+    $scope.properTime = function(time){
+      return (new Date(time)).toLocaleString();
+    }
   })
 
   .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService) {
