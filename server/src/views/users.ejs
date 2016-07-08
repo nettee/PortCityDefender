@@ -11,7 +11,7 @@
         <div class="col-md-4">
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">ID中包含</span>
-                <input id="input-id" type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                <input data-filter="text" label="filter-text" type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
             </div>
         </div>
 
@@ -44,7 +44,7 @@
                 for (var attr_name of attr_names) {
                     var attr = user[attr_name];
                 %>
-                <td><%= attr %></td>
+                <td data-name="<%= attr_name %>"><%= attr %></td>
                 <% } %>
                 <td>
                     <div class="btn-toolbar" role="toolbar" aria-label="...">
@@ -76,9 +76,12 @@
 </div>
 
 <script>
-    $("#input-id").keyup(function() {
+    $("[data-filter='text']").keyup(function() {
         var text = $(this).val();
-        console.log('text =', text);
-        $("tbody tr").hide().filter(":contains(" + text + ")").show();
+        if (text) {
+            $("tbody tr").hide().has("td[data-name='id']:contains(" + text + ")").show();
+        } else {
+            $("tbody tr").show();
+        }
     });
 </script>

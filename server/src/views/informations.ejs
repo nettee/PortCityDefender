@@ -14,16 +14,16 @@
         <div class="col-md-4">
             <div class="input-group">
                 <div class="input-group-btn">
-                    <button id="this-btn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span id="this-span">发布人ID包含</span>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span data-name="text">发布人ID包含</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick="document.getElementById('this-span').innerHTML='发布人ID包含';">发布人ID包含</a></li>
-                        <li><a href="#" onclick="document.getElementById('this-span').innerHTML='内容包含';">内容包含</a></li>
+                        <li><a href="#">发布人ID包含</a></li>
+                        <li><a href="#">内容包含</a></li>
                     </ul>
                 </div><!-- /btn-group -->
-                <input type="text" class="form-control" aria-label="...">
+                <input title="filter-text" data-filter="text" type="text" class="form-control" aria-label="...">
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
     </div><!-- /.row -->
@@ -47,15 +47,18 @@
                 var info = informations[i];
             %>
             <tr <% if (info.urgent) { %> class="danger" <% } %>>
-                <td><%= info.updated_time.toLocaleString() %></td>
-                <td><%= info.publisher.name %></td>
+                <td data-name="updated_time"><%= info.updated_time.toLocaleString() %></td>
+                <td data-name="publisher">
+                    <span data-name="publisher.id" hidden="hidden"><%= info.publisher.id %></span>
+                    <span><%= info.publisher.name %></span>
+                </td>
                 <td>
-                    <%= info.text %>
+                    <span data-name="text"><%= info.text %></span>
                     <% if (info.images.length > 0) { %>
                     <span class="badge"><%= info.images.length %>张图片</span>
                     <% } %>
                 </td>
-                <td>
+                <td data-name="urgent">
                     <% if (info.urgent) { %>
                     紧急
                     <% } else { %>
@@ -82,5 +85,22 @@
 
     <% } %>
 
-
 </div>
+
+<script>
+    $("ul.dropdown-menu li").click(function () {
+        $("button span[data-name='text']").text($(this).text());
+    });
+
+    $("[data-filter='text']").keyup(function() {
+        var text = $(this).val();
+        var button_text = $("button span[data-name='text']").text();
+        if (text && button_text == '发布人ID包含') {
+            $("tbody tr").hide().has("[data-name='publisher.id']:contains(" + text + ")").show();
+        } else if (text && button_text == '内容包含') {
+            $("tbody tr").hide().has("[data-name='text']:contains(" + text + ")").show();
+        } else {
+            $("tbody tr").show();
+        }
+    });
+</script>
