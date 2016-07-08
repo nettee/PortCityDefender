@@ -11,7 +11,7 @@
         <div class="col-md-4">
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">ID中包含</span>
-                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                <input id="input-id" type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
             </div>
         </div>
 
@@ -74,3 +74,11 @@
 
 
 </div>
+
+<script>
+    $("#input-id").keyup(function() {
+        var text = $(this).val();
+        console.log('text =', text);
+        $("tbody tr").hide().filter(":contains(" + text + ")").show();
+    });
+</script>
