@@ -27,6 +27,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+app.use('/', function(req, res, next) {
+    console.log('====================================================');
+    console.log('Request:');
+    console.log(req.method, req.originalUrl);
+    console.log(req.body);
+    console.log('----------------------------------------------------');
+    next();
+});
+
 // routes, see routes/*.js
 app.use('/', routes);
 app.use('/test', test_routes);
