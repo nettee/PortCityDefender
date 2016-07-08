@@ -55,7 +55,8 @@
 #commandContentDisplay
 {
   width: 90%;
-  min-height: 400px;
+  height:80%;
+  min-height: 300px;
   min-width: 300px;
 }
 
