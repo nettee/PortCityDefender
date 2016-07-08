@@ -47,19 +47,33 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="/dashboard/users">用户管理</a></li>
-            <li><a href="/dashboard/informations">情报管理</a></li>
-            <li><a href="/dashboard/documents">文档管理</a></li>
-            <li><a href="/dashboard/regions">区域管理</a></li>
+            <li <% if (subsystem == 'users' || subsystem == 'user') { %>class="active"<% } %>>
+              <a href="/dashboard/users">用户管理</a>
+            </li>
+            <li <% if (subsystem == 'informations' || subsystem == 'information') { %>class="active"<% } %>>
+              <a href="/dashboard/informations">情报管理</a>
+            </li>
+            <li id="li">
+              <a href="/dashboard/documents">文档管理</a>
+            </li>
+            <li>
+              <a href="/dashboard/regions">区域管理</a>
+            </li>
           </ul>
         </div>
 
         <% if (subsystem == 'users') { %>
-          <% include users.ejs %>
+        <% include users.ejs %>
         <% } else if (subsystem == 'user') { %>
-          <% include user.ejs %>
-        <% } else { %>
-          <% include users.ejs %>
+        <% include user.ejs %>
+        <% } else if (subsystem == 'informations') { %>
+        <% include informations.ejs %>
+        <% } else if (subsystem == 'information') { %>
+        <% include information.ejs %>
+        <% } else if (subsystem == 'documents') { %>
+        <% include documents.ejs %>
+        <% } else if (subsystem == 'regions') { %>
+        <% include regions.ejs %>
         <% } %>
 
       </div>
@@ -69,6 +83,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/public/javascripts/defender.js"></script>
     <script src="/public/javascripts/jquery.min.js"></script>
     <script src="/public/javascripts/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->

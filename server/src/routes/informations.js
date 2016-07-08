@@ -39,7 +39,6 @@ function infoExistenceChecker(req, res, next) {
 
 function infoCreator(req, res, next) {
     var info = req.body;
-    console.log(info);
     informations.create(info, function(err, result) {
         if (err) {
             next(new Error(err));
@@ -110,6 +109,7 @@ function infoImageCreator(req, res, next) {
         var out_file = fs.createWriteStream(filepath);
         req.pipe(out_file);
         console.log('write file to', filepath);
+        console.log('dirname =', __dirname);
         informations.addImageById(id, image_id, function(err) {
             if (err) {
                 return next(new Error(err));
