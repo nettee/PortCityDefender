@@ -1,6 +1,6 @@
 var app = angular.module('ionicApp.services',[])
-//var ipAddress = "http://localhost:3000"
-var ipAddress = "http://121.40.97.40:3000"
+
+var ipAddress = "http://121.40.97.40:3000"//"http://localhost:3000"//"http://121.40.97.40:3000"
 
 app.factory('userService', function($http){
   /**A user contains 6 properties
@@ -203,7 +203,7 @@ app.factory('commandService',function($http,userService){
           .error(function(response){
             alert("send failed")
           })
-          
+
       }
       receiverList=[];
       setAllContactsNotChoose();
@@ -232,8 +232,6 @@ app.factory('informationService', function ($http) {
     updated_time: ""
   };
 
-
-
   function sendInformation(information, callback){
     var publishinfo = {
       publisher: "",
@@ -258,7 +256,7 @@ app.factory('informationService', function ($http) {
   }
 
   function sendImages(information, images) {
-    /*for (var i in images){
+    for (var i in images){
       var picUrl = images[i];
       var str = picUrl.split(".");
       var type = str[str.length - 1];
@@ -267,18 +265,18 @@ app.factory('informationService', function ($http) {
       if (type[0] == 'j')
         s += "jpeg";
       if (type[0] == 'p')
-        s += "png";*/
-    for (var i = 0;i < 1;i++){
-      var picUrl = "/img/txp.png";
-      var s = "image/png";
+        s += "png";
+      alert(s);
+      alert(picUrl);
       var xhr = new XMLHttpRequest();
-      console.log("......");
       xhr.open("get", picUrl, true);
       xhr.responseType = "blob";
       xhr.onload = function() {
+        alert("发送图片啦啦啦")
         if (this.status == 200) {
           var blob = this.response;
           console.log(blob.size);
+         // alert(blob.size);
           $http({
             method : "POST",
             url : ipAddress + "/information/" + information.id + "/images",
@@ -289,42 +287,44 @@ app.factory('informationService', function ($http) {
             }
           }).success(function (response) {
             information.images[i] = response;
+            alert("发送图片成功")
             console.log("发送图片成功");
           }).error(function (error) {
+            alert("发送图片失败")
             console.log("发送图片失败");
           })
         }
         else{
-          console.log("失败");
+          if (this.status == 0){
+            //alert("发送图片")
+            //alert(this.response.size);
+            var blob = this.response;
+            console.log(blob.size);
+           // alert(blob.size);
+            $http({
+              method : "POST",
+              url : ipAddress + "/information/" + information.id + "/images",
+              data : blob,
+              headers : {
+                'Content-Type' : s,
+                'Content-Length' : blob.size
+              }
+            }).success(function (response) {
+              information.images[i] = response;
+              alert("发送图片成功")
+              console.log("发送图片成功");
+            }).error(function (error) {
+              alert("发送图片失败")
+              console.log("发送图片失败");
+            })
+          }
+          else {
+            alert("发送本地失败")
+            console.log("失败");
+          }
         }
       }
       xhr.send();
-      /*$http({
-        method : "GET",
-        url : picUrl
-      }).success(function (data, status, headers, config) {
-        console.log("获取图片二进制");
-        var blob = new Blob([data], {type : s});
-        console.log(blob);
-        var url = ipAddress + "/information/" + information.id + "/images";
-        console.log(url);
-        $http({
-          method : "POST",
-          url : ipAddress + "/information/" + information.id + "/images",
-          data : data,
-          headers : {
-            'Content-Type' : s,
-            'Content-Length' : 13995
-          }
-        }).success(function (response) {
-          information.images[i] = response;
-          console.log("发送图片成功");
-        }).error(function (error) {
-          console.log("发送图片失败");
-        })
-      }).error(function (error) {
-        console.log("获得图片数据失败")
-      });*/
     }
   }
 
@@ -344,6 +344,7 @@ app.factory('informationService', function ($http) {
     informationInstance : function(){
       infoExample.text = "";
       infoExample.images = [];
+      infoExample.urgent = false;
       return infoExample;
     },
     sendInformation : sendInformation,
@@ -354,24 +355,26 @@ app.factory('informationService', function ($http) {
 });
 
 app.factory('detailInformationService', function ($http) {
-  var detailInfo;
 
-  function setDetailInfo(info) {
-    detailInfo = info;
-    console.log("啊？")
+  function getInformation(infoID, callback){
+    $http({
+      method : "GET",
+      url : ipAddress + "/information/" + infoID
+    }).success(function (data, status, headers, config) {
+      console.log("成功获取详细信息");
+      callback(data);
+    }).error(function (data, status, headers, config) {
+      console.log("获取详细信息失败");
+    })
   }
 
-  function getDetailInfo(){
-    console.log("啊！")
-    return detailInfo;
-  }
-
-  function getImages(infomation, callback){
-    var images = detailInfo.images;
+  function getImages(information, callback){
+    var images = information.images;
     for (var i in images){
       $http({
         method : "GET",
         url : ipAddress + "/images/" + images[i].id,
+        responseType: 'arraybuffer'
       }).success(function (data, status, headers, config) {
         console.log("成功获取图片（根据ID）");
         callback(data);
@@ -381,9 +384,20 @@ app.factory('detailInformationService', function ($http) {
     }
   }
 
+  function deleteInfo(infoID){
+    $http({
+      method : "DELETE",
+      url : ipAddress + "/information/" + infoID
+    }).success(function (data, status, headers, config) {
+      console.log("成功删除情报");
+    }).error(function (data, status,headers, config) {
+      console.log("删除情报失败");
+    })
+  }
+
   return {
-    setDetailInfo : setDetailInfo,
-    getDetailInfo : getDetailInfo,
-    getImages : getImages
+    getImages : getImages,
+    getInformation : getInformation,
+    deleteInfo : deleteInfo
   }
 });
