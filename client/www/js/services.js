@@ -344,6 +344,7 @@ app.factory('informationService', function ($http) {
     informationInstance : function(){
       infoExample.text = "";
       infoExample.images = [];
+      infoExample.urgent = false;
       return infoExample;
     },
     sendInformation : sendInformation,

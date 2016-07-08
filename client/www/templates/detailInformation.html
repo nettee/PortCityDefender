@@ -5,12 +5,19 @@
         <img src="img/txp.png">
         <h2>{{detailInfo.publisher.name}}</h2>
         <p>{{properTime(detailInfo.updated_time)}}</p>
+        <div align="right" ng-show="detailInfo.urgent">
+          <span class="badge badge-assertive">紧急</span>
+        </div>
       </div>
       <div class="item item-body">
         <div ng-repeat="picSource in pictureSource">
           <img src="{{picSource}}" height="180" width="180"/>
         </div>
         <p>{{detailInfo.text}}</p>
+        <div align="right">
+          <span class="ion-item ion-ios-trash-outline" id="float-right"></span>
+          <span class="ion-item ion-android-textsms" id="float-r"></span>
+        </div>
       </div>
     </div>
   </ion-content>
