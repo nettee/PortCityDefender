@@ -107,11 +107,22 @@ app.factory('commandService',function($http,userService){
     content:"你还是要提高一下自己的姿势水平",
     time:"2016-06-24"
   }*/
+
+  var changeDateStyle=function(commandList){
+    for(var i in commandList){
+      var command=commandList[i];
+      var updated_time=new Date(command.updated_time);
+      command.updated_time=updated_time.toLocaleString();
+    }
+  }
   var fillCommand=function(callback)
   {
     $http.get(ipAddress + "/commands?receiver=" + userService.getUser().id)
       .success(function (response) {
        // commandList = response;
+        for (var i in response){
+          console.log("commandList response"+response[i].updated_time);
+        }
         callback(response);
       })
       .error(function () {
@@ -184,30 +195,35 @@ app.factory('commandService',function($http,userService){
     },
     sendCommand: function(ReceiverList,content){
       myid=userService.getUser().id;
-      console.log("in send command");
-      command=[];
-      for(var i in ReceiverList) {
-        console.log("in send command"+ReceiverList[i].name);
-        command[i]={
-          receiver:ReceiverList[i].id,
-          sender:myid,
-          content:content
-        }
+      console.log("in send command"+content);
+      if(content !="") {
+        command = [];
+        for (var i in ReceiverList) {
+          console.log("in send command" + ReceiverList[i].name);
+          command[i] = {
+            receiver: ReceiverList[i].id,
+            sender: myid,
+            content: content
+          }
 
-        console.log("in send command"+command[i].receiver+"  "+command[i].sender+"  "+command[i].content);
-        $http.post(ipAddress + "/commands",command[i])
+          console.log("in send command" + command[i].receiver + "  " + command[i].sender + "  " + command[i].content);
+             $http.post(ipAddress + "/commands",command[i])
 
-         .success(function(response){
+           .success(function(response){
            console.log(response.updated_time);
-         })
-          .error(function(response){
-            alert("send failed")
-          })
-          
+           })
+           .error(function(response){
+           alert("send failed")
+           })
+           
+        }
       }
       receiverList=[];
       setAllContactsNotChoose();
       console.log("cleaning finished")
+    },
+    changeDateStyle: function (commandList) {
+      changeDateStyle(commandList);
     }
   }
 });

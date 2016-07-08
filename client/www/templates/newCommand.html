@@ -1,5 +1,6 @@
 <ion-view view-title="新建命令">
   <ion-nav-buttons side="right">
+      <button type="submit" class="button  button-positive"   ng-click = "sendCommand(a.content)">发送</button>
   </ion-nav-buttons>
   <ion-content>
     <div class="list">
@@ -21,11 +22,8 @@
       </div>
       <div class="item item-input-inset">
       <label class="item-input">
-          <textarea cols="15" id="commandContentDisplay" placeholder="请输入......" ng-model="content"></textarea>
+          <textarea cols="15" id="commandContentDisplay" placeholder="请输入......" ng-model="a.content"></textarea>
         </label>
         </div>
-      <div class="padding">
-        <button type="submit" class="button button-block button-positive"   ng-click = "sendCommand(content)">发送命令</button>
-      </div>
     </div>
 </ion-view>

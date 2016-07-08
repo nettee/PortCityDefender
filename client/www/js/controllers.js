@@ -277,26 +277,32 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $state.go('menu.newCommand');
     }
     $scope.$on('$ionicView.beforeEnter',function(){
-        commandService.getCommandList(function(response){
-      $scope.commandList=response;
-      commandService.setCommandList($scope.commandList);
-      })
+        commandService.getCommandList(function(response) {
+          commandList = response
+          commandService.changeDateStyle(commandList);
+          commandService.setCommandList(commandList);
+          $scope.commandList=commandList;
+        })
     }
     )
   })
 
   .controller('singleCommandController',function($scope,$stateParams,commandService){
     var index= $stateParams.commandId;
-    $scope.command=commandService.getCommandByIndex(index);
+    var command=commandService.getCommandByIndex(index);
+    $scope.command=command;
     //content=content.replace('\n', '<br>').replace('\t', '<br>').replace('\r', '<br>');//正确
     //console.log(content);
-    $scope.contentArray=$scope.command.content.split("\n");
+    $scope.contentArray=command.content.split("\n");
+    console.log($scope.contentArray);
+    console.log($scope.command.updated_time.toLocaleString());
     //$scope.command.content = content;
   })
 
   .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
 
    var sendcommand = {};
+    $scope.a={content:""};
    $scope.receiverList=commandService.getReceiverList();
    //console.log("in newCommand controller  "+$scope.receiverList.length);
    //for (var receiver in $scope.receiverList) {
@@ -315,10 +321,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
        for (var ii=0;ii<$scope.receiverList.length;ii++) {
          console.log("aaaaaan updateReceiver,after ger receiverList" + $scope.receiverList[ii].id);
        }
+       console.log("shshshshs"+content)
        commandService.sendCommand($scope.receiverList,content);
      //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
      //实现的回调函数中注意传进去的是一个command.receiverList
-       $ionicHistory.goBack(-2);
+       $state.go('menu.command');
+       //$ionicHistory.goBack(-2);
      }
    $scope.chooseReceiver = function () {
     // console.log("into chooseReceiver")
