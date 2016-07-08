@@ -294,7 +294,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     //$scope.command.content = content;
   })
 
- .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
+  .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
 
    var sendcommand = {};
    $scope.receiverList=commandService.getReceiverList();
