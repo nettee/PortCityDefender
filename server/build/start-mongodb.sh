@@ -2,8 +2,10 @@
 
 # start mongodb if it is not running
 mongo_pid=`ps -e | grep "mongo"`
-dbpath="$HOME/data/MongoDB"
+dbpath="../data/db"
 date=`date "+%Y-%m-%d.%H:%M:%S"`
+
+echo "dbpath={$dbpath}"
 
 if [ ! -d "$dbpath" ]; then
     mkdir -p "$dbpath"

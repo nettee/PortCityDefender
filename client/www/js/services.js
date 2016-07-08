@@ -1,4 +1,5 @@
 var app = angular.module('ionicApp.services',[])
+
 var ipAddress = "http://121.40.97.40:3000"//"http://localhost:3000"//"http://121.40.97.40:3000"
 
 app.factory('userService', function($http){
@@ -193,14 +194,16 @@ app.factory('commandService',function($http,userService){
           content:content
         }
 
-        console.log("in send command"+command.receiver+"  "+command.sender+"  "+command.content);
-        $http.post(ipAddress + "/commands",command)
+        console.log("in send command"+command[i].receiver+"  "+command[i].sender+"  "+command[i].content);
+        $http.post(ipAddress + "/commands",command[i])
 
          .success(function(response){
            console.log(response.updated_time);
          })
           .error(function(response){
+            alert("send failed")
           })
+
       }
       receiverList=[];
       setAllContactsNotChoose();
@@ -228,7 +231,7 @@ app.factory('informationService', function ($http) {
     replications: [],
     updated_time: ""
   };
-  
+
   function sendInformation(information, callback){
     var publishinfo = {
       publisher: "",

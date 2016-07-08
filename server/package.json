@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prestart": "./start-mongodb.sh && cd data && ./initialize.sh",
-    "start": "node ./bin/www &",
-    "prestop": "cd data && ./finalize.sh",
-    "stop": "./stop.sh",
+    "prestart": "cd build && ./initialize.sh",
+    "start": "cd src && node ./bin/www &",
+    "prestop": "cd build && ./finalize.sh",
+    "stop": "cd build && ./stop.sh",
     "test": "mocha test --recursive"
   },
   "dependencies": {
