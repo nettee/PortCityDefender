@@ -2,9 +2,22 @@
 
     <h2 class="sub-header">用户列表</h2>
 
-    <button type="button" class="btn btn-default"
-            onclick="window.location = 'users/_new';">新增用户
-    </button>
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success"
+                    onclick="window.location = 'users/_new';">新增用户
+            </button>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">ID中包含</span>
+                <input id="input-id" type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row"><p></p></div>
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -49,7 +62,7 @@
                                     <% if (user.id == 'admin') { %>
                                     disabled="disabled"
                                     <% } %>
-                                    onclick="window.location = 'users/<%= user.id %>?do=delete';">删除</button>
+                                    onclick="window.location = 'users/<%= user.id %>?do=remove';">删除</button>
                         </div>
                     </div>
                 </td>
@@ -61,3 +74,11 @@
 
 
 </div>
+
+<script>
+    $("#input-id").keyup(function() {
+        var text = $(this).val();
+        console.log('text =', text);
+        $("tbody tr").hide().filter(":contains(" + text + ")").show();
+    });
+</script>

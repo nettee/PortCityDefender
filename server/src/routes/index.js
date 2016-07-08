@@ -4,6 +4,7 @@ var router = express.Router();
 
 var database = require('../models/database');
 var users = require('../models/users');
+var informations = require('../models/informations');
 
 function loginHandler(req, res, next) {
     res.render('login');
@@ -31,7 +32,7 @@ router.get('/dashboard/users', function(req, res, next) {
         if (err) {
             return next(new Error(err));
         }
-        res.render('dashboard_users', {
+        res.render('dashboard', {
             subsystem: 'users',
             data: {
                 users: users,
@@ -41,23 +42,21 @@ router.get('/dashboard/users', function(req, res, next) {
 });
 
 router.get('/dashboard/users/_new', function(req, res, next) {
-   res.render('dashboard_users', {
+   res.render('dashboard', {
        subsystem: 'user',
        data: {
-           do: 'new',
+           do: 'create',
        }
    });
 });
 
 router.get('/dashboard/users/:id', function(req, res, next) {
-    console.log('ha');
     var id = req.params.id;
     users.readOne(id, function(err, user) {
         if (err) {
             return next(new Error(err));
         }
-        console.log('hei');
-        res.render('dashboard_users', {
+        res.render('dashboard', {
             subsystem: 'user',
             data: {
                 user: user,
@@ -67,7 +66,47 @@ router.get('/dashboard/users/:id', function(req, res, next) {
     });
 });
 
+router.get('/dashboard/informations', function(req, res, next) {
+    informations.read({}, function(err, informations) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.render('dashboard', {
+            subsystem: 'informations',
+            data: {
+                informations: informations,
+            }
+        });
+    });
+});
 
+router.get('/dashboard/informations/:id', function(req, res, next) {
+    var id = req.params.id;
+    informations.readOne(id, function(err, info) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.render('dashboard', {
+           subsystem: 'information',
+            data: {
+                information: info,
+                do: req.query.do,
+            }
+        });
+    })
+});
+
+router.get('/dashboard/documents', function (req, res, next) {
+    res.render('dashboard', {
+        subsystem: 'documents',
+    });
+});
+
+router.get('/dashboard/regions', function (req, res, next) {
+    res.render('dashboard', {
+        subsystem: 'regions',
+    });
+});
 
 
 router.get('/user/check-password', function (req, res, next) {

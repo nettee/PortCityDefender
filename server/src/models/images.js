@@ -22,7 +22,7 @@ Image.schema.pre('save', function(next) {
 var headers = '-_id id size mime_type';
 
 var images = {
-    image_dir: 'data/images',
+    image_dir: '../data/images',
 };
 
 images.sanitize = function(image) {

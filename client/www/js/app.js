@@ -1,7 +1,8 @@
-angular.module('ionicApp', ['ionic','ionicApp.controllers'])
+angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
   .run(function($rootScope, $ionicPlatform) {
-    //$rootScope.ipAddress = "http://localhost:3000"//http://121.40.97.40:3000
-    $rootScope.ipAddress = "http://121.40.97.40:3000"
+
+    $rootScope.ipAddress = "http://121.40.97.40:3000"//"http://localhost:3000"//http://121.40.97.40:3000
+
 
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
