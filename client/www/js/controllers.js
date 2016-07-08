@@ -178,12 +178,19 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       return content;
     }
 
+    $scope.doRefresh=function(){
+      informationService.getInformationList(function (response) {
+        $scope.informations = response;
+        $scope.$broadcast('scroll.refreshComplete');
+      })
+    }
+
     $scope.showDetailInformation = function (info) {
       $state.go('menu.detailInformation',{infoID :info.id});
     }
   })
 
-  .controller('detailInformationController', function ($scope, $stateParams, detailInformationService) {
+  .controller('detailInformationController', function ($scope, $state, $stateParams, detailInformationService) {
     $scope.infoID = $stateParams.infoID;
     $scope.images = [];
     $scope.pictureSource = [];
@@ -204,6 +211,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
     $scope.properTime = function(time){
       return (new Date(time)).toLocaleString();
+    }
+
+    $scope.deleteInformation = function () {
+      detailInformationService.deleteInfo($scope.infoID);
+      $state.go('menu.information');
     }
   })
 

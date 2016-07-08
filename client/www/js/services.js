@@ -384,8 +384,20 @@ app.factory('detailInformationService', function ($http) {
     }
   }
 
+  function deleteInfo(infoID){
+    $http({
+      method : "DELETE",
+      url : ipAddress + "/information/" + infoID
+    }).success(function (data, status, headers, config) {
+      console.log("成功删除情报");
+    }).error(function (data, status,headers, config) {
+      console.log("删除情报失败");
+    })
+  }
+
   return {
     getImages : getImages,
-    getInformation : getInformation
+    getInformation : getInformation,
+    deleteInfo : deleteInfo
   }
 });

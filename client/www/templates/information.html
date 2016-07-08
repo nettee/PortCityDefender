@@ -5,6 +5,8 @@
   </ion-nav-buttons>
 
   <ion-content>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+    </ion-refresher>
     <div ng-repeat="info in informations">
       <div class="list card" ng-click="showDetailInformation(info)">
 
