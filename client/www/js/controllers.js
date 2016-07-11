@@ -1,14 +1,15 @@
 angular.module('ionicApp.controllers', ['ionicApp.services'])
 
-  .controller('LoginController', function($scope, $http, $state, userService) {
+  .controller('LoginController', function($rootScope, $scope, $http, $state, userService) {
     $scope.signIn = function(user) {
-      alert($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password);
+      $rootScope.ipAddress = "http://" + user.username + ":" + user.password + "@121.40.97.40:3000";
+      console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
       $http.get($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password)
         .success(function (response){
           console.log(response.status);
           if (response.status === "pass"){
             $state.go('menu.firstpage');
-            userService.setUsername(user.username);
+            userService.setUsername(user.username,user.password);
           }
           else
             alert("用户名或密码错误!");
