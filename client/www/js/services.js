@@ -36,7 +36,8 @@ app.factory('userService', function($http){
     phone : "123",
   }
 
-  var fillUser = function (id) {
+  var fillUser = function (id,password) {
+    ipAddress = "http://" + id + ":" + password + "@121.40.97.40:3000";
     $http.get(ipAddress + "/users?id=" + id)
       .success(function (response) {
         response = response[0];
@@ -55,6 +56,7 @@ app.factory('userService', function($http){
 
 
   var getUserById = function (id, callback) {
+    console.log("发送地址是 ： " + ipAddress + "/users?id=" + id);
     $http.get(ipAddress + "/users?id=" + id)
       .success(function (response) {
         response = response[0];
@@ -73,9 +75,9 @@ app.factory('userService', function($http){
 
     getUserById : getUserById,
 
-    setUsername : function(id){
+    setUsername : function(id,password){
       user.id = id;
-      fillUser(id);
+      fillUser(id,password);
     }
   };
 });
