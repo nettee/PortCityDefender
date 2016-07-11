@@ -9,7 +9,7 @@ local_server_dir=`pwd`
 
 # copy source files
 ssh $user@$host "rm -rf ~/server/*"
-scp -r src data build package.json node_modules $user@$host:~/server
+scp -r src build package.json node_modules $user@$host:~/server
 
 # start server
-ssh $user@$host "cd ~/server && nohup npm restart > nohup.log.txt"
+ssh $user@$host "cd ~/server && mkdir -p data/images && nohup npm restart > nohup.log.txt"

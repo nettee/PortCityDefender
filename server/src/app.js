@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var basic_auth = require('basic-auth');
 
 var routes = require('./routes/index');
 var test_routes = require('./routes/test');
@@ -27,12 +28,31 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use('/', function(req, res, next) {
+app.use(function(req, res, next) {
     console.log('====================================================');
     console.log('Request:');
     console.log(req.method, req.originalUrl);
     console.log(req.body);
     console.log('----------------------------------------------------');
+    next();
+});
+
+app.use(function(req, res, next) {
+    var auth = basic_auth(req);
+    if (!auth) {
+        res.status(401).send({
+            status: 401,
+            message: 'No Authorization information'
+        });
+        return;
+    }
+    if (auth.name !== auth.pass) {
+        res.status(401).send({
+            status: 401,
+            message: 'Authorization failed'
+        });
+        return;
+    }
     next();
 });
 

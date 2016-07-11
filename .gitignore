@@ -1,4 +1,5 @@
 /server/data/images/*
+/server/data
 
 # Logs
 logs
