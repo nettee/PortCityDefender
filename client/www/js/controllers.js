@@ -313,6 +313,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
     $scope.newCommand = function(){
       console.log("in new Command click");
+      commandService.setReceiverListNull();
       $state.go('menu.newCommand');
     }
     $scope.doRefresh = function(){
@@ -398,8 +399,13 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     //  $ionicHistory.goBack();
       $state.go('menu.newCommand',{},{reload:true});
     }
+    $scope.$on('$ionicView.beforeEnter',function(){
+      //根据联系人列表设置联系人的选中与否
+      commandService.updateCheckedbyReceiverList();
+      $scope.groups=commandService.getGroups();
+    })
     var regionlist = [];
-    $scope.groups = [];
+    //$scope.groups = [];
 
     $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
       .success(function (response) {
@@ -411,8 +417,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             show: false,
             isfill: false
           };
+          fillGroup($scope.groups[i]);
         }
-        $scope.toggleGroup($scope.groups);
       })
       .error(function (response) {
         alert("Fail to get the regions");
@@ -424,6 +430,27 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         eval("obj1."+r+"=obj2."+r);
       }
       return obj1;
+    }
+    function fillGroup(group)
+    {
+      if (group.isfill == false){
+        $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
+          .success(function (response) {
+            var i = regionlist.indexOf(group.name);
+            for (var j = 0;j < response.length;j++){
+              $scope.groups[i].items.push(response[j]);
+              var check={ischecked:false};
+              $scope.groups[i].items[j]=objMerger($scope.groups[i].items[j],check);
+            }
+            $scope.groups[i].isfill = true;
+            group.show = !group.show;
+            commandService.updateGroups( group,i);
+          })
+          .error(function (response) {
+            alert("Fail to get the users by region : " + regionlist[i]);
+            console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
+          })
+      }
     }
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
