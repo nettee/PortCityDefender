@@ -2,7 +2,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('LoginController', function($scope, $http, $state, userService) {
     $scope.signIn = function(user) {
-      alert($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password);
       $http.get($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password)
         .success(function (response){
           console.log(response.status);

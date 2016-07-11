@@ -283,13 +283,12 @@ app.factory('informationService', function ($http) {
         s += "jpeg";
       if (type[0] == 'p')
         s += "png";
-      alert(s);
-      alert(picUrl);
+
       var xhr = new XMLHttpRequest();
       xhr.open("get", picUrl, true);
       xhr.responseType = "blob";
       xhr.onload = function() {
-        alert("发送图片啦啦啦")
+
         if (this.status == 200) {
           var blob = this.response;
           console.log(blob.size);
@@ -304,7 +303,7 @@ app.factory('informationService', function ($http) {
             }
           }).success(function (response) {
             information.images[i] = response;
-            alert("发送图片成功")
+
             console.log("发送图片成功");
           }).error(function (error) {
             alert("发送图片失败")
@@ -313,11 +312,9 @@ app.factory('informationService', function ($http) {
         }
         else{
           if (this.status == 0){
-            //alert("发送图片")
-            //alert(this.response.size);
             var blob = this.response;
             console.log(blob.size);
-           // alert(blob.size);
+
             $http({
               method : "POST",
               url : ipAddress + "/information/" + information.id + "/images",
@@ -328,10 +325,10 @@ app.factory('informationService', function ($http) {
               }
             }).success(function (response) {
               information.images[i] = response;
-              alert("发送图片成功")
+
               console.log("发送图片成功");
             }).error(function (error) {
-              alert("发送图片失败")
+
               console.log("发送图片失败");
             })
           }
