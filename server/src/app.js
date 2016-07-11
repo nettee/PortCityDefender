@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var basic_auth = require('basic-auth');
 
 var routes = require('./routes/index');
 var test_routes = require('./routes/test');
@@ -13,8 +12,9 @@ var regions_routes = require('./routes/regions');
 var informations_routes = require('./routes/informations');
 var commands_routes = require('./routes/commands');
 var images_routes = require('./routes/images');
+var authentications_routes = require('./routes/authentications');
 
-var authentications = require('./models/authentications');
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -39,40 +39,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(function(req, res, next) {
-    console.log(req.url);
-    if (req.url === '/') {
-        // skip auth for root
-        return next();
-    }
-    var auth = basic_auth(req);
-    console.log('auth =', auth);
-    if (!auth) {
-        res.status(401).send({
-            status: 401,
-            message: 'No Authorization information'
-        });
-    } else {
-        authentications.readOne(auth.name, function (err, authentication) {
-            if (err) {
-                return next(new Error(err));
-            }
-            console.log('authentication =', authentication);
-            if (authentication.password != auth.pass) {
-                res.status(401).send({
-                    status: 401,
-                    message: 'Authorization failed'
-                });
-            } else {
-                next();
-            }
-        });
-    }
-});
+app.use(auth.forAllUsers);
 
 // routes, see routes/*.js
 app.use('/', routes);
 app.use('/test', test_routes);
+app.use('/authentications', authentications_routes);
 app.use('/users', users_routes);
 app.use('/regions', regions_routes);
 app.use('/information', informations_routes);
