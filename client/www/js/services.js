@@ -210,7 +210,7 @@ app.factory('commandService',function($http,userService){
           }
 
           console.log("in send command" + command[i].receiver + "  " + command[i].sender + "  " + command[i].content);
-          $http.post({
+          $http({
             method : "POST",
             url : ipAddress + "/commands",
             data : command[i],

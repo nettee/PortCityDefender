@@ -5,14 +5,16 @@
   </ion-nav-buttons>
 
   <ion-content>
+  <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+      </ion-refresher>
     <div class="list">
 
       <ion-item ng-repeat="command in commandList"
                 ng-cloak
                 href="#/menu/command/{{$index}}"
                 class="item item-accordion item-thumbnail-left  ng-cloak ">
-      <!--  <img ng-src="{{ command.img }}"> -->
-          <img ng-src="img/txp.png">
+        <!--  <img ng-src="{{ command.img }}"> -->
+        <img ng-src="img/txp.png">
         <h2>{{ command.sender.name}}</h2>
         <p>{{ command.content}}
         </p>

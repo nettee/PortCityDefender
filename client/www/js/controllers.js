@@ -315,6 +315,16 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("in new Command click");
       $state.go('menu.newCommand');
     }
+    $scope.doRefresh = function(){
+      commandService.getCommandList(function(response) {
+        commandList = response
+        commandService.changeDateStyle(commandList);
+        commandService.setCommandList(commandList);
+        $scope.commandList=commandList;
+        $scope.$broadcast('scroll.refreshComplete');
+      })
+
+    }
     $scope.$on('$ionicView.beforeEnter',function(){
         commandService.getCommandList(function(response) {
           commandList = response
@@ -360,6 +370,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
        for (var ii=0;ii<$scope.receiverList.length;ii++) {
          console.log("aaaaaan updateReceiver,after ger receiverList" + $scope.receiverList[ii].id);
        }
+       if($scope.receiverList.length==0) {
+         alert("接收者不能为空！");
+         return;
+       }
+       if(content==""){
+         alert("内容不能为空！");
+         return;
+       }
        console.log("shshshshs"+content)
        commandService.sendCommand($scope.receiverList,content);
      //记得收件人信息均为userl类型，需要实现一个获取自己的函数，需要实现一个发送的函数，状态转换包装为回调函数传入
@@ -383,7 +401,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     var regionlist = [];
     $scope.groups = [];
 
-    $http.get($scope.ipAddress + "/regions")
+    $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
       .success(function (response) {
         regionlist = response;
         for (var i = 0; i < regionlist.length; i++) {
@@ -409,7 +427,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
-        $http.get($scope.ipAddress + "/users?region=" + group.name)
+        $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
