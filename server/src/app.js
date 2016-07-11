@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var basic_auth = require('basic-auth');
 
 var routes = require('./routes/index');
 var test_routes = require('./routes/test');
@@ -13,6 +12,9 @@ var regions_routes = require('./routes/regions');
 var informations_routes = require('./routes/informations');
 var commands_routes = require('./routes/commands');
 var images_routes = require('./routes/images');
+var authentications_routes = require('./routes/authentications');
+
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -37,28 +39,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(function(req, res, next) {
-    var auth = basic_auth(req);
-    if (!auth) {
-        res.status(401).send({
-            status: 401,
-            message: 'No Authorization information'
-        });
-        return;
-    }
-    if (auth.name !== auth.pass) {
-        res.status(401).send({
-            status: 401,
-            message: 'Authorization failed'
-        });
-        return;
-    }
-    next();
-});
+app.use(auth.forAllUsers);
 
 // routes, see routes/*.js
 app.use('/', routes);
 app.use('/test', test_routes);
+app.use('/authentications', authentications_routes);
 app.use('/users', users_routes);
 app.use('/regions', regions_routes);
 app.use('/information', informations_routes);
@@ -67,9 +53,10 @@ app.use('/images', images_routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    res.status(404).send({
+        status: 404,
+        message: req.url + ' Not Found'
+    });
 });
 
 // error handlers

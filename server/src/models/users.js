@@ -162,6 +162,20 @@ users.deleteById = function(id, callback) {
         });
 };
 
+users.readPassword = function(username, callback) {
+    User.findOne({'id': username})
+        .select('-_id password')
+        .exec(function (err, doc) {
+            if (err) {
+                return callback(err, doc);
+            }
+            if (!doc) {
+                return callback(null, null);
+            }
+            callback(null, doc.password);
+        });
+};
+
 /**
  *
  * @param {String} id
