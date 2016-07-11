@@ -14,6 +14,8 @@ var informations_routes = require('./routes/informations');
 var commands_routes = require('./routes/commands');
 var images_routes = require('./routes/images');
 
+var authentications = require('./models/authentications');
+
 var app = express();
 
 // view engine setup
@@ -38,22 +40,34 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(req, res, next) {
+    console.log(req.url);
+    if (req.url === '/') {
+        // skip auth for root
+        return next();
+    }
     var auth = basic_auth(req);
+    console.log('auth =', auth);
     if (!auth) {
         res.status(401).send({
             status: 401,
             message: 'No Authorization information'
         });
-        return;
-    }
-    if (auth.name !== auth.pass) {
-        res.status(401).send({
-            status: 401,
-            message: 'Authorization failed'
+    } else {
+        authentications.readOne(auth.name, function (err, authentication) {
+            if (err) {
+                return next(new Error(err));
+            }
+            console.log('authentication =', authentication);
+            if (authentication.password != auth.pass) {
+                res.status(401).send({
+                    status: 401,
+                    message: 'Authorization failed'
+                });
+            } else {
+                next();
+            }
         });
-        return;
     }
-    next();
 });
 
 // routes, see routes/*.js
@@ -67,9 +81,10 @@ app.use('/images', images_routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    res.status(404).send({
+        status: 404,
+        message: req.url + ' Not Found'
+    });
 });
 
 // error handlers

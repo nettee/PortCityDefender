@@ -73,10 +73,7 @@
 
 以上两个请求均使用HTTP Basic Authentication进行认证，权限为管理员，意味着只有使用管理员的用户名和密码登录才可以；权限为所有用户，意味着使用任意用户的用户名和密码登录均可以。
 
-客户端有两种方式发送认证信息：
-
-1. 在URL中加入用户名的密码。完整的URL应是：http://_username_:_password_@_host_:_port_/authentications
-2. 在HTTP请求头部添加Authorization，格式为"Basic _encoded-string_"，其中_encoded-string_是字符串"_username_:_password_"经过base64编码后的串。
+要发送认证信息，客户端应该在HTTP请求头部添加Authorization，格式为"Basic _encoded-string_"，其中_encoded-string_是字符串"_username_:_password_"经过base64编码后的串。
 
 如无特殊说明，下文中的HTTP接口均需要使用HTTP Basic Authentication进行认证，认证出错的返回为：
 
