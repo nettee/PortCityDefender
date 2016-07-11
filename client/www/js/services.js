@@ -1,6 +1,7 @@
 var app = angular.module('ionicApp.services',[])
 
 var ipAddress = "http://121.40.97.40:3000"//"http://localhost:3000"//"http://121.40.97.40:3000"
+var auth = "";
 
 app.factory('userService', function($http){
   /**A user contains 6 properties
@@ -36,9 +37,9 @@ app.factory('userService', function($http){
     phone : "123",
   }
 
-  var fillUser = function (id,password) {
-    ipAddress = "http://" + id + ":" + password + "@121.40.97.40:3000";
-    $http.get(ipAddress + "/users?id=" + id)
+  var fillUser = function (id,authnum) {
+    auth = authnum;
+    $http.get(ipAddress + "/users?id=" + id,{headers:{Authorization : auth}})
       .success(function (response) {
         response = response[0];
         user.name = response.name;
@@ -57,7 +58,7 @@ app.factory('userService', function($http){
 
   var getUserById = function (id, callback) {
     console.log("发送地址是 ： " + ipAddress + "/users?id=" + id);
-    $http.get(ipAddress + "/users?id=" + id)
+    $http.get(ipAddress + "/users?id=" + id,{headers:{Authorization : auth}})
       .success(function (response) {
         response = response[0];
         callback(response);
@@ -75,9 +76,9 @@ app.factory('userService', function($http){
 
     getUserById : getUserById,
 
-    setUsername : function(id,password){
+    setUsername : function(id,auth){
       user.id = id;
-      fillUser(id,password);
+      fillUser(id,auth);
     }
   };
 });
@@ -119,7 +120,7 @@ app.factory('commandService',function($http,userService){
   }
   var fillCommand=function(callback)
   {
-    $http.get(ipAddress + "/commands?receiver=" + userService.getUser().id)
+    $http.get(ipAddress + "/commands?receiver=" + userService.getUser().id,{headers:{Authorization : auth}})
       .success(function (response) {
        // commandList = response;
         for (var i in response){
@@ -209,7 +210,14 @@ app.factory('commandService',function($http,userService){
           }
 
           console.log("in send command" + command[i].receiver + "  " + command[i].sender + "  " + command[i].content);
-          $http.post(ipAddress + "/commands", command[i])
+          $http.post({
+            method : "POST",
+            url : ipAddress + "/commands",
+            data : command[i],
+            headers : {
+              Authorization : auth
+            }
+          })
 
             .success(function (response) {
               console.log(response.updated_time);
@@ -265,7 +273,10 @@ app.factory('informationService', function ($http) {
     $http({
       method : "POST",
       url : ipAddress + "/information",
-      data : publishinfo
+      data : publishinfo,
+      headers : {
+        Authorization : auth
+      }
     }).success(function (response) {
       console.log(response.publisher.name + " succeed in sending information to serve at time : " + response.updated_time);
       callback(response);
@@ -301,7 +312,8 @@ app.factory('informationService', function ($http) {
             data : blob,
             headers : {
               'Content-Type' : s,
-              'Content-Length' : blob.size
+              'Content-Length' : blob.size,
+              Authorization : auth
             }
           }).success(function (response) {
             information.images[i] = response;
@@ -323,7 +335,8 @@ app.factory('informationService', function ($http) {
               data : blob,
               headers : {
                 'Content-Type' : s,
-                'Content-Length' : blob.size
+                'Content-Length' : blob.size,
+                Authorization : auth
               }
             }).success(function (response) {
               information.images[i] = response;
@@ -347,7 +360,10 @@ app.factory('informationService', function ($http) {
   function getInformationList(callback){
     $http({
       method : "GET",
-      url : ipAddress + "/information"
+      url : ipAddress + "/information",
+      headers : {
+        Authorization : auth
+      }
     }).success(function (response) {
       console.log("Get information list from server");
       callback(response);
@@ -375,7 +391,10 @@ app.factory('detailInformationService', function ($http) {
   function getInformation(infoID, callback){
     $http({
       method : "GET",
-      url : ipAddress + "/information/" + infoID
+      url : ipAddress + "/information/" + infoID,
+      headers : {
+        Authorization : auth
+      }
     }).success(function (data, status, headers, config) {
       console.log("成功获取详细信息");
       callback(data);
@@ -390,7 +409,10 @@ app.factory('detailInformationService', function ($http) {
       $http({
         method : "GET",
         url : ipAddress + "/images/" + images[i].id,
-        responseType: 'arraybuffer'
+        responseType: 'arraybuffer',
+        headers : {
+          Authorization : auth
+        }
       }).success(function (data, status, headers, config) {
         console.log("成功获取图片（根据ID）");
         callback(data);
@@ -403,7 +425,10 @@ app.factory('detailInformationService', function ($http) {
   function deleteInfo(infoID){
     $http({
       method : "DELETE",
-      url : ipAddress + "/information/" + infoID
+      url : ipAddress + "/information/" + infoID,
+      headers : {
+        Authorization : auth
+      }
     }).success(function (data, status, headers, config) {
       console.log("成功删除情报");
     }).error(function (data, status,headers, config) {

@@ -2,14 +2,39 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('LoginController', function($rootScope, $scope, $http, $state, userService) {
     $scope.signIn = function(user) {
-      $rootScope.ipAddress = "http://" + user.username + ":" + user.password + "@121.40.97.40:3000";
+      $rootScope.ipAddress = "http://121.40.97.40:3000";
+      var auth = window.btoa(user.username + ":" + user.password);
+      console.log("base64 number : " + auth);
+      auth = "Basic " + auth;
+      console.log("authorization : " + auth);
+
+      $rootScope.auth = auth
+/*
+      $http({
+        method : "GET",
+        url : "http://121.40.97.40:3000/test/auth",
+        headers : {
+          Authorization : auth
+        }
+      })
+        .success(function (response){
+          console.log("认证返回 ： " + response.name + "  " + response.pass);
+        })
+        .error(function (data, status, headers, config){
+          console.log("status : " + status);
+          console.log("认证返回 fail : " + data);
+        })*/
+
+
+
+
       console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
-      $http.get($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password)
+      $http.get($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password,{headers:{Authorization : $scope.auth}})
         .success(function (response){
           console.log(response.status);
           if (response.status === "pass"){
             $state.go('menu.firstpage');
-            userService.setUsername(user.username,user.password);
+            userService.setUsername(user.username,$scope.auth);
           }
           else
             alert("用户名或密码错误!");
@@ -41,7 +66,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     var regionlist = [];
     $scope.groups = [];
 
-    $http.get($scope.ipAddress + "/regions")
+    $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
       .success(function (response) {
         regionlist = response;
         for (var i = 0; i < regionlist.length; i++) {
@@ -64,7 +89,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
      */
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
-        $http.get($scope.ipAddress + "/users?region=" + group.name)
+        $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
@@ -95,7 +120,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = true;
       else {
         $scope.searchResults.splice(0,$scope.searchResults.length);
-        $http.get($scope.ipAddress + "/users")
+        $http.get($scope.ipAddress + "/users",{headers:{Authorization : $scope.auth}})
           .success(function (response) {
             for (var i in response){
               if (response[i].name.indexOf(searchcontent) != -1){
@@ -114,7 +139,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       var regionlist = [];
       $scope.groups = [];
 
-      $http.get($scope.ipAddress + "/regions")
+      $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
         .success(function (response) {
           regionlist = response;
           for (var i = 0; i < regionlist.length; i++) {
