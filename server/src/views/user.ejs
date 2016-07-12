@@ -69,10 +69,11 @@
             </tbody>
         </table>
 
+        <a name="alert"></a>
         <% if (data.do == 'remove') { %>
-        <div href="#alert" class="alert alert-danger" role="alert">确定要删除该用户吗？</div>
+        <div class="alert alert-danger" role="alert">确定要删除该用户吗？</div>
         <% } else if (data.do == 'removed') { %>
-        <div href="#alert" class="alert alert-success" role="alert">用户已删除</div>
+        <div class="alert alert-success" role="alert">用户已删除</div>
         <% } %>
 
         <% if (data.do == 'create') { %>

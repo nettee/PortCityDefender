@@ -16,7 +16,7 @@ defender.user = function(id) {
 
     function urlformat(action) {
         if (action) {
-            return baseurl + '/' + id + '?do=' + action + 'alert';
+            return baseurl + '/' + id + '?do=' + action + '#alert';
         } else {
             return baseurl + '/' + id;
         }

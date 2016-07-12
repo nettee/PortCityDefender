@@ -39,10 +39,11 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(auth.forAllUsers);
-
 // routes, see routes/*.js
 app.use('/', routes);
+
+app.use(auth.forAllUsers);
+
 app.use('/test', test_routes);
 app.use('/authentications', authentications_routes);
 app.use('/users', users_routes);
