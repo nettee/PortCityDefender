@@ -9,23 +9,22 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("authorization : " + auth);
 
       $rootScope.auth = auth
-
-
-
-
+      
       console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
-      $http.get($scope.ipAddress + "/user/check-password?username=" + user.username + "&password=" + user.password,{headers:{Authorization : $scope.auth}})
-        .success(function (response){
-          console.log(response.status);
-          if (response.status === "pass"){
+      $http.get($scope.ipAddress + "/authentications/" + user.username,{headers:{Authorization : auth}})
+        .success(function (response, status, headers, config){
+          if (status == 200){
+            console.log("登陆成功");
             $state.go('menu.firstpage');
             userService.setUsername(user.username,$scope.auth);
           }
           else
             alert("用户名或密码错误!");
         })
-        .error(function (){
+        .error(function (data, status, headers, config){
           alert("Login fail!");
+          console.log("status : " + status);
+          console.log("response : " + data.message);
           console.log("Login : Fail to send the get request");
         })
     };
@@ -235,7 +234,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService, Camera) {
     $scope.information = informationService.informationInstance();
     $scope.information.publisher = userService.getUser().id;
     $scope.images = [];
@@ -252,7 +251,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         },
         buttonClicked: function (index) {
           if (index == 0){
-            //do nothing
+            $scope.takePicture();
           }
           if (index == 1){
             $scope.readAlbum();
@@ -280,13 +279,34 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       };
 
       imagePicker.getPictures(function (result) {
-        $scope.selectImage = true;
         for (var i in result){
           $scope.images.push(result[i]);
         }
       }, function (error) {
         alert(error);
       }, options);
+    }
+
+    $scope.takePicture = function() {
+      if (!navigator.camera) {
+        alert('请在真机环境中使用拍照上传。')
+        return;
+      }
+
+      var options = {
+        quality: 75,
+        targetWidth: 800,
+        targetHeight: 800,
+        saveToPhotoAlbum: false
+      };
+
+      Camera.getPicture(options).then(function(picUrl) {
+        alert(picUrl);
+        $scope.images.push(picUrl);
+      }, function(err) {
+        //alert("拍照错误：" + err);
+      });
+
     }
 
     $scope.publishInformation = function () {
