@@ -18,7 +18,13 @@ var informationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'images'
     }],
-    replications: [String]
+    replications: [{
+        publisher: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users'
+        },
+        content: String
+    }]
 }, {
     // specify collecion name in database
     collection: 'informations'
@@ -106,6 +112,19 @@ informations.addImageById = function(_id, image_id, callback) {
         }
         doc.images.push(image_id);
         doc.markModified('images');
+        doc.save(function(err) {
+            callback(err);
+        });
+    });
+};
+
+informations.addReplicationById = function(_id, replyer_id, content, callback) {
+    Information.findOne({'_id': _id}, function(err, doc) {
+        if (err) {
+            return callback(err);
+        }
+        doc.images.push({replyer: replyer_id, content: content});
+        doc.markModified('replications');
         doc.save(function(err) {
             callback(err);
         });

@@ -61,4 +61,35 @@ auth.forUser = function (req, res, next) {
     }
 };
 
+auth.forAdmin = function (req, res, next) {
+    var auth = basic_auth(req);
+    console.log('auth =', auth);
+    if (!auth) {
+        res.status(401).send({
+            status: 401,
+            message: 'No Authorization information'
+        });
+    } else if (auth.name != 'admin') {
+        res.status(403).send({
+            status: 403,
+            message: 'Administrator only'
+        });
+    } else {
+        authentications.readOne(auth.name, function (err, authentication) {
+            if (err) {
+                return next(new Error(err));
+            }
+            console.log('authentication =', authentication);
+            if (authentication.password != auth.pass) {
+                res.status(401).send({
+                    status: 401,
+                    message: 'Authorization failed'
+                });
+            } else {
+                next();
+            }
+        });
+    }
+};
+
 module.exports = auth;

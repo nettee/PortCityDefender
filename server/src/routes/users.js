@@ -1,6 +1,7 @@
 var express = require('express');
 var assert = require('assert');
 
+var auth = require('./auth');
 var users = require('../models/users');
 
 var router = express.Router();
@@ -135,15 +136,15 @@ router.get('/', userListReader);
 router.get('/:id', userExistenceChecker, userReader);
 
 // CREATE new user
-router.post('/', userCompletementChecker, userCreator);
+router.post('/', auth.forAdmin, userCompletementChecker, userCreator);
 
 // UPDATE user information
-router.put('/:id', userCompletementChecker, userExistenceChecker, userUpdater);
+router.put('/:id', auth.forAdmin, userCompletementChecker, userExistenceChecker, userUpdater);
 
 // partly UPDATE user information
-router.patch('/:id', userExistenceChecker, userUpdater);
+router.patch('/:id', auth.forAdmin, userExistenceChecker, userUpdater);
 
 // DELETE user
-router.delete('/:id', userDeleter);
+router.delete('/:id', auth.forAdmin, userDeleter);
 
 module.exports = router;
