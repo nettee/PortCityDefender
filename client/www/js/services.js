@@ -209,9 +209,10 @@ app.factory('commandService',function($http,userService){
       for (var i = 0; i < mygroups.length; i++) {
         // console.log("hahha"+mygroups[i])
         for (var j = 0; j < mygroups[i].items.length; j++) {
-          var h=receiverList.indexOf(mygroups[i].items[j].id);
-          if(h!=-1){
-            mygroups[i].items[j].ischecked=true ;
+          for(var a in receiverList){
+            if(mygroups[i].items[j].id.indexOf(receiverList[a].id)!=-1){
+              mygroups[i].items[j].ischecked=true;
+            }
           }
           console.log("see checked"+mygroups[i].items[j].name+" "+mygroups[i].items[j].ischecked);
         }

@@ -388,9 +388,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       //根据联系人列表设置联系人的选中与否
       commandService.updateCheckedbyReceiverList();
       $scope.groups=commandService.getGroups();
+      for(var i in $scope.groups){
+        for(var j in $scope.groups[i].items){
+          console.log("after update"+$scope.groups[i].items[j].name+$scope.groups[i].items[j].ischecked);
+        }
+      }
     })
     var regionlist = [];
-    //$scope.groups = [];
+    $scope.groups = [];
 
     $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
       .success(function (response) {
@@ -404,6 +409,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           };
           fillGroup($scope.groups[i]);
         }
+        commandService.updateCheckedbyReceiverList();
+        $scope.groups=commandService.getGroups();
       })
       .error(function (response) {
         alert("Fail to get the regions");
@@ -419,6 +426,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     function fillGroup(group)
     {
       if (group.isfill == false){
+        console.log("into fillgroup");
         $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
@@ -439,6 +447,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
+        console.log("into toggleGroup");
         $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
