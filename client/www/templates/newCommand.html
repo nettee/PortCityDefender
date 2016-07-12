@@ -3,9 +3,9 @@
       <button type="submit" class="button  button-positive"   ng-click = "sendCommand(a.content)">发送</button>
   </ion-nav-buttons>
   <ion-content>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+    </ion-refresher>
     <div class="list">
-      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
-      </ion-refresher>
       <div class="item   item-icon-right" id="commandContactDisplay">
        <!-- <label class="item-input-wrapper">
           <input type="text" placeholder="接收者" ng-model="receiverList">
@@ -22,7 +22,7 @@
       </div>
       <div class="item item-input-inset">
       <label class="item-input">
-          <textarea cols="15" id="commandContentDisplay" placeholder="请输入......" ng-model="a.content"></textarea>
+          <textarea  id="commandContentDisplay" placeholder="请输入......" ng-model="a.content"></textarea>
         </label>
         </div>
     </div>

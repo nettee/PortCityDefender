@@ -43,6 +43,31 @@
         <% } %>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">回复</h3>
+        </div>
+        <% if (info.replications.length > 0) { %>
+        <ul class="list-group">
+            <%
+            for (var ii = 0; ii < info.replications.length; ii++) {
+                var replication = info.replications[ii];
+            %>
+            <li class="list-group-item">
+                <h4 class="list-group-item-heading">#<%= ii + 1 %>&nbsp;<%= replication.replier.name %></h4>
+                <p class="list-group-item-text"><%= replication.content %></p>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <div class="panel-body">
+             暂无回复
+        </div>
+        <% } %>
+
+    </div>
+
+    <a name="alert"></a>
     <% if (data.do == 'remove') { %>
     <div class="alert alert-danger" role="alert">确定要删除该情报吗？</div>
     <% } else if (data.do == 'removed') { %>

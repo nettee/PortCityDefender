@@ -50,19 +50,19 @@
                     <div class="btn-toolbar" role="toolbar" aria-label="...">
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-default"
-                                    onclick="window.location = 'users/<%= user.id %>';">查看</button>
+                                    onclick="defender.user('<%= user.id %>').view();">查看</button>
                             <button type="button" class="btn btn-default"
                                     <% if (user.id == 'admin') { %>
                                     disabled="disabled"
                                     <% } %>
-                                    onclick="window.location = 'users/<%= user.id %>?do=edit';">编辑</button>
+                                    onclick="defender.user('<%= user.id %>').edit();">编辑</button>
                         </div>
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-danger"
                                     <% if (user.id == 'admin') { %>
                                     disabled="disabled"
                                     <% } %>
-                                    onclick="window.location = 'users/<%= user.id %>?do=remove';">删除</button>
+                                    onclick="defender.user('<%= user.id %>').remove();">删除</button>
                         </div>
                     </div>
                 </td>
