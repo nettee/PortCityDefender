@@ -54,10 +54,10 @@
             <li <% if (subsystem == 'informations' || subsystem == 'information') { %>class="active"<% } %>>
               <a href="/dashboard/informations">情报管理</a>
             </li>
-            <li id="li">
+            <li <% if (subsystem == 'documents' || subsystem == 'document') { %>class="active"<% } %>>
               <a href="/dashboard/documents">文档管理</a>
             </li>
-            <li>
+            <li <% if (subsystem == 'regions' || subsystem == 'region') { %>class="active"<% } %>>
               <a href="/dashboard/regions">区域管理</a>
             </li>
           </ul>
