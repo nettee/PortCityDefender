@@ -90,6 +90,7 @@ app.factory('commandService',function($http,userService){
   var commandList =[]
   var mygroups=[]
   var receiverList=[]
+ //var mygroupsIsfill=false;
   var draftCommand={
     sender: 'mymy',
     receiver:'default' ,
@@ -170,6 +171,74 @@ app.factory('commandService',function($http,userService){
     setAllContactsNotChoose();
   }
 
+  var updateCheckedbyReceiverList = function(){
+    for (var i = 0; i < mygroups.length; i++) {
+      // console.log("hahha"+mygroups[i])
+      for (var j = 0; j < mygroups[i].items.length; j++) {
+        mygroups[i].items[j].ischecked=false;
+        for(var a in receiverList){
+          if(mygroups[i].items[j].id.indexOf(receiverList[a].id)!=-1){
+            mygroups[i].items[j].ischecked=true;
+          }
+        }
+        console.log("see checked"+mygroups[i].items[j].name+" "+mygroups[i].items[j].ischecked);
+      }
+    }
+  }
+
+  function objMerger(obj1, obj2)
+  {
+    for(var r in obj2){
+      eval("obj1."+r+"=obj2."+r);
+    }
+    return obj1;
+  }
+  function fillGroup(group)
+  {
+    if (group.isfill == false){
+      console.log("into fillgroup");
+      $http.get(ipAddress + "/users?region=" + group.name,{headers:{Authorization : auth}})
+        .success(function (response) {
+          var i = regionlist.indexOf(group.name);
+          for (var j = 0;j < response.length;j++){
+            mygroups[i].items.push(response[j]);
+            var check={ischecked:false};
+
+            mygroups[i].items[j]=objMerger(mygroups[i].items[j],check);
+          }
+          mygroups[i].isfill = true;
+          group.show = !group.show;
+          updateCheckedbyReceiverList();
+        })
+        .error(function (response) {
+          alert("Fail to get the users by region : " + regionlist[i]);
+          console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
+        })
+    }
+  }
+
+  var fillGroups=function(callback){
+      mygroups=[];
+      $http.get(ipAddress + "/regions",{headers:{Authorization : auth}})
+        .success(function (response) {
+          regionlist = response;
+          for (var i = 0; i < regionlist.length; i++) {
+            mygroups[i] = {
+              name: regionlist[i],
+              items: [],
+              show: false,
+              isfill: false
+            };
+            fillGroup(mygroups[i]);
+          }
+          callback();
+        })
+        .error(function (response) {
+          alert("Fail to get the regions");
+          console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
+        })
+    return mygroups;
+  }
   return {
     getCommandList:function(callback){
       fillCommand(callback);
@@ -185,6 +254,9 @@ app.factory('commandService',function($http,userService){
     },
     getGroups:function(){
       return mygroups;
+    },
+    fillGroups:function(callback){
+      fillGroups(callback);
     },
     updateGroups:function(group,i){
       mygroups[i]=group;
@@ -208,17 +280,7 @@ app.factory('commandService',function($http,userService){
     },
     updateCheckedbyReceiverList :function(){
       //need improving!!!!
-      for (var i = 0; i < mygroups.length; i++) {
-        // console.log("hahha"+mygroups[i])
-        for (var j = 0; j < mygroups[i].items.length; j++) {
-          for(var a in receiverList){
-            if(mygroups[i].items[j].id.indexOf(receiverList[a].id)!=-1){
-              mygroups[i].items[j].ischecked=true;
-            }
-          }
-          console.log("see checked"+mygroups[i].items[j].name+" "+mygroups[i].items[j].ischecked);
-        }
-      }
+      updateCheckedbyReceiverList();
     },
   sendCommand: function(ReceiverList,content){
       myid=userService.getUser().id;
