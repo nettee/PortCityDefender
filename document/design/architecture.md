@@ -168,7 +168,7 @@
 + `mime_type`：图片MIME类型，如"image/bmp", "image/png"
 
 回复为一个Replication对象，包含的属性有
-+ `publisher`：回复发布者 - User对象
++ `replier`：回复者 - User对象
 + `content`：回复内容
 
 | HTTP方法 | 路径 | 功能 | 权限 |
@@ -202,12 +202,14 @@
     + 请求头部的Content-Type不是图片MIME类型(image/*)，或MIME类型错误（如image/jpg）：返回406状态码
 
 1. POST /information/_info\_id_/replications：新建情报回复
-  + 发送数据：要新建的Replication对象
+  + 发送数据：要新建的Replication对象（其中`replier`只需设置为用户的id即可，不需要完整的User对象）
   + 返回状态码：201
   + 返回内容：新建的情报对应的Replication对象
   + 说明：服务器将新建的回复的Replication对象添加到ID为_info\_id_的Information对象的`replications`属性中
   + 异常情况
+    + 发送数据中Replication对象的`replier`属性和认证信息不一致：返回403状态码
     + ID为_info\_id_的情报不存在：返回404状态码
+    + 发送数据中Replication对象的属性不完整：返回422状态码
 
 1. GET /information：获得情报列表
   + 发送数据：无
