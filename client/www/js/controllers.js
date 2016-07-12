@@ -285,6 +285,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
     $scope.publishInformation = function () {
+      if ($scope.information.text == ""){
+        alert("情报内容不能为空！");
+        return;
+      }
       $scope.information.images = $scope.images;
       informationService.sendInformation($scope.information, function (response) {
         $scope.information = response;
