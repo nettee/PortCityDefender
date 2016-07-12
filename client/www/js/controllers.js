@@ -9,7 +9,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("authorization : " + auth);
 
       $rootScope.auth = auth
-      
+
       console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
       $http.get($scope.ipAddress + "/authentications/" + user.username,{headers:{Authorization : auth}})
         .success(function (response, status, headers, config){
