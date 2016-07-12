@@ -5,7 +5,7 @@ var authentications = {};
 
 var authenticationSchema = new mongoose.Schema({
     username: String,
-    password: String,
+    password: String
 }, {
     collection: 'authentications' // specify collection name in database
 });
@@ -24,6 +24,17 @@ authentications.sanitize = function (authentication) {
     };
 };
 
+authentications.create = function (authentication, callback) {
+    Authentication(authentication).save(function(err, doc) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('saved', doc);
+        }
+        callback(err, authentications.sanitize(doc));
+    });
+};
+
 /**
  * Read one authentication tuple from database
  * @param {String} username
@@ -36,6 +47,18 @@ authentications.readOne = function(username, callback) {
         .findOne()
         .exec(function (err, doc) {
             callback(err, authentications.sanitize(doc));
+        });
+};
+
+authentications.update = function (username, updater, callback) {
+    Authentication.findOneAndUpdate({'username': username}, updater, {new: true})
+        .exec(function(err, doc) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(null, authentications.sanitize(doc));
+            }
         });
 };
 

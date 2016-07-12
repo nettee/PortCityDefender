@@ -46,6 +46,17 @@ function userExistenceChecker(req, res, next) {
     });
 }
 
+function userCreator(req, res) {
+    var user = req.body;
+    users.create(user, function(err) {
+        if (err) {
+            res.status(500).send({error: err});
+        } else {
+            res.status(201).send(user);
+        }
+    });
+}
+
 function userListReader(req, res) {
     var query = req.query;
     console.log('query =', query);
@@ -81,17 +92,6 @@ function userReader(req, res) {
         }
         // FIXME check user == null and return 404
         res.status(200).send(user);
-    });
-}
-
-function userCreator(req, res) {
-    var user = req.body;
-    users.create(user, function(err) {
-        if (err) {
-            res.status(500).send({error: err});
-        } else {
-            res.status(201).send(user);
-        }
     });
 }
 
