@@ -9,21 +9,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("authorization : " + auth);
 
       $rootScope.auth = auth
-/*
-      $http({
-        method : "GET",
-        url : "http://121.40.97.40:3000/test/auth",
-        headers : {
-          Authorization : auth
-        }
-      })
-        .success(function (response){
-          console.log("认证返回 ： " + response.name + "  " + response.pass);
-        })
-        .error(function (data, status, headers, config){
-          console.log("status : " + status);
-          console.log("认证返回 fail : " + data);
-        })*/
 
 
 
@@ -510,7 +495,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       var regionlist = [];
       $scope.groups = [];
 
-      $http.get($scope.ipAddress + "/regions")
+      $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
         .success(function (response) {
           regionlist = response;
           for (var i = 0; i < regionlist.length; i++) {
