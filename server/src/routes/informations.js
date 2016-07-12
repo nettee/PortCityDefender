@@ -7,6 +7,7 @@ var mime = require('mime');
 
 var informations = require('../models/informations');
 var images = require('../models/images');
+var users = require('../models/users');
 
 var router = express.Router();
 
@@ -109,12 +110,36 @@ function infoImageCreator(req, res, next) {
         var out_file = fs.createWriteStream(filepath);
         req.pipe(out_file);
         console.log('write file to', filepath);
-        console.log('dirname =', __dirname);
         informations.addImageById(id, image_id, function(err) {
             if (err) {
                 return next(new Error(err));
             }
             res.status(201).send(image);
+        });
+    });
+}
+
+function infoReplicationCreator(req, res, next) {
+    var id = req.params.id;
+    var replication = req.body;
+
+    if (!replication.replier || !replication.content) {
+        var error = new Error('replication not complete');
+        error.status = 422;
+        return next(error);
+    }
+
+    informations.addReplicationById(id, replication, function(err) {
+        if (err) {
+            return next(new Error(err));
+        }
+
+        users.readOne(replication.replier, function (err, replier) {
+            if (err) {
+                return next(new Error(err));
+            }
+            replication.replier = replier;
+            res.status(201).send(replication);
         });
     });
 }
@@ -134,5 +159,7 @@ router.delete('/:id', infoExistenceChecker, infoDeleter);
 // CREATE info image
 router.post('/:id/images', infoImageCreator);
 
+// CREATE info replication
+router.post('/:id/replications', infoReplicationCreator);
 
 module.exports = router;

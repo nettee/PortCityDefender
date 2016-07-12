@@ -79,7 +79,9 @@ app.factory('userService', function($http){
     setUsername : function(id,auth){
       user.id = id;
       fillUser(id,auth);
-    }
+    },
+
+    UserId : user.id
   };
 });
 
@@ -463,3 +465,17 @@ app.factory('detailInformationService', function ($http) {
     deleteInfo : deleteInfo
   }
 });
+
+app.factory('Camera', function($q) {
+  return {
+    getPicture: function(options) {
+      var q = $q.defer();
+      navigator.camera.getPicture(function(result) {
+        q.resolve(result);
+      }, function(err) {
+        q.reject(err);
+      }, options);
+      return q.promise;
+    }
+  }
+})

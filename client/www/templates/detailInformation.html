@@ -16,7 +16,7 @@
         <p>{{detailInfo.text}}</p>
         <div align="right">
           <span class="button button-large button-positive button-clear ion-android-textsms" ></span>
-          <span class="button button-large button-positive button-clear ion-ios-trash-outline" ng-click="deleteInformation()"></span>
+          <span ng-show="samePublisher" class="button button-large button-positive button-clear ion-ios-trash-outline" ng-click="deleteInformation()"></span>
         </div>
       </div>
     </div>

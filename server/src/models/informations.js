@@ -19,23 +19,23 @@ var informationSchema = new mongoose.Schema({
         ref: 'images'
     }],
     replications: [{
-        publisher: {
+        replier: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'users'
         },
         content: String
     }]
 }, {
-    // specify collecion name in database
+    // specify collection name in database
     collection: 'informations'
 });
 
 var headers = '-_id id publisher text urgent updated_time images replications';
 var essentials = ['publisher', 'text', 'urgent'];
-
+2
 var Information = db.model('informations', informationSchema);
 
-/* automately set `updated_time`, `id`, `images`, `replications`
+/* automate set `updated_time`, `id`, `images`, `replications`
  * attribute before save a document
  */
 Information.schema.pre('save', function(next) {
@@ -55,12 +55,18 @@ informations.sanitize = function(info) {
         urgent: info.urgent,
         updated_time: info.updated_time,
         images: info.images.map(images.sanitize),
-        replications: info.replications,
+        replications: info.replications.map(function (replication) {
+            return {
+                replier: users.sanitize(replication.replier),
+                content: replication.content
+            }
+        })
     };
 };
 
 informations.hasEssentials = function(info) {
-    for (var e of essentials) {
+    for (var i = 0; i < essentials.length; i++) {
+        var e = essentials[i];
         if (!info.hasOwnProperty(e)) {
             return false;
         }
@@ -118,15 +124,24 @@ informations.addImageById = function(_id, image_id, callback) {
     });
 };
 
-informations.addReplicationById = function(_id, replyer_id, content, callback) {
+informations.addReplicationById = function(_id, replication, callback) {
     Information.findOne({'_id': _id}, function(err, doc) {
         if (err) {
             return callback(err);
         }
-        doc.images.push({replyer: replyer_id, content: content});
-        doc.markModified('replications');
-        doc.save(function(err) {
-            callback(err);
+        users.readOneWithId(replication.replier, function (err, replier) {
+            if (err) {
+                return callback(err);
+            }
+            console.log('replier._id =', replier._id);
+            doc.replications.push({
+                replier: replier._id,
+                content: replication.content
+            });
+            doc.markModified('replications');
+            doc.save(function (err) {
+                callback(err);
+            });
         });
     });
 };
@@ -138,6 +153,7 @@ informations.read = function(condition, callback) {
         .populate([
             {path: 'publisher'},
             {path: 'images'},
+            {path: 'replications.replier'}
         ]) 
         .exec(function(err, docs) {
             console.log('docs =', docs);
@@ -155,6 +171,7 @@ informations.readOne = function(_id, callback) {
         .populate([
             {path: 'publisher'},
             {path: 'images'},
+            {path: 'replications.replier'}
         ]) 
         .exec(function(err, doc) {
             callback(err, informations.sanitize(doc));
