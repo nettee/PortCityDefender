@@ -51,7 +51,7 @@
                 %>
                 <td>
                     <div class="input-group">
-                        <input type="text" class="form-control" <% if (attr_name == 'id') { %> readonly <% } %> placeholder="<%= attr %>">
+                        <input type="text" class="form-control" <% if (attr_name == 'id') { %> readonly <% } %> value="<%= attr %>">
                     </div>
                 </td>
                 <% } %>
@@ -69,6 +69,7 @@
             </tbody>
         </table>
 
+        <a name="alert"></a>
         <% if (data.do == 'remove') { %>
         <div class="alert alert-danger" role="alert">确定要删除该用户吗？</div>
         <% } else if (data.do == 'removed') { %>
@@ -107,7 +108,7 @@
         <div class="btn-toolbar" role="toolbar" aria-label="...">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-danger"
-                        onclick="defender.user('<%= user.id %>').removed();">删除
+                        onclick="defender.user('<%= user.id %>').removed();">确认删除
                 </button>
             </div>
             <div class="btn-group" role="group" aria-label="...">

@@ -36,8 +36,10 @@
             <tr>
                 <th>时间</th>
                 <th>发布人</th>
-                <th>内容</th>
                 <th>优先级</th>
+                <th>内容</th>
+                <th>图片</th>
+                <th>回复</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -52,12 +54,6 @@
                     <span data-name="publisher.id" hidden="hidden"><%= info.publisher.id %></span>
                     <span><%= info.publisher.name %></span>
                 </td>
-                <td>
-                    <span data-name="text"><%= info.text %></span>
-                    <% if (info.images.length > 0) { %>
-                    <span class="badge"><%= info.images.length %>张图片</span>
-                    <% } %>
-                </td>
                 <td data-name="urgent">
                     <% if (info.urgent) { %>
                     紧急
@@ -65,6 +61,11 @@
                     普通
                     <% } %>
                 </td>
+                <td>
+                    <span data-name="text"><%= info.text %></span>
+                </td>
+                <td><%= info.images.length %></td>
+                <td><%= info.replications.length %></td>
                 <td>
                     <div class="btn-toolbar" role="toolbar" aria-label="...">
                         <div class="btn-group" role="group" aria-label="...">
