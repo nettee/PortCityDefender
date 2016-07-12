@@ -9,7 +9,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("authorization : " + auth);
 
       $rootScope.auth = auth
-      
+
       console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
       $http.get($scope.ipAddress + "/authentications/" + user.username,{headers:{Authorization : auth}})
         .success(function (response, status, headers, config){
@@ -415,29 +415,18 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
     $scope.$on('$ionicView.beforeEnter',function(){
       //根据联系人列表设置联系人的选中与否
-      commandService.updateCheckedbyReceiverList();
-      $scope.groups=commandService.getGroups();
-    })
-    var regionlist = [];
-    //$scope.groups = [];
-
-    $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
-      .success(function (response) {
-        regionlist = response;
-        for (var i = 0; i < regionlist.length; i++) {
-          $scope.groups[i] = {
-            name: regionlist[i],
-            items: [],
-            show: false,
-            isfill: false
-          };
-          fillGroup($scope.groups[i]);
+     // commandService.updateCheckedbyReceiverList();
+      //$scope.groups=commandService.getGroups();
+      for(var i in $scope.groups){
+        for(var j in $scope.groups[i].items){
+          console.log("after update"+$scope.groups[i].items[j].name+$scope.groups[i].items[j].ischecked);
         }
-      })
-      .error(function (response) {
-        alert("Fail to get the regions");
-        console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
-      })
+      }
+    })
+    commandService.fillGroups(function(){});
+    $scope.groups=commandService.getGroups();
+   // commandService.updateCheckedbyReceiverList();
+
     function objMerger(obj1, obj2)
     {
       for(var r in obj2){
@@ -445,48 +434,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       }
       return obj1;
     }
-    function fillGroup(group)
-    {
-      if (group.isfill == false){
-        $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
-          .success(function (response) {
-            var i = regionlist.indexOf(group.name);
-            for (var j = 0;j < response.length;j++){
-              $scope.groups[i].items.push(response[j]);
-              var check={ischecked:false};
-              $scope.groups[i].items[j]=objMerger($scope.groups[i].items[j],check);
-            }
-            $scope.groups[i].isfill = true;
-            group.show = !group.show;
-            commandService.updateGroups( group,i);
-          })
-          .error(function (response) {
-            alert("Fail to get the users by region : " + regionlist[i]);
-            console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
-          })
-      }
-    }
+
     $scope.toggleGroup = function(group) {
-      if (group.isfill == false){
-        $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
-          .success(function (response) {
-            var i = regionlist.indexOf(group.name);
-            for (var j = 0;j < response.length;j++){
-              $scope.groups[i].items.push(response[j]);
-              var check={ischecked:false};
-              $scope.groups[i].items[j]=objMerger($scope.groups[i].items[j],check);
-            }
-            $scope.groups[i].isfill = true;
-            group.show = !group.show;
-            commandService.updateGroups(group,i);
-          })
-          .error(function (response) {
-            alert("Fail to get the users by region : " + regionlist[i]);
-            console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
-          })
-      }else {
         group.show = !group.show;
-      }
     };
 
     $scope.isGroupShown = function(group) {
@@ -521,29 +471,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       }
     }
     $scope.doRefresh=function(){
-      var regionlist = [];
-      $scope.groups = [];
-
-      $http.get($scope.ipAddress + "/regions",{headers:{Authorization : $scope.auth}})
-        .success(function (response) {
-          regionlist = response;
-          for (var i = 0; i < regionlist.length; i++) {
-            $scope.groups[i] = {
-              name: regionlist[i],
-              items: [],
-              show: false,
-              isfill: false
-            };
-            //      $scope.toggleGroup($scope.groups[i]);
-            $scope.$broadcast('scroll.refreshComplete');
-          }
-
-        })
-        .error(function (response) {
-         // alert("Fail to get the regions");
-          console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
-        })
-
+      commandService.fillGroups(function(){
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+      $scope.groups=commandService.getGroups();
     }
 
   })
