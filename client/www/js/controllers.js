@@ -201,13 +201,18 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('detailInformationController', function ($scope, $state, $stateParams, detailInformationService) {
+  .controller('detailInformationController', function ($scope, $state, $stateParams, detailInformationService,userService) {
     $scope.infoID = $stateParams.infoID;
     $scope.images = [];
     $scope.pictureSource = [];
+    $scope.samePublisher = false;
 
     detailInformationService.getInformation($scope.infoID, function(response){
       $scope.detailInfo = response;
+      console.log("response id : " + response.publisher.id);
+      console.log("user id : " + userService.UserId);
+      if (response.publisher.id == userService.UserId)
+        $scope.samePublisher = true;
       detailInformationService.getImages($scope.detailInfo, function (data) {
         console.log("以上是图片");
         var binaryData = [];

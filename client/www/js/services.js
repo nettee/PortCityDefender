@@ -79,7 +79,9 @@ app.factory('userService', function($http){
     setUsername : function(id,auth){
       user.id = id;
       fillUser(id,auth);
-    }
+    },
+    
+    UserId : user.id
   };
 });
 
