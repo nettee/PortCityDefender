@@ -28,20 +28,14 @@ app.factory('userService', function($http){
     this.level = level;
   }
 
-  var user = {
-    id : "txp",
-    name : "陶先平",
-    level : 2,
-    region : "south",
-    description : "后勤部部长",
-    phone : "123",
-  }
+  var user = {}
 
   var fillUser = function (id,authnum) {
     auth = authnum;
     $http.get(ipAddress + "/users?id=" + id,{headers:{Authorization : auth}})
       .success(function (response) {
         response = response[0];
+        user.id = response.id;
         user.name = response.name;
         user.level = response.level;
         user.region = response.region;
@@ -81,7 +75,9 @@ app.factory('userService', function($http){
       fillUser(id,auth);
     },
 
-    UserId : user.id
+    getUserId : function () {
+      return user.id;
+    }
   };
 });
 
@@ -527,6 +523,36 @@ app.factory('detailInformationService', function ($http) {
     deleteInfo : deleteInfo
   }
 });
+
+app.factory('replicationServer',function ($http) {
+
+  var replicationInstance = {
+    replier : "",
+    content : ""
+  }
+
+  function sendReplication(replication, infoID, callback) {
+    console.log("回复发送地址：" + ipAddress + "/information/" + infoID + "/replications");
+    $http({
+      method : "POST",
+      url : ipAddress + "/information/" + infoID + "/replications",
+      data : replication,
+      headers : {
+        Authorization : auth
+      }
+    }).success(function (data) {
+      console.log("回复发送成功");
+      callback();
+    }).error(function (data) {
+      console.log("回复发送失败");
+    })
+  }
+
+  return {
+    replicationInstance : replicationInstance,
+    sendReplication : sendReplication
+  }
+})
 
 app.factory('Camera', function($q) {
   return {

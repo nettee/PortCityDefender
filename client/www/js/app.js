@@ -106,6 +106,16 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         }
       })
 
+      .state('menu.responseInformation', {
+        url: '/responseInformation/:responseInfoID',
+        views : {
+          'menuContent':{
+            templateUrl : 'templates/responseInformation.html',
+            controller  : 'responseInformationController'
+          }
+        }
+      })
+
       .state('menu.command', {
         url: '/command',
         views: {

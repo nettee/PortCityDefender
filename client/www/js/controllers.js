@@ -206,23 +206,27 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.pictureSource = [];
     $scope.samePublisher = false;
 
-    detailInformationService.getInformation($scope.infoID, function(response){
-      $scope.detailInfo = response;
-      console.log("response id : " + response.publisher.id);
-      console.log("user id : " + userService.UserId);
-      if (response.publisher.id == userService.UserId)
-        $scope.samePublisher = true;
-      detailInformationService.getImages($scope.detailInfo, function (data) {
-        console.log("以上是图片");
-        var binaryData = [];
-        binaryData.push(data);
-        var blob = new Blob(binaryData,{type : "image/png"});
-        console.log("接收图片大小" + blob.size)
-        $scope.images.push(blob);
-        var str = webkitURL.createObjectURL(blob);
-        $scope.pictureSource.push(str);
+    $scope.$on('$ionicView.beforeEnter', function () {
+      $scope.samePublisher = false;
+      detailInformationService.getInformation($scope.infoID, function(response){
+        $scope.detailInfo = response;
+        console.log("response id : " + response.publisher.id);
+        console.log("user id : " + userService.getUserId());
+        if (response.publisher.id == userService.getUserId())
+          $scope.samePublisher = true;
+        detailInformationService.getImages($scope.detailInfo, function (data) {
+          console.log("以上是图片");
+          var binaryData = [];
+          binaryData.push(data);
+          var blob = new Blob(binaryData,{type : "image/png"});
+          console.log("接收图片大小" + blob.size)
+          $scope.images.push(blob);
+          var str = webkitURL.createObjectURL(blob);
+          $scope.pictureSource.push(str);
+        })
       })
     })
+
 
     $scope.properTime = function(time){
       return (new Date(time)).toLocaleString();
@@ -232,6 +236,24 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       detailInformationService.deleteInfo($scope.infoID);
       $state.go('menu.information');
     }
+
+    $scope.responseInformation = function(){
+      $state.go('menu.responseInformation', {responseInfoID : $scope.infoID});
+    }
+  })
+
+  .controller('responseInformationController', function ($scope, $state, $stateParams, replicationServer, userService) {
+    $scope.responseInfoID = $stateParams.responseInfoID;
+    $scope.replication = replicationServer.replicationInstance;
+    $scope.replication.replier = userService.getUser().id;
+
+    $scope.responseInformation = function () {
+      replicationServer.sendReplication($scope.replication, $scope.responseInfoID, function () {
+        $state.go('menu.detailInformation',{infoID :$scope.responseInfoID});
+      });
+
+    }
+
   })
 
   .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService, Camera) {

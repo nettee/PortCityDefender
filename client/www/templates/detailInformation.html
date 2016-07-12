@@ -15,8 +15,13 @@
         </div>
         <p>{{detailInfo.text}}</p>
         <div align="right">
-          <span class="button button-large button-positive button-clear ion-android-textsms" ></span>
+          <span class="button button-large button-positive button-clear ion-android-textsms" ng-click="responseInformation()"></span>
           <span ng-show="samePublisher" class="button button-large button-positive button-clear ion-ios-trash-outline" ng-click="deleteInformation()"></span>
+        </div>
+      </div>
+      <div class="list card" ng-show="detailInfo.replications.length">
+        <div class="item" ng-repeat="reply in detailInfo.replications">
+          {{reply.replier.name}} &nbsp; 回复说: &nbsp; {{reply.content}}
         </div>
       </div>
     </div>
