@@ -567,3 +567,39 @@ app.factory('Camera', function($q) {
     }
   }
 })
+
+
+app.factory('documentService',function($http) {
+  var Mainclass={
+    "abc":[
+      "通知计划",
+      "训练法规",
+      "资料查询",
+      "训练考核"
+    ],
+    "教育管理":[
+      "通知计划",
+      "教育资料",
+      "法规命令",
+      "成果交流"
+    ],
+    "国防动员":[
+      "组织机构",
+      "法规政策",
+      "兵员征集",
+      "基本潜力"
+    ]
+  };
+  var MainclassArray=["abc","教育管理","国防动员"];
+
+  return {
+    getMainclass:function(){
+      return MainclassArray;
+    },
+    getSubclassByIndex:function(index) {
+      console.log("index is"+index);
+      console.log("Mainclass.index   "+Mainclass.index)
+      return Mainclass.index;
+    }
+  }
+})

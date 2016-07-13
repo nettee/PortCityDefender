@@ -46,6 +46,25 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         }
       })
 
+      .state('menu.document', {
+        url: '/document',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/document.html',
+            controller: 'DocumentController'
+          }
+        }
+      })
+      .state('menu.documentSubclass', {
+        url: '/document/:classname',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/documentSubClass.html',
+            controller: 'DocumentSubClassController'
+          }
+        }
+      })
+
       .state('menu.userpage', {
         url: '/userpage',
         views: {

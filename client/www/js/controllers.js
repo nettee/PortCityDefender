@@ -501,3 +501,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   })
 
+
+  .controller('DocumentController', function ($scope,documentService) {
+    $scope.MainClassArray=documentService.getMainclass();
+  })
+  .controller('DocumentSubClassController', function ($scope,$stateParams, documentService) {
+    var name=$stateParams.classname;
+    $scope.subclass=documentService.getSubclassByIndex(name);
+  })
