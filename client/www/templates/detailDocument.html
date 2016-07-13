@@ -1,12 +1,18 @@
 <ion-view title="文档详情">
   <ion-content >
     <div class="list card">
-      <div class="item">
-        {{document.title}}
+
+      <div class="item item-body" >
+        <!-- <img src="{{ command.img }}"> -->
+        <h2>{{document.title}}</h2>
       </div>
-      <div class="item">
-        {{document.text}}
+
+      <div class="item item-body">
+        <p ng-repeat="content in contentArray track by $index">
+          {{content}}
+        </p>
       </div>
+
     </div>
   </ion-content >
 </ion-view>

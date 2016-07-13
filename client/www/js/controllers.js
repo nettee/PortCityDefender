@@ -544,5 +544,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
     $scope.$on('$ionicView.beforeEnter', function () {
       $scope.document = documentService.getDetailDocument();
+      $scope.contentArray=$scope.document.text.split("\n");
     })
   })
