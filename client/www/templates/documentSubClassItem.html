@@ -1,7 +1,7 @@
 <ion-view view-title="{{subclass}}" id="fontSet">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="doc in document" ng-click="">
+      <ion-item ng-repeat="doc in document" ng-click="showDetailDocument(doc)">
         {{doc.title}}
       </ion-item>
     </ion-list>

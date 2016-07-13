@@ -517,7 +517,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $state.go('menu.documentSubclassItem',{classname : $scope.classname,subclassname : item})
     }
   })
-  .controller('DocumentSubClassItemController',function($scope,$stateParams, documentService){
+
+  .controller('DocumentSubClassItemController',function($scope, $state, $stateParams, documentService){
     $scope.classname = $stateParams.classname;
     $scope.subclass = $stateParams.subclassname;
 
@@ -529,4 +530,19 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       })
     })
 
+    $scope.showDetailDocument = function (doc) {
+      console.log(doc.title + "------")
+      documentService.setDocument(doc);
+      $state.go('menu.detailDocument',{classname : $scope.classname,subclassname : $scope.subclass, index : 1});
+    }
+  })
+
+  .controller('detailDocumentController',function($scope, $stateParams, documentService){
+    $scope.classname = $stateParams.classname;
+    $scope.subclass = $stateParams.subclassname;
+    $scope.index = $stateParams.index;
+
+    $scope.$on('$ionicView.beforeEnter', function () {
+      $scope.document = documentService.getDetailDocument();
+    })
   })

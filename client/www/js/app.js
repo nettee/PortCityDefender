@@ -55,6 +55,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           }
         }
       })
+
       .state('menu.documentSubclass', {
         url: '/document/:classname',
         views: {
@@ -64,6 +65,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           }
         }
       })
+
       .state('menu.documentSubclassItem', {
         url: '/:classname/:subclassname',
         views: {
@@ -73,6 +75,17 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           }
         }
       })
+
+      .state('menu.detailDocument', {
+        url: '/:classname/:subclassname/:index',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/detailDocument.html',
+            controller: 'detailDocumentController'
+          }
+        }
+      })
+
       .state('menu.userpage', {
         url: '/userpage',
         views: {
