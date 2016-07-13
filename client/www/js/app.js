@@ -64,7 +64,15 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           }
         }
       })
-
+      .state('menu.documentSubclass.documentSubclassItem', {
+        url: '/:subclassname',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/documentSubClassItem.html',
+            controller: 'DocumentSubClassItemController'
+          }
+        }
+      })
       .state('menu.userpage', {
         url: '/userpage',
         views: {
@@ -176,7 +184,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         }
       })
 
-      $urlRouterProvider.otherwise('/login');
+     // $urlRouterProvider.otherwise('/login');
 
 })
 

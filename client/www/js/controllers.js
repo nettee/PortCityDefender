@@ -509,5 +509,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   })
   .controller('DocumentSubClassController', function ($scope,$stateParams, documentService) {
     var name=$stateParams.classname;
+    $scope.classname=name;
     $scope.subclass=documentService.getSubclassByIndex(name);
+  })
+  .controller('DocumentSubClassItemController',function($scope,$stateParams, documentService){
+
   })

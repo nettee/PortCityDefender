@@ -578,7 +578,7 @@ app.factory('Camera', function($q) {
 
 app.factory('documentService',function($http) {
   var Mainclass={
-    "abc":[
+    "军事训练":[
       "通知计划",
       "训练法规",
       "资料查询",
@@ -597,7 +597,7 @@ app.factory('documentService',function($http) {
       "基本潜力"
     ]
   };
-  var MainclassArray=["abc","教育管理","国防动员"];
+  var MainclassArray=["军事训练","教育管理","国防动员"];
 
   return {
     getMainclass:function(){
@@ -605,8 +605,8 @@ app.factory('documentService',function($http) {
     },
     getSubclassByIndex:function(index) {
       console.log("index is"+index);
-      console.log("Mainclass.index   "+Mainclass.index)
-      return Mainclass.index;
+      console.log("Mainclass.index   "+Mainclass[index])
+      return Mainclass[index];
     }
   }
 })
