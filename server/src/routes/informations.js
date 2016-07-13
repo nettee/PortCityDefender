@@ -157,9 +157,9 @@ router.get('/:id', infoExistenceChecker, infoReader);
 router.delete('/:id', infoExistenceChecker, infoDeleter);
 
 // CREATE info image
-router.post('/:id/images', infoImageCreator);
+router.post('/:id/images', infoExistenceChecker, infoImageCreator);
 
 // CREATE info replication
-router.post('/:id/replications', infoReplicationCreator);
+router.post('/:id/replications', infoExistenceChecker, infoReplicationCreator);
 
 module.exports = router;
