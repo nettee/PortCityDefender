@@ -5,35 +5,34 @@
     <div class="row">
         <div class="col-md-8">
             <ol class="breadcrumb">
-                <li><a href="#">所有文档</a></li>
-                <li>
-                    <div name="primary-class" class="btn-group" role="group" aria-label="...">
+                <li class="all-text"><a>所有文档</a></li>
+                <li class="class-menu">
+                    <div name="primary-22class" class="btn-group" role="group" aria-label="...">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li class="class-item"><a href="#">军事训练</a></li>
+                            <li class="class-item"><a href="#">教育管理</a></li>
+                            <li class="class-item"><a href="#">国防动员</a></li>
                         </ul>
                     </div>
                 </li>
-                <li hidden="hidden">
+                <li class="class-text hidden"><a>军事训练</a></li>
+                <li class="subclass-menu hidden">
                     <div class="btn-group" role="group" aria-label="...">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li class="subclass-item" data-index="0"><a href="#">0</a></li>
+                            <li class="subclass-item" data-index="1"><a href="#">1</a></li>
+                            <li class="subclass-item" data-index="2"><a href="#">2</a></li>
+                            <li class="subclass-item" data-index="3"><a href="#">3</a></li>
                         </ul>
                     </div>
                 </li>
+                <li class="subclass-text hidden">通知计划</li>
             </ol>
         </div>
         <div class="col-md-2">
@@ -77,3 +76,54 @@
     </div>
 
 </div>
+
+<script>
+    var document_class = {
+        '军事训练': [
+            '通知计划',
+            '训练法规',
+            '资料查询',
+            '训练考核'
+        ],
+        '教育管理': [
+            '通知计划',
+            '教育资料',
+            '法规命令',
+            '成果交流'
+        ],
+        '国防动员': [
+            '组织机构',
+            '法规政策',
+            '兵员征集',
+            '基本潜力'
+        ]
+    };
+
+    $(".all-text").click(function () {
+        $(".class-menu").removeClass("hidden");
+        $(".class-text").addClass("hidden");
+        $(".subclass-menu").addClass("hidden");
+        $(".subclass-text").addClass("hidden");
+    });
+
+    $(".class-text").click(function () {
+        $(".subclass-menu").removeClass("hidden");
+        $(".subclass-text").addClass("hidden");
+    });
+
+    $(".class-item").click(function () {
+        var class_text = $(this).text();
+        $(".class-menu").addClass("hidden");
+        $(".class-text").removeClass("hidden").find("a").text(class_text);
+        $(".subclass-menu").removeClass("hidden").find(".subclass-item").map(function () {
+            var index = $(this).data("index");
+            $(this).find("a").text(document_class[class_text][index]);
+        });
+    });
+
+    $(".subclass-item").click(function () {
+        var subclass_text = $(this).text();
+        $(".subclass-menu").addClass("hidden");
+        $(".subclass-text").removeClass("hidden").text(subclass_text);
+    });
+</script>
