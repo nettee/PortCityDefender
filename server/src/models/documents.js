@@ -137,34 +137,16 @@ documents.read = function(condition, callback) {
             var result = docs.map(documents.sanitize);
             callback(err, result);
         });
-    // Information.find()
-    //     .sort({'updated_time': -1})
-    //     .populate([
-    //         {path: 'publisher'},
-    //         {path: 'images'},
-    //         {path: 'replications.replier'}
-    //     ])
-    //     .exec(function(err, docs) {
-
-    //         var result = docs.map(informations.sanitize);
-    //         callback(err, result);
-    //     });
-
 };
 
-// informations.readOne = function(_id, callback) {
-//     Information.where({'_id': _id})
-//         .findOne()
-//         .populate([
-//             {path: 'publisher'},
-//             {path: 'images'},
-//             {path: 'replications.replier'}
-//         ])
-//         .exec(function(err, doc) {
-//             callback(err, informations.sanitize(doc));
-//         });
-// };
-//
+documents.readOne = function(_id, callback) {
+    Document.where({'_id': _id})
+        .findOne()
+        .exec(function(err, doc) {
+            callback(err, documents.sanitize(doc));
+        });
+};
+
 // informations.exists = function(condition, callback) {
 //     Information.findOne(condition)
 //         .exec(function(err, result) {

@@ -36,7 +36,7 @@
             </ol>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-success">新建文档</button>
+            <button type="button" class="btn btn-success" onclick="defender.documents.create();">新建文档</button>
         </div>
 
     </div>
@@ -66,13 +66,19 @@
                         <div class="btn-toolbar" role="toolbar" aria-label="...">
                             <div class="btn-group" role="group" aria-label="...">
                                 <button type="button" class="btn btn-default"
-                                        onclick="">查看</button>
+                                        onclick="defender.document('<%= document.id %>').view();">
+                                    查看
+                                </button>
                                 <button type="button" class="btn btn-default"
-                                        onclick="">编辑</button>
+                                        onclick="defender.document('<%= document.id %>').edit();">
+                                    编辑
+                                </button>
                             </div>
                             <div class="btn-group" role="group" aria-label="...">
                                 <button type="button" class="btn btn-danger"
-                                        onclick="">删除</button>
+                                        onclick="defender.document('<%= document.id %>').remove();">
+                                    删除
+                                </button>
                             </div>
                         </div>
                     </td>
@@ -129,7 +135,7 @@
         $(".class-text").removeClass("hidden").find("a").text(class_text);
         $(".subclass-menu").removeClass("hidden").find(".subclass-item").map(function () {
             var index = $(this).data("index");
-            $(this).find("a").text(document_class[class_text][index]);
+            $(this).find("a").text(defender.documents.class[class_text][index]);
         });
 
         $("tbody tr").hide().has("[data-name='class']:contains(" + class_text + ")").show();

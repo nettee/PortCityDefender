@@ -111,6 +111,31 @@ router.get('/dashboard/documents', function (req, res, next) {
     });
 });
 
+router.get('/dashboard/documents/_new', function(req, res, next) {
+    res.render('dashboard', {
+        subsystem: 'document',
+        data: {
+            do: 'create'
+        }
+    });
+});
+
+router.get('/dashboard/documents/:id', function (req, res, next) {
+    var id = req.params.id;
+    documents.readOne(id, function (err, document) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.render('dashboard', {
+            subsystem: 'document',
+            data: {
+                document: document,
+                do: req.query.do
+            }
+        });
+    });
+});
+
 router.get('/dashboard/regions', function (req, res, next) {
     res.render('dashboard', {
         subsystem: 'regions',
