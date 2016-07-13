@@ -599,6 +599,22 @@ app.factory('documentService',function($http) {
   };
   var MainclassArray=["军事训练","教育管理","国防动员"];
 
+  function getDocument(classname, subclassname, callback){
+
+    $http({
+      method : "GET",
+      url : ipAddress + "/documents/" + classname + "/" + subclassname,
+      headers : {
+        Authorization : auth
+      }
+    }).success(function (response) {
+      console.log("获取文档成功");
+      callback(response);
+    }).error(function (response) {
+      console.log("获取文档失败");
+    })
+  }
+
   return {
     getMainclass:function(){
       return MainclassArray;
@@ -607,6 +623,7 @@ app.factory('documentService',function($http) {
       console.log("index is"+index);
       console.log("Mainclass.index   "+Mainclass[index])
       return Mainclass[index];
-    }
+    },
+    getDocument : getDocument
   }
 })

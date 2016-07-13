@@ -1,7 +1,7 @@
 <ion-view title="信息">
   <ion-content >
     <ion-list>
-      <ion-item ng-repeat="item in subclass" href="#/menu/document/{{classname}}/{{item}}/">
+      <ion-item ng-repeat="item in subclass" ng-click="showSubClassItems(item)">
         {{item}}
       </ion-item>
     </ion-list>

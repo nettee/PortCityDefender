@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<ion-view view-title="{{subclass}}" id="fontSet">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="doc in document" ng-click="">
+        {{doc.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

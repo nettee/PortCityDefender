@@ -503,15 +503,30 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   })
 
-
   .controller('DocumentController', function ($scope,documentService) {
     $scope.MainClassArray=documentService.getMainclass();
   })
-  .controller('DocumentSubClassController', function ($scope,$stateParams, documentService) {
+
+  .controller('DocumentSubClassController', function ($scope, $state, $stateParams, documentService) {
     var name=$stateParams.classname;
     $scope.classname=name;
     $scope.subclass=documentService.getSubclassByIndex(name);
+
+    $scope.showSubClassItems = function (item) {
+      console.log("subclass name : " + item);
+      $state.go('menu.documentSubclassItem',{classname : $scope.classname,subclassname : item})
+    }
   })
   .controller('DocumentSubClassItemController',function($scope,$stateParams, documentService){
+    $scope.classname = $stateParams.classname;
+    $scope.subclass = $stateParams.subclassname;
+
+    $scope.$on('$ionicView.beforeEnter', function () {
+      console.log("大类名：" + $scope.classname)
+      console.log("小类名：" + $scope.subclass)
+      documentService.getDocument($scope.classname, $scope.subclass, function (response) {
+        $scope.document = response;
+      })
+    })
 
   })
