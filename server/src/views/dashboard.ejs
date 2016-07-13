@@ -6,12 +6,18 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
 
-    <title>控制台 - 用户管理</title>
+    <title>
+        <% if (subsystem == 'users' || subsystem == 'user') { %>
+        用户管理
+        <% } else if (subsystem == 'informations' || subsystem == 'information') { %>
+        情报管理
+        <% } else if (subsystem == 'documents' || subsystem == 'document') { %>
+        文档管理
+        <% } else if (subsystem == 'regions' || subsystem == 'region') { %>
+        区域管理
+        <% } %>
+    </title>
 
     <!-- Bootstrap core CSS -->
     <link href="/public/stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -80,14 +86,7 @@
       </div>
     </div>
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="/public/javascripts/defender.js"></script>
-
     <script src="/public/javascripts/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="/public/javascripts/holder.min.js"></script>
 
 </body><div></div></html>
