@@ -531,7 +531,7 @@ app.factory('replicationServer',function ($http) {
     content : ""
   }
 
-  function sendReplication(replication, infoID, callback) {
+  function sendReplication(replication, infoID, callbackSuccess, callbackFail) {
     console.log("回复发送地址：" + ipAddress + "/information/" + infoID + "/replications");
     $http({
       method : "POST",
@@ -542,14 +542,21 @@ app.factory('replicationServer',function ($http) {
       }
     }).success(function (data) {
       console.log("回复发送成功");
-      callback();
-    }).error(function (data) {
+      callbackSuccess();
+    }).error(function (data, status, headers, config) {
       console.log("回复发送失败");
+      if (status == 404)
+        alert("该情报已删除");
+      callbackFail();
     })
   }
 
   return {
-    replicationInstance : replicationInstance,
+    replicationInstance : function(){
+      replicationInstance.replier = "";
+      replicationInstance.content = "";
+      return replicationInstance
+    },
     sendReplication : sendReplication
   }
 })

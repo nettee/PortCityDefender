@@ -244,12 +244,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('responseInformationController', function ($scope, $state, $stateParams, replicationServer, userService) {
     $scope.responseInfoID = $stateParams.responseInfoID;
-    $scope.replication = replicationServer.replicationInstance;
+    $scope.replication = replicationServer.replicationInstance();
     $scope.replication.replier = userService.getUser().id;
 
     $scope.responseInformation = function () {
       replicationServer.sendReplication($scope.replication, $scope.responseInfoID, function () {
         $state.go('menu.detailInformation',{infoID :$scope.responseInfoID});
+      }, function () {
+        $state.go('menu.information');
       });
 
     }
