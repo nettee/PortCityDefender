@@ -276,13 +276,26 @@
 
 #### 文档列表
 
+文档为一个Document对象，包含的属性有
++ `id`：文档ID
++ `class`：大类
++ `subclass`：小类
++ `title`：标题
++ `text`：文本内容
++ `images`：图片 - Image对象的数组
+
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| POST | /documents/_class_/_subclass_/_doc\_name_ | 新建文档 | 管理员 |
-| GET | /documents/_class_/_subclass_/_doc\_name_ | 获得文档 | 所有用户、管理员 | 
-| PUT | /documents/_class_/_subclass_/_doc\_name_ | 更新文档 | 管理员 |
-| DELETE | /documents/_class_/_subclass_/_doc\_name_ | 删除文档 | 管理员 |
+| POST | /documents/_class_/_subclass_/ | 新建文档 | 管理员 |
+| GET | /documents/_class_/_subclass_/ | 获得文档列表 | 所有用户、管理员 | 
+| GET | /documents/_class_/_subclass_/_id_ | 获得文档 | 所有用户、管理员 | 
+| PUT | /documents/_class_/_subclass_/_id_ | 更新文档 | 管理员 |
+| DELETE | /documents/_class_/_subclass_/_id_ | 删除文档 | 管理员 |
 
+1. GET /documents/_class_/_subclass_/：获得文档列表
+  + 发送数据：无
+  + 返回状态码：200
+  + 返回内容：Document对象的数组
 
 #### 区域
 
