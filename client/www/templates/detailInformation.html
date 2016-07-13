@@ -19,10 +19,10 @@
           <span ng-show="samePublisher" class="button button-large button-positive button-clear ion-ios-trash-outline" ng-click="deleteInformation()"></span>
         </div>
       </div>
-      <div class="list card" ng-show="detailInfo.replications.length">
-        <div class="item" ng-repeat="reply in detailInfo.replications">
-          {{reply.replier.name}} &nbsp; 回复说: &nbsp; {{reply.content}}
-        </div>
+    </div>
+    <div class="list card" ng-show="detailInfo.replications.length">
+      <div class="item" ng-repeat="reply in detailInfo.replications">
+        {{reply.replier.name}} &nbsp; 评论: &nbsp; {{reply.content}}
       </div>
     </div>
   </ion-content>

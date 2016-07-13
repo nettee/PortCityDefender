@@ -5,6 +5,7 @@ var router = express.Router();
 var database = require('../models/database');
 var users = require('../models/users');
 var informations = require('../models/informations');
+var documents = require('../models/documents');
 
 function loginHandler(req, res, next) {
     res.render('login');
@@ -97,8 +98,16 @@ router.get('/dashboard/informations/:id', function(req, res, next) {
 });
 
 router.get('/dashboard/documents', function (req, res, next) {
-    res.render('dashboard', {
-        subsystem: 'documents',
+    documents.read({}, function (err, documents) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.render('dashboard', {
+            subsystem: 'documents',
+            data: {
+                documents: documents
+            }
+        });
     });
 });
 
