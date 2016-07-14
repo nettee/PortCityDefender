@@ -2,6 +2,7 @@ var app = angular.module('ionicApp.services',[])
 
 var ipAddress = "http://121.40.97.40:3000"//"http://localhost:3000"//"http://121.40.97.40:3000"
 var auth = "";
+var password = ""
 
 app.factory('userService', function($http){
   /**A user contains 6 properties
@@ -30,8 +31,9 @@ app.factory('userService', function($http){
 
   var user = {}
 
-  var fillUser = function (id,authnum) {
+  var fillUser = function (id, pass, authnum) {
     auth = authnum;
+    password = pass;
     $http.get(ipAddress + "/users?id=" + id,{headers:{Authorization : auth}})
       .success(function (response) {
         response = response[0];
@@ -70,9 +72,9 @@ app.factory('userService', function($http){
 
     getUserById : getUserById,
 
-    setUsername : function(id,auth){
+    setUsername : function(id, password, auth){
       user.id = id;
-      fillUser(id,auth);
+      fillUser(id, password, auth);
     },
 
     getUserId : function () {
@@ -575,7 +577,6 @@ app.factory('Camera', function($q) {
   }
 })
 
-
 app.factory('documentService',function($http) {
   var Mainclass={
     "军事训练":[
@@ -635,5 +636,37 @@ app.factory('documentService',function($http) {
     getDetailDocument : function () {
       return doc;
     }
+  }
+})
+
+app.factory('passwordService', function ($http){
+  function changePassword(username, newPassword, callbackSuccess, callbackError){
+    var authentication = {
+      username : username,
+      password : newPassword
+    }
+    $http({
+      method : "PUT",
+      url : ipAddress + "/authentications/" + username,
+      data : authentication,
+      headers:{
+        Authorization : auth
+      }
+    }).success(function (data, status, headers, config) {
+      console.log("修改密码成功")
+      callbackSuccess();
+    }).error(function (data, status, headers, config) {
+      if (status == 401 || status == 422 || status == 403){
+        console.log("修改密码失败-客户端有误");
+      }
+      else{
+        console.log("修改密码失败-错误不明");
+      }
+      callbackError();
+    })
+  }
+
+  return {
+    changePassword : changePassword
   }
 })

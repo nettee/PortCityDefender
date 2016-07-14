@@ -9,25 +9,30 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("authorization : " + auth);
 
       $rootScope.auth = auth
+      $rootScope.userPassword = user.password;
 
       console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
       $http.get($scope.ipAddress + "/authentications/" + user.username,{headers:{Authorization : auth}})
         .success(function (response, status, headers, config){
           if (status == 200){
             console.log("登陆成功");
-            $state.go('menu.firstpage');
-            userService.setUsername(user.username,$scope.auth);
+            $state.go('menu.information');
+            userService.setUsername(user.username, user.password, $scope.auth);
           }
         })
         .error(function (data, status, headers, config){
           if (status == 401){
-            $ionicPopup.alert({
+            $ionicPopup.show({
               title: "用户名或密码错误",
-              template: "请您确认后再次输入！"
-            })
-              .then(function(res) {
+              template: "请您确认后再次输入！",
+              scope: $scope,
+              buttons:[{
+                text : "确定",
+                type : "button-positive"
+              }]
+            }).then(function(res) {
 
-              });
+            });
           }
          // alert("Login fail!");
           console.log("status : " + status);
@@ -36,8 +41,93 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     };
   })
 
-  .controller('MenuController', function ($scope) {
+  .controller('MenuController', function ($scope, $state, $ionicPopup) {
+    $scope.logout = function () {
+      $ionicPopup.confirm({
+        title: '您确认要登出吗？'
+      }).then(function(res) {
+        if(res) {
+          $state.go('login');
+        } else {
+          //do nothing
+        }
+      });
+    }
+  })
 
+  .controller('PasswordController', function ($rootScope, $scope, $state, $ionicPopup, passwordService, userService) {
+    $scope.password = {};
+    $scope.id = userService.getUser().id;
+
+    $scope.$on('$ionicView.beforeEnter',function () {
+      $scope.password.oldPass = "";
+      $scope.password.newPass = "";
+      $scope.password.confirmPass = "";
+    })
+
+    $scope.changePassword = function () {
+      if ($scope.password.oldPass == $scope.userPassword) {
+        if ($scope.password.newPass == $scope.password.confirmPass) {
+          passwordService.changePassword($scope.id, $scope.password.newPass,
+            function () {
+              $ionicPopup.show({
+                title: "修改密码成功",
+                template: "请您重新登陆！",
+                scope: $scope,
+                buttons:[{
+                  text : "确定",
+                  type : "button-positive"
+                }]
+              }).then(function (res) {
+                $state.go('login');
+              });
+            },
+            function () {
+              $ionicPopup.show({
+                title: "修改密码失败",
+                template: "请您稍候重试！",
+                scope: $scope,
+                buttons:[{
+                  text : "确定",
+                  type : "button-positive"
+                }]
+              }).then(function (res) {
+                //$state.go('login');
+              });
+            })
+        }
+        else{
+          $ionicPopup.show({
+            title: "确认密码错误",
+            template: "请您确认后再次输入！",
+            scope: $scope,
+            buttons:[{
+              text : "确定",
+              type : "button-positive"
+            }]
+          }).then(function(res) {
+            $scope.password.oldPass = "";
+            $scope.password.newPass = "";
+            $scope.password.confirmPass = "";
+          });
+        }
+      }
+      else{
+        $ionicPopup.show({
+          title: "原密码错误",
+          template: "请您确认后再次输入！",
+          scope: $scope,
+          buttons:[{
+            text : "确定",
+            type : "button-positive"
+          }]
+        }).then(function(res) {
+          $scope.password.oldPass = "";
+          $scope.password.newPass = "";
+          $scope.password.confirmPass = "";
+        });
+      }
+    }
   })
 
   .controller('FirstController', function ($scope,userService) {

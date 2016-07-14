@@ -36,12 +36,12 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         controller: 'MenuController'
       })
 
-      .state('menu.firstpage', {
-        url: '/firstpage',
+      .state('menu.password', {
+        url: '/password',
         views: {
           'menuContent': {
-            templateUrl: 'templates/firstpage.html',
-            controller: 'FirstController'
+            templateUrl: 'templates/password.html',
+            controller: 'PasswordController'
           }
         }
       })
