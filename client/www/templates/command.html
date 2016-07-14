@@ -1,3 +1,4 @@
+<div ng-app="myApp" ng-controller="commandController">
 <ion-view view-title="指挥控制">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear ion-plus-round" menu-toggle="right" ng-click="newCommand()">
@@ -24,7 +25,9 @@
 
       </ion-item>
 
-
+    </div>
+    <div ng-show="isCommandListEmpty">
+      <h>暂无命令</h>
     </div>
   </ion-content>
 </ion-view>

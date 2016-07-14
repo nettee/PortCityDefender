@@ -39,7 +39,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   .controller('MenuController', function ($scope) {
 
   })
-   
+
   .controller('UserController', function ($scope,userService) {
     $scope.user = userService.getUser();
     $scope.doRefresh=function() {
@@ -362,6 +362,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         commandService.changeDateStyle(commandList);
         commandService.setCommandList(commandList);
         $scope.commandList=commandList;
+        if(commandList.length==0){
+          $scope.isCommandListEmpty=true;
+        }else{
+          $scope.isCommandListEmpty=false;
+        }
         $scope.$broadcast('scroll.refreshComplete');
       })
 
@@ -372,6 +377,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           commandService.changeDateStyle(commandList);
           commandService.setCommandList(commandList);
           $scope.commandList=commandList;
+          if(commandList.length==0){
+            $scope.isCommandListEmpty=true;
+          }else{
+            $scope.isCommandListEmpty=false;
+          }
         })
     }
     )
