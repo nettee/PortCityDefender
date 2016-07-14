@@ -18,11 +18,11 @@
                 <span data-attr-name="id" hidden="hidden"><%= info.id %></span>
                 <td><%= info.publisher.name %></td>
                 <td>
-                <% if (info.urgent) { %>
-                紧急
-                <% } else { %>
-                普通
-                <% } %>
+                    <% if (info.urgent) { %>
+                    紧急
+                    <% } else { %>
+                    普通
+                    <% } %>
                 </td>
                 <td><%= info.updated_time.toLocaleString() %></td>
             </tr>

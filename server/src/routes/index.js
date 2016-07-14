@@ -6,6 +6,7 @@ var database = require('../models/database');
 var users = require('../models/users');
 var informations = require('../models/informations');
 var documents = require('../models/documents');
+var regions = require('../models/regions');
 
 function loginHandler(req, res, next) {
     res.render('login');
@@ -137,8 +138,23 @@ router.get('/dashboard/documents/:id', function (req, res, next) {
 });
 
 router.get('/dashboard/regions', function (req, res, next) {
-    res.render('dashboard', {
-        subsystem: 'regions',
+    regions.read(function (err, region_list) {
+        if (err) {
+            return next(new Error(err));
+        }
+        users.read({}, function(err, users) {
+            if (err) {
+                return next(new Error(err));
+            }
+            res.render('dashboard', {
+                subsystem: 'regions',
+                data: {
+                    users: users,
+                    regions: region_list
+                }
+            });
+        });
+
     });
 });
 

@@ -5,7 +5,8 @@ var regionList = [
     '东北',
     '东南',
     '西南',
-    '西北'
+    '西北',
+    '菲律宾省'
 ];
 
 var regions = {};
@@ -19,7 +20,7 @@ var regions = {};
  */
 regions.read = function read(callback) {
     callback(null, regionList);
-}
+};
 
 regions.contains = function contains(name, callback) {
     for (var i = 0; i < regionList.length; i++) {
@@ -29,13 +30,13 @@ regions.contains = function contains(name, callback) {
         }
     }
     callback(null, false);
-}
+};
 
 regions.create = function create(name, callback) {
     regionList.push(name);
     console.log(regionList);
     callback(null, name);
-}
+};
 
 regions.delete = function delete_(name, callback) {
     for (var i = 0; i < regionList.length; i++) {
@@ -46,6 +47,6 @@ regions.delete = function delete_(name, callback) {
         }
     }
     callback('region name does not exist');
-}
+};
 
 module.exports = regions;

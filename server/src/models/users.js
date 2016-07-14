@@ -20,12 +20,12 @@ var db = database.connect();
 var User = db.model('users', userSchema);
 
 users.isCompleteUser = function(user) {
-    return !!user.id 
-        && !!user.name 
-        && !!user.level
-        && !!user.region 
-        && !!user.description 
-        && !!user.phone;
+    return user.hasOwnProperty('id')
+        && user.hasOwnProperty('name')
+        && user.hasOwnProperty('level')
+        && user.hasOwnProperty('region')
+        && user.hasOwnProperty('description')
+        && user.hasOwnProperty('phone');
 };
 
 users.sanitize = function(user) {

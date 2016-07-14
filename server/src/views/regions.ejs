@@ -2,4 +2,124 @@
 
     <h2 class="sub-header">区域列表</h2>
 
+    <% var regions = data.regions; %>
+    <% var users = data.users; %>
+
+    <form class="form-inline" onsubmit="return false;">
+        <div class="form-group">
+            <input name="region-name" type="text" class="form-control" placeholder="区域名">
+        </div>
+        <button name="create-region" type="button" class="btn btn-success">新建区域</button>
+    </form>
+
+    <div class="row"><p></p></div>
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <%
+        for (var i = 0; i < regions.length; i++) {
+            var region = regions[i];
+            var users_in_this_region = users.filter(function (user) {
+                return user.region == region;
+            })
+        %>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading<%=i%>">
+                <h4 class="panel-title">
+                    <a name="region-name" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=i%>" aria-expanded="false" aria-controls="collapseOne">
+                        <%= region %>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse<%=i%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%=i%>">
+                <div class="panel-body">
+                    <% if (users_in_this_region.length > 0) { %>
+                    <%
+                    for (var ii = 0; ii < users_in_this_region.length; ii++) {
+                        var user = users_in_this_region[ii];
+                    %>
+                    <p><a href="/dashboard/users/<%= user.id %>"><%= user.name %></a></p>
+                    <% } %>
+                    <% } else { %>
+                    <p>暂无用户</p>
+                    <div name="alert">
+                        <div name="confirm-remove" class="alert alert-danger" role="alert" style="display: none;">确定要删除该区域吗？</div>
+                    </div>
+                    <div class="btn-toolbar" role="toolbar" aria-label="...">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button name="remove-region" type="button" class="btn btn-danger">删除区域</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button name="confirm-remove" type="button" class="btn btn-danger" style="display: none">确认删除
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button name="cancel" type="button" class="btn btn-default" style="display: none">取消
+                            </button>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+
+
+    </div>
+
 </div>
+
+<script>
+    $("button[name='create-region']").click(function () {
+        var region_name = $("input[name='region-name']").val();
+        var new_region = {
+            name: region_name,
+        };
+
+        fetch("/regions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(new_region)
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+                location.reload();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+    })
+
+    $("button[name='remove-region']").click(function () {
+        $(this).parent().parent().parent().find("div[name='alert'] div[name='confirm-remove']").fadeIn();
+        $(this).parent().parent().find("button[name='confirm-remove']").fadeIn();
+        $(this).parent().parent().find("button[name='cancel']").fadeIn();
+        $(this).hide();
+    });
+
+    $("button[name='confirm-remove']").click(function () {
+        var name = $(this).parent().parent().parent().parent().parent()
+                .find("a[name='region-name']").text().trim();
+        console.log(name);
+        fetch("/regions/" + name, {
+            method: "DELETE",
+            headers: {},
+            body: ""
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+                location.reload();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+    });
+
+</script>

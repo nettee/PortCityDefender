@@ -11,9 +11,16 @@
         <% } else if (data.do == 'edit') { %>
         编辑用户
         <% } else { %>
-        <%= user.name %>
+        用户详情
         <% } %>
     </h2>
+
+    <% if (!data.do) { %>
+    <ol class="breadcrumb">
+        <li><a href="/dashboard/users">所有用户</a></li>
+        <li class="active"><%= user.name %></li>
+    </ol>
+    <% } %>
 
     <div class="table-responsive">
         <table class="table table-striped">

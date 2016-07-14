@@ -9,8 +9,7 @@ function regionExistenceChecker(req, res, next) {
     var name = req.params.name;
     regions.contains(name, function (err, exists) {
         if (err) {
-            res.status(500).send({error: err});
-            return;
+            return next(new Error(err));
         }
         if (!exists) {
             res.status(404).send({error: 'region name does not exist'});
@@ -19,45 +18,40 @@ function regionExistenceChecker(req, res, next) {
     });
 }
 
-function regionListReader(req, res) {
+function regionListReader(req, res, next) {
     regions.read(function(err, list) {
         if (err) {
-            res.status(500).send({error: err});
-        } else {
-            res.status(200).send(list);
+            return next(new Error(err));
         }
+        res.status(200).send(list);
     });
 }
 
-function regionCreator(req, res) {
-    res.status(501).send({error: 'not implemented'});
-//    var name = req.params.name;
-//    regions.create(name, function(err, result) {
-//        if (err) {
-//            res.status(500).send({error: err});
-//        } else {
-//            res.status(201).send(result);
-//        }
-//    });
+function regionCreator(req, res, next) {
+    var name = req.body.name;
+    regions.create(name, function(err, result) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.status(201).send(result);
+    });
 }
 
-function regionDeleter(req, res) {
-    res.status(501).send({error: 'not implemented'});
-//    var name = req.params.name;
-//    regions.delete(name, function(err) {
-//        if (err) {
-//            res.status(500).send({error: err});
-//        } else {
-//            res.status(204).send("");
-//        }
-//    });
+function regionDeleter(req, res, next) {
+   var name = req.params.name;
+   regions.delete(name, function(err) {
+       if (err) {
+           return next(new Error(err));
+       }
+       res.status(204).send("");
+   });
 }
 
 // READ regions list
 router.get('/', regionListReader);
 
 // CREATE new region
-router.post('/:name', regionCreator);
+router.post('/', regionCreator);
 
 // DELETE region
 router.delete('/:name', regionExistenceChecker, regionDeleter);
