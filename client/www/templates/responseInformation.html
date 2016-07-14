@@ -1,0 +1,15 @@
+<ion-view view-title="写回复">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" menu-toggle="right" ng-click="responseInformation()">
+      发布
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content overflow-scroll="true" style="overflow:auto;">
+    <ion-list>
+      <ion-item class="item item-input">
+        <textarea ng-model="replication.content" style="overflow:auto; resize:none;" placeholder="填写回复..." rows="12"></textarea>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

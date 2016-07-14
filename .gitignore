@@ -1,6 +1,10 @@
+/server/data/images/*
+/server/data
+
 # Logs
 logs
 *.log
+*.log.txt
 npm-debug.log*
 
 # Runtime data
@@ -34,3 +38,10 @@ node_modules
 
 # WebStorm directory
 .idea
+
+# vim temp file
+*.swp 
+.*.swp
+
+# gedit temp file
+*.*~

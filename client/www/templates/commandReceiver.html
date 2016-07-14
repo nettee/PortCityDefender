@@ -1,0 +1,51 @@
+<ion-view view-title="选择联系人" >
+  <ion-nav-buttons side = "right">
+    <button class = "button button-clear" ng-click = "updateReceiver(groups)" >确认</button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search" ng-model="searchcontent" ng-change="search(searchcontent)">
+      </label>
+    </div>
+    <span ng-if="searchisnull">
+    <ion-list>
+      <div ng-repeat="group in groups">
+        <ion-item class="item-stable"
+                  ng-click="toggleGroup(group)"
+                  ng-class="{active: isGroupShown(group)}">
+          <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+          &nbsp;
+          {{group.name}}区
+        </ion-item>
+        <ion-checkbox class=""
+                  ng-repeat="item in group.items"
+                  ng-show="isGroupShown(group)"
+                  ng-model="item.ischecked">
+          {{item.name}}
+          &nbsp;
+          <div>
+            <div id="classBackground">
+              <span id="classValue">
+                {{item.level}}
+              </span>
+            </div>
+          </div>
+        </ion-checkbox>
+      </div>
+    </ion-list>
+    </span>
+     <span ng-if="!searchisnull">
+       <ion-list>
+      <ion-checkbox ng-repeat="item in searchResults" ng-model="item.ischecked">
+        {{item.name}}
+         &nbsp;
+        {{item.level}}
+      </ion-checkbox>
+    </ion-list>
+     </span>
+  </ion-content>
+</ion-view>

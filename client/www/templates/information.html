@@ -1,0 +1,35 @@
+<ion-view view-title="情报动态">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-plus-round" menu-toggle="right" ng-click="newInformation()">
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+    </ion-refresher>
+    <div ng-repeat="info in informations">
+      <div class="list card" ng-click="showDetailInformation(info)">
+
+        <div class="item item-avatar">
+          <img src="img/txp.png">
+          <h2>{{info.publisher.name}}</h2>
+          <p>{{properTime(info.updated_time)}}</p>
+          <div align="right" ng-show="info.urgent">
+            <span class="badge badge-assertive">紧急</span>
+          </div>
+        </div>
+
+        <div class="item item-body">
+          <p>{{properContent(info.text)}}</p>
+
+        </div>
+
+      </div>
+    </div>
+    <div id="isCommandListEmptyBackground">
+    <div ng-show="!informations.length">
+      <p id="NoContentShow">暂无情报</p>
+    </div>
+    </div>
+  </ion-content>
+</ion-view>

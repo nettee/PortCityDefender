@@ -16,50 +16,22 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
     <script src="js/app.js"></script>
   </head>
  <body>
-    
+    <!--
     <ion-nav-bar class="bar-positive nav-title-slide-ios7">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
-    </ion-nav-bar>
-             
+    </ion-nav-bar>-->
+
     <ion-nav-view animation="slide-left-right"></ion-nav-view>
-
-    <script id="templates/sign-in.html" type="text/ng-template">
-      <ion-view title="港城卫士">
-        <ion-content>
-          <div class="list">
-            <label class="item item-input">
-              <span class="input-label">用户名</span>
-              <input type="text" ng-model="user.username">
-            </label>
-            <label class="item item-input">
-              <span class="input-label">密  码</span>
-              <input type="password" ng-model="user.password">
-            </label>
-          </div>
-          <div class="padding">
-            <button class="button button-block button-positive" ng-click="signIn(user)">
-              立即登录
-            </button>
-          </div>
-        </ion-content>
-      </ion-view>
-    </script>
-
-    <script id="templates/user-page.html" type="text/ng-template">
-      <ion-view title="用户">
-        <ion-content padding="true">
-        	<p>您好，欢迎使用港城卫士</p>
-        </ion-content>
-      </ion-view>
-    </script>   
-  
 
   </body>
 </html>

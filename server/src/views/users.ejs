@@ -1,0 +1,88 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <h2 class="sub-header">用户列表</h2>
+
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success"
+                    onclick="window.location = 'users/_new';">新增用户
+            </button>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">ID中包含</span>
+                <input data-filter="text" label="filter-text" type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row"><p></p></div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>级别</th>
+                <th>区域</th>
+                <th>描述</th>
+                <th>电话</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+            var users = data.users;
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+            %>
+            <tr>
+                <%
+                var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
+                for (var attr_name of attr_names) {
+                    var attr = user[attr_name];
+                %>
+                <td data-name="<%= attr_name %>"><%= attr %></td>
+                <% } %>
+                <td>
+                    <div class="btn-toolbar" role="toolbar" aria-label="...">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default"
+                                    onclick="defender.user('<%= user.id %>').view();">查看</button>
+                            <button type="button" class="btn btn-default"
+                                    <% if (user.id == 'admin') { %>
+                                    disabled="disabled"
+                                    <% } %>
+                                    onclick="defender.user('<%= user.id %>').edit();">编辑</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-danger"
+                                    <% if (user.id == 'admin') { %>
+                                    disabled="disabled"
+                                    <% } %>
+                                    onclick="defender.user('<%= user.id %>').remove();">删除</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<script>
+    $("[data-filter='text']").keyup(function() {
+        var text = $(this).val();
+        text = text.replace(/(\s+)/g, "");  // strip any whitespace
+        if (text) {
+            $("tbody tr").hide().has("td[data-name='id']:contains(" + text + ")").show();
+        } else {
+            $("tbody tr").show();
+        }
+    });
+</script>

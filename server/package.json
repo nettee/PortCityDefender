@@ -1,18 +1,28 @@
 {
-  "name": "server",
-  "version": "0.0.0",
+  "name": "PortCityDefender",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "prestart": "cd build && ./initialize.sh",
+    "start": "cd src && node ./bin/www &",
+    "prestop": "cd build && ./finalize.sh",
+    "stop": "cd build && ./stop.sh",
+    "test": "mocha test --recursive"
   },
   "dependencies": {
+    "basic-auth": "^1.0.4",
     "body-parser": "~1.13.2",
+    "chai": "^3.5.0",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
+    "mime": "^1.3.4",
+    "mocha": "^2.5.3",
+    "mongoose": ">=2.7.0",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0",
-    "mongoose": ">=2.7.0"
+    "q": "^1.4.1",
+    "request": "^2.72.0",
+    "serve-favicon": "~2.3.0"
   }
 }

@@ -1,0 +1,259 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <%
+    var user = data.user;
+        console.log(data.do);
+    %>
+
+    <h2 class="sub-header">
+        <% if (data.do == 'create') { %>
+        新增用户
+        <% } else if (data.do == 'edit') { %>
+        编辑用户
+        <% } else { %>
+        用户详情
+        <% } %>
+    </h2>
+
+    <% if (!data.do) { %>
+    <ol class="breadcrumb">
+        <li><a href="/dashboard/users">所有用户</a></li>
+        <li class="active"><%= user.name %></li>
+    </ol>
+    <% } %>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>级别</th>
+                <th>区域</th>
+                <th>描述</th>
+                <th>电话</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+            var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
+            if (data.do == 'create') {
+            %>
+            <tr>
+                <%
+                for (var attr_name of attr_names) {
+                %>
+                <td>
+                    <div class="input-group">
+                        <input type="text" class="form-control" data-attr-name="<%= attr_name %>">
+                    </div>
+                </td>
+                <% } %>
+            </tr>
+            <% } else if (data.do == 'edit') { %>
+            <tr>
+                <%
+                for (var attr_name of attr_names) {
+                    var attr = user[attr_name];
+                %>
+                <td>
+                    <div class="input-group">
+                        <input type="text" class="form-control"
+                               value="<%= attr %>"
+                               data-attr-name="<%= attr_name %>"
+                                <% if (attr_name == 'id') { %> readonly <% } %>
+                        >
+                    </div>
+                </td>
+                <% } %>
+            </tr>
+            <% } else { %>
+            <tr>
+                <%
+                for (var attr_name of attr_names) {
+                    var attr = user[attr_name];
+                %>
+                <td data-attr-name="<%= attr_name %>"><%= attr %></td>
+                <% } %>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+
+        <div name="alert">
+            <a name="alert"></a>
+            <% if (data.do == 'create') { %>
+            <div name="info-created" class="alert alert-success" role="alert" style="display: none;">用户信息已创建</div>
+            <% } else if (data.do == 'edit') { %>
+            <div name="info-modified" class="alert alert-success" role="alert" style="display: none;">用户信息已修改</div>
+            <% } else if (data.do == 'remove') { %>
+            <div name="confirm-remove" class="alert alert-danger" role="alert">确定要删除该用户吗？</div>
+            <div name="info-removed" class="alert alert-success" role="alert" style="display: none;">用户已删除</div>
+            <% } %>
+        </div>
+
+        <% if (data.do == 'create') { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button name="create" type="button" class="btn btn-primary">新建
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button name="cancel" type="button" class="btn btn-default"
+                        onclick="defender.users.view();">取消
+                </button>
+            </div>
+        </div>
+
+        <% } else if (data.do == 'edit') { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button name="modify" type="button" class="btn btn-primary">修改
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button name="cancel" type="button" class="btn btn-default"
+                        onclick="defender.user('<%= user.id %>').view();">取消
+                </button>
+            </div>
+        </div>
+
+        <% } else if (data.do == 'remove') { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button name="confirm-remove" type="button" class="btn btn-danger">确认删除
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button name="cancel" type="button" class="btn btn-default"
+                        onclick="defender.user('<%= user.id %>').view();">取消
+                </button>
+            </div>
+        </div>
+
+        <% } else { %>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default"
+                        <% if (user.id == 'admin') { %>
+                        disabled="disabled"
+                        <% } %>
+                        id="user-<%= user.id %>-btn-edit"
+                        onclick="defender.user('<%= user.id %>').edit();">编辑
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-danger"
+                        <% if (user.id == 'admin') { %>
+                        disabled="disabled"
+                        <% } %>
+                        onclick="defender.user('<%= user.id %>').remove();">删除
+                </button>
+            </div>
+        </div>
+        <% } %>
+
+        <div class="btn-group" role="group" aria-label="..." >
+            <button name="back" type="button" class="btn btn-default" style="display: none"
+                    onclick="defender.users.view();">返回
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    $("button[name='create']").click(function () {
+        var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
+        var new_user = {};
+        for (var i = 0; i < attr_names.length; i++) {
+            var attr_name = attr_names[i];
+            new_user[attr_name] = $("input[data-attr-name='" + attr_name + "']").val();
+        }
+        console.log(new_user);
+
+        fetch("/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(new_user)
+        }).then(function(res) {
+            if (res.ok) {
+                console.log('%s %s', res.status, res.statusText);
+
+                $("div[name='alert'] [name='info-created']").fadeIn();
+
+                $("button[name='create']").hide();
+                $("button[name='cancel']").hide();
+                $("button[name='back']").fadeIn();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+    });
+
+    $("button[name='modify']").click(function () {
+        var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
+        var updater = {};
+        for (var i = 0; i < attr_names.length; i++) {
+            var attr_name = attr_names[i];
+            updater[attr_name] = $("input[data-attr-name='" + attr_name + "']").val();
+        }
+        console.log(updater);
+        var id = updater.id;
+
+        fetch("/users/" + id, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updater)
+        }).then(function(res) {
+            if (res.ok) {
+                console.log('%s %s', res.status, res.statusText);
+
+                $("div[name='alert'] [name='info-modified']").fadeIn();
+
+                $("button[name='modify']").hide();
+                $("button[name='cancel']").hide();
+                $("button[name='back']").fadeIn();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+    });
+
+    $("button[name='confirm-remove']").click(function () {
+
+        var id = $("td[data-attr-name='id']").text();
+
+        fetch("/users/" + id, {
+            method: "DELETE",
+            headers: {},
+            body: ""
+        }).then(function(res) {
+            if (res.ok) {
+                console.log('user deleted: %s', id);
+
+                $("div[name='alert'] [name='confirm-remove']").hide();
+                $("div[name='alert'] [name='info-removed']").fadeIn();
+
+                $("button[name='confirm-remove']").hide();
+                $("button[name='cancel']").hide();
+                $("button[name='back']").fadeIn();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+    });
+</script>
+

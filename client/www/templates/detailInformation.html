@@ -1,0 +1,29 @@
+<ion-view view-title="情报动态">
+  <ion-content>
+    <div class="list card">
+      <div class="item item-avatar">
+        <img src="img/txp.png">
+        <h2>{{detailInfo.publisher.name}}</h2>
+        <p>{{properTime(detailInfo.updated_time)}}</p>
+        <div align="right" ng-show="detailInfo.urgent">
+          <span class="badge badge-assertive">紧急</span>
+        </div>
+      </div>
+      <div class="item item-body">
+        <div ng-repeat="picSource in pictureSource">
+          <img src="{{picSource}}" height="180" width="180"/>
+        </div>
+        <p>{{detailInfo.text}}</p>
+        <div align="right">
+          <span class="button button-large button-positive button-clear ion-android-textsms" ng-click="responseInformation()"></span>
+          <span ng-show="samePublisher" class="button button-large button-positive button-clear ion-ios-trash-outline" ng-click="deleteInformation()"></span>
+        </div>
+      </div>
+    </div>
+    <div class="list card" ng-show="detailInfo.replications.length">
+      <div class="item" ng-repeat="reply in detailInfo.replications">
+        {{reply.replier.name}} &nbsp; 评论: &nbsp; {{reply.content}}
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

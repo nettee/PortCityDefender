@@ -1,0 +1,110 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <% var informations = data.informations; %>
+
+    <h2 class="sub-header">情报列表</h2>
+
+
+
+    <% if (informations.length == 0) { %>
+    <div class="alert alert-info" role="alert">暂无情报</div>
+    <% } else { %>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span data-name="text">发布人ID包含</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">发布人ID包含</a></li>
+                        <li><a href="#">内容包含</a></li>
+                    </ul>
+                </div><!-- /btn-group -->
+                <input title="filter-text" data-filter="text" type="text" class="form-control" aria-label="...">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+
+    <div class="row"><p></p></div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>时间</th>
+                <th>发布人</th>
+                <th>优先级</th>
+                <th>内容</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+            for (var i = 0; i < informations.length; i++) {
+                var info = informations[i];
+            %>
+            <tr <% if (info.urgent) { %> class="danger" <% } %>>
+                <td data-name="updated_time"><%= info.updated_time.toLocaleString() %></td>
+                <td data-name="publisher">
+                    <span data-name="publisher.id" hidden="hidden"><%= info.publisher.id %></span>
+                    <span><%= info.publisher.name %></span>
+                </td>
+                <td data-name="urgent">
+                    <% if (info.urgent) { %>
+                    紧急
+                    <% } else { %>
+                    普通
+                    <% } %>
+                </td>
+                <td>
+                    <span data-name="text"><%= info.text %></span>
+                    <% if (info.images.length > 0) { %>
+                    <span class="label label-info"><%= info.images.length %>图片</span>
+                    <% } %>
+                    <% if (info.replications.length > 0) { %>
+                    <span class="label label-primary"><%= info.replications.length %>回复</span>
+                    <% } %>
+                </td>
+                <td>
+                    <div class="btn-toolbar" role="toolbar" aria-label="...">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default"
+                                    onclick="defender.information('<%= info.id %>').view();">查看</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-danger"
+                                    onclick="defender.information('<%= info.id %>').remove();">删除</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <% } %>
+
+</div>
+
+<script>
+    $("ul.dropdown-menu li").click(function () {
+        $("button span[data-name='text']").text($(this).text());
+    });
+
+    $("[data-filter='text']").keyup(function() {
+        var text = $(this).val();
+        text = text.replace(/(\s+)/g, "");  // strip any whitespace
+        var button_text = $("button span[data-name='text']").text();
+        if (text && button_text == '发布人ID包含') {
+            $("tbody tr").hide().has("[data-name='publisher.id']:contains(" + text + ")").show();
+        } else if (text && button_text == '内容包含') {
+            $("tbody tr").hide().has("[data-name='text']:contains(" + text + ")").show();
+        } else {
+            $("tbody tr").show();
+        }
+    });
+</script>

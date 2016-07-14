@@ -1,0 +1,155 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <h2 class="sub-header">文档列表</h2>
+
+    <div class="row">
+        <div class="col-md-9">
+            <ol class="breadcrumb">
+                <li class="all-text"><a>所有文档</a></li>
+                <li class="class-menu">
+                    <div name="primary-22class" class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="class-item"><a href="#">军事训练</a></li>
+                            <li class="class-item"><a href="#">教育管理</a></li>
+                            <li class="class-item"><a href="#">国防动员</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="class-text hidden"><a>军事训练</a></li>
+                <li class="subclass-menu hidden">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="subclass-item" data-index="0"><a href="#">0</a></li>
+                            <li class="subclass-item" data-index="1"><a href="#">1</a></li>
+                            <li class="subclass-item" data-index="2"><a href="#">2</a></li>
+                            <li class="subclass-item" data-index="3"><a href="#">3</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="subclass-text hidden">9</li>
+            </ol>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success" onclick="defender.documents.create();">新建文档</button>
+        </div>
+
+    </div>
+
+    <% var documents = data.documents %>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>大类</th>
+                <th>小类</th>
+                <th>标题</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <%
+                for (var i = 0; i < documents.length; i++) {
+                    var document = documents[i];
+                %>
+                <tr>
+                    <td data-name="class"><%= document.class %></td>
+                    <td data-name="subclass"><%= document.subclass %></td>
+                    <td><%= document.title %></td>
+                    <td>
+                        <div class="btn-toolbar" role="toolbar" aria-label="...">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="button" class="btn btn-default"
+                                        onclick="defender.document('<%= document.id %>').view();">
+                                    查看
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        onclick="defender.document('<%= document.id %>').edit();">
+                                    编辑
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="button" class="btn btn-danger"
+                                        onclick="defender.document('<%= document.id %>').remove();">
+                                    删除
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    var document_class = {
+        '军事训练': [
+            '通知计划',
+            '训练法规',
+            '资料查询',
+            '训练考核'
+        ],
+        '教育管理': [
+            '通知计划',
+            '教育资料',
+            '法规命令',
+            '成果交流'
+        ],
+        '国防动员': [
+            '组织机构',
+            '法规政策',
+            '兵员征集',
+            '基本潜力'
+        ]
+    };
+
+    $(".all-text").click(function () {
+        $(".class-menu").removeClass("hidden");
+        $(".class-text").addClass("hidden");
+        $(".subclass-menu").addClass("hidden");
+        $(".subclass-text").addClass("hidden")
+
+        $("tbody tr").show();
+    });
+
+    $(".class-text").click(function () {
+        $(".subclass-menu").removeClass("hidden");
+        $(".subclass-text").addClass("hidden");
+
+        var class_text = $(this).text();
+        $("tbody tr").hide().has("[data-name='class']:contains(" + class_text + ")").show();
+    });
+
+    $(".class-item").click(function () {
+        var class_text = $(this).text();
+        $(".class-menu").addClass("hidden");
+        $(".class-text").removeClass("hidden").find("a").text(class_text);
+        $(".subclass-menu").removeClass("hidden").find(".subclass-item").map(function () {
+            var index = $(this).data("index");
+            $(this).find("a").text(defender.documents.class[class_text][index]);
+        });
+
+        $("tbody tr").hide().has("[data-name='class']:contains(" + class_text + ")").show();
+    });
+
+    $(".subclass-item").click(function () {
+        var subclass_text = $(this).text();
+        $(".subclass-menu").addClass("hidden");
+        $(".subclass-text").removeClass("hidden").text(subclass_text);
+
+        var class_text = $(".class-text").text();
+        $("tbody tr").hide()
+                .has("[data-name='class']:contains(" + class_text + ")")
+                .has("[data-name='subclass']:contains(" + subclass_text + ")")
+                .show();
+    });
+</script>
