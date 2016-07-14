@@ -38,8 +38,6 @@
                 <th>发布人</th>
                 <th>优先级</th>
                 <th>内容</th>
-                <th>图片</th>
-                <th>回复</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -63,9 +61,13 @@
                 </td>
                 <td>
                     <span data-name="text"><%= info.text %></span>
+                    <% if (info.images.length > 0) { %>
+                    <span class="label label-info"><%= info.images.length %>图片</span>
+                    <% } %>
+                    <% if (info.replications.length > 0) { %>
+                    <span class="label label-primary"><%= info.replications.length %>回复</span>
+                    <% } %>
                 </td>
-                <td><%= info.images.length %></td>
-                <td><%= info.replications.length %></td>
                 <td>
                     <div class="btn-toolbar" role="toolbar" aria-label="...">
                         <div class="btn-group" role="group" aria-label="...">
@@ -95,6 +97,7 @@
 
     $("[data-filter='text']").keyup(function() {
         var text = $(this).val();
+        text = text.replace(/(\s+)/g, "");  // strip any whitespace
         var button_text = $("button span[data-name='text']").text();
         if (text && button_text == '发布人ID包含') {
             $("tbody tr").hide().has("[data-name='publisher.id']:contains(" + text + ")").show();

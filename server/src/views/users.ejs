@@ -78,6 +78,7 @@
 <script>
     $("[data-filter='text']").keyup(function() {
         var text = $(this).val();
+        text = text.replace(/(\s+)/g, "");  // strip any whitespace
         if (text) {
             $("tbody tr").hide().has("td[data-name='id']:contains(" + text + ")").show();
         } else {
