@@ -17,7 +17,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           if (status == 200){
             console.log("登陆成功");
             $state.go('menu.information');
+
             userService.setUsername(user.username, user.password, $scope.auth);
+
           }
         })
         .error(function (data, status, headers, config){
@@ -128,10 +130,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         });
       }
     }
-  })
-
-  .controller('FirstController', function ($scope,userService) {
-    $scope.user = userService.getUser();
   })
 
   .controller('UserController', function ($scope,userService) {
@@ -456,6 +454,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         commandService.changeDateStyle(commandList);
         commandService.setCommandList(commandList);
         $scope.commandList=commandList;
+        if(commandList.length==0){
+          $scope.isCommandListEmpty=true;
+        }else{
+          $scope.isCommandListEmpty=false;
+        }
         $scope.$broadcast('scroll.refreshComplete');
       })
 
@@ -466,6 +469,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           commandService.changeDateStyle(commandList);
           commandService.setCommandList(commandList);
           $scope.commandList=commandList;
+          if(commandList.length==0){
+            $scope.isCommandListEmpty=true;
+          }else{
+            $scope.isCommandListEmpty=false;
+          }
         })
     }
     )

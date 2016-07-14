@@ -35,7 +35,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         templateUrl: 'templates/menu.html',
         controller: 'MenuController'
       })
-
+      
       .state('menu.password', {
         url: '/password',
         views: {
@@ -65,9 +65,8 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           }
         }
       })
-
       .state('menu.documentSubclassItem', {
-        url: '/:classname/:subclassname',
+        url: '/document/:classname/:subclassname',
         views: {
           'menuContent': {
             templateUrl: 'templates/documentSubClassItem.html',
@@ -77,7 +76,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
       })
 
       .state('menu.detailDocument', {
-        url: '/:classname/:subclassname/:index',
+        url: '/document/:classname/:subclassname/:index',
         views: {
           'menuContent': {
             templateUrl: 'templates/detailDocument.html',
@@ -196,6 +195,9 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           }
         }
       })
+
+
+
 
       $urlRouterProvider.otherwise('/login');
 
