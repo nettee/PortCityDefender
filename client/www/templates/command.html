@@ -1,33 +1,38 @@
-<div ng-app="myApp" ng-controller="commandController">
-<ion-view view-title="指挥控制">
-  <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-plus-round" menu-toggle="right" ng-click="newCommand()">
-    </button>
-  </ion-nav-buttons>
 
-  <ion-content>
+
+  <ion-view view-title="指挥控制">
+    <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-plus-round" menu-toggle="right" ng-click="newCommand()">
+      </button>
+    </ion-nav-buttons>
+
+    <ion-content>
       <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
       </ion-refresher>
-    <div class="list">
+      <div class="list">
 
-      <ion-item ng-repeat="command in commandList"
-                ng-cloak
-                href="#/menu/command/{{$index}}"
-                class="item item-accordion item-thumbnail-left  ng-cloak ">
-        <!--  <img ng-src="{{ command.img }}"> -->
-        <img ng-src="img/txp.png">
-        <h2>{{ command.sender.name}}</h2>
-        <p>{{ command.content}}
-        </p>
+        <ion-item ng-repeat="command in commandList"
+                  ng-cloak
+                  href="#/menu/command/{{$index}}"
+                  class="item item-accordion item-thumbnail-left  ng-cloak ">
+          <!--  <img ng-src="{{ command.img }}"> -->
+          <img ng-src="img/txp.png">
+          <h2>{{ command.sender.name}}</h2>
+          <p>{{ command.content}}
+          </p>
               <span class="item-note" id="float-right">
                   {{command.updated_time}}
                 </span>
 
-      </ion-item>
+        </ion-item>
 
-    </div>
-    <div ng-show="isCommandListEmpty">
-      <h>暂无命令</h>
-    </div>
-  </ion-content>
-</ion-view>
+      </div>
+      <div id="isCommandListEmptyBackground">
+
+        <div ng-show="isCommandListEmpty">
+          <p id="NoContentShow">暂无命令</p>
+        </div>
+      </div>
+    </ion-content>
+  </ion-view>
+

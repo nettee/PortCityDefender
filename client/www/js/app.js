@@ -82,7 +82,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
             templateUrl: 'templates/userpage.html',
             controller: 'UserController'
           }
-        }
+        } 
       })
 
       .state('menu.contacts', {
