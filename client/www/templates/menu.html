@@ -18,8 +18,10 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close href="#/menu/userpage">
-          个人信息
+        <ion-item menu-close class="item-avatar" href="#/menu/userpage" style="height : 80px;">
+          <img src="img/txp.png">
+          <h2>{{user.name}}</h2>
+          <p>{{user.description}}</p>
         </ion-item>
         <ion-item menu-close href="#/menu/information">
           情报动态
@@ -27,18 +29,13 @@
         <ion-item menu-close href="#/menu/command">
           指挥控制
         </ion-item>
+        <ion-item menu-close href="#/menu/document">
+          文档查看
+        </ion-item>
         <ion-item menu-close href="#/menu/contacts">
           通讯录
         </ion-item>
-        <ion-item menu-close href="#/menu/document">
-          文档
-        </ion-item>
-        <ion-item menu-close href="#/menu/password">
-          修改密码
-        </ion-item>
-        <ion-item menu-close ng-click="logout()">
-          退出登录
-        </ion-item>
+
       </ion-list>
     </ion-content>
   </ion-side-menu>

@@ -43,17 +43,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     };
   })
 
-  .controller('MenuController', function ($scope, $state, $ionicPopup) {
-    $scope.logout = function () {
-      $ionicPopup.confirm({
-        title: '您确认要登出吗？'
-      }).then(function(res) {
-        if(res) {
-          $state.go('login');
-        } else {
-          //do nothing
-        }
-      });
+  .controller('MenuController', function ($scope, $state, $ionicPopup, userService) {
+    $scope.user = userService.getUser();
+    
+    $scope.userPage = function () {
+      $state.go('menu.userpage')
     }
   })
 
@@ -132,8 +126,33 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('UserController', function ($scope,userService) {
+  .controller('UserController', function ($scope, $state, $ionicPopup, userService) {
     $scope.user = userService.getUser();
+
+    $scope.changePassword = function () {
+      $state.go('menu.password');
+    }
+
+    $scope.logout = function () {
+      $ionicPopup.show({
+        title: "您确定要登出吗",
+        scope: $scope,
+        buttons:[
+          {
+            text : "确定",
+            type : "button-positive",
+            onTap: function(e) {
+              $state.go('login');
+            }
+          },
+          {
+            text : "取消",
+            type : "button-positive"
+          }]
+      }).then(function(res) {
+      });
+    }
+
     $scope.doRefresh=function() {
       $scope.user = userService.getUser();
       $scope.$broadcast('scroll.refreshComplete');

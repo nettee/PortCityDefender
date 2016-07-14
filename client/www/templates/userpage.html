@@ -3,28 +3,35 @@
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"  refreshing-text="Refreshing!" >
     </ion-refresher>
     <div class="list" style="margin-top: 0px; background-color: #EEEEEE;">
-    <div class="item" style="margin-top: 13px;" href="#">
-      姓名：  {{user.name}}
-    </div>
-    <div class="item" href="#">
-      用户名：  {{user.id}}
-    </div>
-    <div class="item" href="#">
-      区域：  {{user.region}}
-    </div>
-    <div class="item" href="#">
-      级别： {{user.level}}
-    </div>
-    <div class = "item item-button-right">
-      电话：  {{user.phone}}
-      <button class = "button button-clear" style="padding: 3px; padding-left: 10px;">
-        <i class = "icon ion-ios-telephone-outline" style="color: #00BFFF"></i>
-      </button>
-    </div>
+      <div class="item item-avatar">
+        <img src="img/txp.png">
+        <h2>{{user.name}}</h2>
+        <p>{{user.description}}</p>
+        <div align="right">
+          <span class="badge badge-assertive" ng-click="changePassword()">修改密码</span>
+        </div>
+      </div>
 
-    <div class="item" href="#" style="margin-top: 13px;">
-      描述：  {{user.description}}
-    </div>
+      <div class="item" style="margin-top: 13px;">
+        用户名：  {{user.id}}
+      </div>
+      <div class="item" href="#">
+        区域：  {{user.region}}
+      </div>
+      <div class="item" href="#">
+        级别： {{user.level}}
+      </div>
+      <div class = "item item-button-right">
+        电话：  {{user.phone}}
+        <button class = "button button-clear" style="padding: 3px; padding-left: 10px;">
+          <i class = "icon ion-ios-telephone-outline" style="color: #00BFFF"></i>
+        </button>
+      </div>
+
+      <ion-item  style="margin-top: 13px;" ng-click="logout()">
+        退出登录
+      </ion-item>
+
     </div>
   </ion-content >
 </ion-view>
