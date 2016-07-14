@@ -197,10 +197,11 @@ app.factory('commandService',function($http,userService){
         .success(function (response) {
           var i = regionlist.indexOf(group.name);
           for (var j = 0;j < response.length;j++){
-            mygroups[i].items.push(response[j]);
-            var check={ischecked:false};
-
-            mygroups[i].items[j]=objMerger(mygroups[i].items[j],check);
+            if(response[j].level==userService.getUser().level+1){
+              mygroups[i].items.push(response[j]);
+              var check={ischecked:false};
+              mygroups[i].items[j]=objMerger(mygroups[i].items[j],check);
+            }
           }
           mygroups[i].isfill = true;
           group.show = !group.show;
