@@ -31,10 +31,6 @@ defender.user = function(id) {
             window.location = urlformat('remove');
         },
 
-        removed: function() {
-            window.location = urlformat('removed')
-        },
-
         view: function() {
             window.location = urlformat();
         }
@@ -70,7 +66,7 @@ defender.information = function(id) {
         },
 
         removed: function() {
-            window.location = urlformat('removed')
+            window.location = urlformat('removed');
         },
 
         view: function() {

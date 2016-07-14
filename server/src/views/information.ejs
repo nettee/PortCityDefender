@@ -15,6 +15,7 @@
             </thead>
             <tbody>
             <tr>
+                <span data-attr-name="id" hidden="hidden"><%= info.id %></span>
                 <td><%= info.publisher.name %></td>
                 <td>
                 <% if (info.urgent) { %>
@@ -67,34 +68,27 @@
 
     </div>
 
-    <a name="alert"></a>
-    <% if (data.do == 'remove') { %>
-    <div class="alert alert-danger" role="alert">确定要删除该情报吗？</div>
-    <% } else if (data.do == 'removed') { %>
-    <div class="alert alert-success" role="alert">情报已删除</div>
-    <% } %>
+    <div name="alert">
+        <a name="alert"></a>
+        <% if (data.do == 'remove') { %>
+        <div name="confirm-remove" class="alert alert-danger" role="alert">确定要删除该情报吗？</div>
+        <div name="info-removed" class="alert alert-success" role="alert" style="display: none;">情报已删除</div>
+        <% } %>
+    </div>
 
-    <% if (data.do == 'create') { %>
-    <% } else if (data.do == 'remove') { %>
+    <% if (data.do == 'remove') { %>
     <div class="btn-toolbar" role="toolbar" aria-label="...">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-danger"
-                    onclick="defender.information('<%= info.id %>').removed();">确认删除
+            <button name="confirm-remove" type="button" class="btn btn-danger">确认删除
             </button>
         </div>
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"
+            <button name="cancel" type="button" class="btn btn-default"
                     onclick="defender.information('<%= info.id %>').view();">取消
             </button>
         </div>
     </div>
-    <% } else if (data.do == 'removed') { %>
-    <div class="btn-toolbar" role="toolbar" aria-label="...">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"
-                    onclick="defender.informations.view();">返回</button>
-        </div>
-    </div>
+
     <% } else { %>
     <div class="btn-toolbar" role="toolbar" aria-label="...">
         <div class="btn-group" role="group" aria-label="...">
@@ -104,5 +98,41 @@
     </div>
     <% } %>
 
+    <div class="btn-toolbar" role="toolbar" aria-label="...">
+        <div class="btn-group" role="group" aria-label="...">
+            <button name="back" type="button" class="btn btn-default" style="display: none"
+                    onclick="defender.informations.view();">返回</button>
+        </div>
+    </div>
+
 
 </div>
+
+<script>
+    $("button[name='confirm-remove']").click(function () {
+
+        var id = $("span[data-attr-name='id']").text();
+        console.log(id);
+
+        fetch("/information/" + id, {
+            method: "DELETE",
+            headers: {},
+            body: ""
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+
+                $("div[name='alert'] [name='confirm-remove']").hide();
+                $("div[name='alert'] [name='info-removed']").fadeIn();
+
+                $("button[name='confirm-remove']").hide();
+                $("button[name='cancel']").hide();
+                $("button[name='back']").fadeIn();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+    });
+</script>

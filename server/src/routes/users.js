@@ -136,15 +136,15 @@ router.get('/', userListReader);
 router.get('/:id', userExistenceChecker, userReader);
 
 // CREATE new user
-router.post('/', auth.forAdmin, userCompletementChecker, userCreator);
+router.post('/', userCompletementChecker, userCreator);
 
 // UPDATE user information
-router.put('/:id', auth.forAdmin, userCompletementChecker, userExistenceChecker, userUpdater);
+router.put('/:id', userCompletementChecker, userExistenceChecker, userUpdater);
 
 // partly UPDATE user information
-router.patch('/:id', auth.forAdmin, userExistenceChecker, userUpdater);
+router.patch('/:id', userExistenceChecker, userUpdater);
 
 // DELETE user
-router.delete('/:id', auth.forAdmin, userDeleter);
+router.delete('/:id', userDeleter);
 
 module.exports = router;
