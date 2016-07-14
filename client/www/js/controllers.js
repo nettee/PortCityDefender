@@ -1,6 +1,6 @@
 angular.module('ionicApp.controllers', ['ionicApp.services'])
 
-  .controller('LoginController', function($rootScope, $scope, $http, $state, userService) {
+  .controller('LoginController', function($rootScope, $scope, $ionicPopup, $http, $state, userService) {
     $scope.signIn = function(user) {
       $rootScope.ipAddress = "http://121.40.97.40:3000";
       var auth = window.btoa(user.username + ":" + user.password);
@@ -18,14 +18,20 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             $state.go('menu.firstpage');
             userService.setUsername(user.username,$scope.auth);
           }
-          else
-            alert("用户名或密码错误!");
         })
         .error(function (data, status, headers, config){
-          alert("Login fail!");
+          if (status == 401){
+            $ionicPopup.alert({
+              title: "用户名或密码错误",
+              template: "请您确认后再次输入！"
+            })
+              .then(function(res) {
+
+              });
+          }
+         // alert("Login fail!");
           console.log("status : " + status);
           console.log("response : " + data.message);
-          console.log("Login : Fail to send the get request");
         })
     };
   })
@@ -46,7 +52,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('ContactsController', function ($scope, $http, userService) {
+  .controller('ContactsController', function ($scope, $state, $http, userService) {
     var regionlist = [];
     $scope.groups = [];
 
@@ -67,10 +73,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
       })
 
-    /*
-     * if given group is the selected group, deselect it
-     * else, select the given group
-     */
+    $scope.showDetailContact = function (id) {
+      $state.go('menu.single', {contactId : id});
+    }
+
     $scope.toggleGroup = function(group) {
       if (group.isfill == false){
         $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})

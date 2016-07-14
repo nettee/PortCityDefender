@@ -21,7 +21,7 @@
         <ion-item class="item-accordion"
                   ng-repeat="item in group.items"
                   ng-show="isGroupShown(group)"
-                  href="#/menu/contacts/{{item.id}}">
+                  ng-click="showDetailContact(item.id)">
           {{item.name}}
           &nbsp;
           <div>
@@ -37,7 +37,7 @@
     </span>
      <span ng-if="!searchisnull">
        <ion-list>
-      <ion-item ng-repeat="item in searchResults" href="#/menu/contacts/{{item.id}}">
+      <ion-item ng-repeat="item in searchResults" ng-click="showDetailContact(item.id)">
         {{item.name}}
          &nbsp;
         {{item.level}}
