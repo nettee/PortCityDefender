@@ -15,7 +15,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         .success(function (response, status, headers, config){
           if (status == 200){
             console.log("登陆成功");
-            $state.go('menu.firstpage');
+            $state.go('menu.information');
             userService.setUsername(user.username,$scope.auth);
           }
         })
@@ -39,11 +39,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   .controller('MenuController', function ($scope) {
 
   })
-
-  .controller('FirstController', function ($scope,userService) {
-    $scope.user = userService.getUser();
-  })
-
+   
   .controller('UserController', function ($scope,userService) {
     $scope.user = userService.getUser();
     $scope.doRefresh=function() {

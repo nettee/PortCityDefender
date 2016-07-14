@@ -36,16 +36,6 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         controller: 'MenuController'
       })
 
-      .state('menu.firstpage', {
-        url: '/firstpage',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/firstpage.html',
-            controller: 'FirstController'
-          }
-        }
-      })
-
       .state('menu.document', {
         url: '/document',
         views: {
