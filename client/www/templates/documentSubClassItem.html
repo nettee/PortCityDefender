@@ -1,5 +1,5 @@
 <ion-view view-title="{{subclass}}" id="fontSet">
-  <ion-content>
+  <ion-content overflow-scroll="true" style="overflow:auto;">
     <ion-list>
       <ion-item ng-repeat="doc in document" ng-click="showDetailDocument(doc)">
         {{doc.title}}
