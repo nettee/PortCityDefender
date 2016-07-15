@@ -138,3 +138,7 @@ defender.document = function(id) {
     };
 };
 
+defender.feedback_icon = {
+    error: $("<span class='glyphicon glyphicon-remove form-control-feedback' aria-hidden='true'></span>")
+};
+
