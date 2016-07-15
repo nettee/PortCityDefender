@@ -286,16 +286,25 @@
 
 | HTTP方法 | 路径 | 功能 | 权限 |
 |---|---|---|---|
-| POST | /documents/_class_/_subclass_/ | 新建文档 | 管理员 |
+| POST | /documents | 新建文档 | 管理员 |
 | GET | /documents/_class_/_subclass_/ | 获得文档列表 | 所有用户、管理员 | 
 | GET | /documents/_class_/_subclass_/_id_ | 获得文档 | 所有用户、管理员 | 
-| PUT | /documents/_class_/_subclass_/_id_ | 更新文档 | 管理员 |
-| DELETE | /documents/_class_/_subclass_/_id_ | 删除文档 | 管理员 |
+| PUT | /documents/_id_ | 更新文档 | 管理员 |
+| DELETE | /documents/_id_ | 删除文档 | 管理员 |
+
+1. POST /documents
 
 1. GET /documents/_class_/_subclass_/：获得文档列表
   + 发送数据：无
   + 返回状态码：200
   + 返回内容：Document对象的数组
+
+1. PUT /documents
+
+1. DELETE /documents/_id_：删除ID为_id_的文档
+  + 发送数据：无
+  + 返回状态码：204
+  + 返回内容：空对象
 
 #### 区域
 
