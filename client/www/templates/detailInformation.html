@@ -2,7 +2,7 @@
   <ion-content ng-show="existed">
     <div class="list card">
       <div class="item item-avatar">
-        <img src="img/txp.png">
+        <img src="img/{{calPortraitNumber(detailInfo.publisher.id)}}.jpg">
         <h2>{{detailInfo.publisher.name}}</h2>
         <p>{{properTime(detailInfo.updated_time)}}</p>
         <div align="right" ng-show="detailInfo.urgent">

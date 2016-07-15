@@ -267,7 +267,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state, informationService) {
+  .controller('InfoController', function ($scope, $state, informationService, userService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
       $state.go('menu.newInformation');
@@ -308,6 +308,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       })
     }
 
+    $scope.calPortraitNumber = userService.calPortraitNumber;
+
     $scope.showDetailInformation = function (info) {
       $state.go('menu.detailInformation',{infoID :info.id});
     }
@@ -319,7 +321,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.pictureSource = [];
     $scope.samePublisher = false;
     $scope.existed = false;
-
+    $scope.calPortraitNumber = userService.calPortraitNumber;
     $scope.$on('$ionicView.beforeEnter', function () {
       $scope.images = [];
       $scope.pictureSource = [];
@@ -499,13 +501,16 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('commandController', function ($scope,$state,commandService) {
+  .controller('commandController', function ($scope, $state, commandService, userService) {
 
     $scope.newCommand = function(){
       console.log("in new Command click");
       commandService.setReceiverListNull();
       $state.go('menu.newCommand');
     }
+
+    $scope.calPortraitNumber = userService.calPortraitNumber;
+
     $scope.doRefresh = function(){
       commandService.getCommandList(function(response) {
         commandList = response
@@ -537,9 +542,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     )
   })
 
-  .controller('singleCommandController',function($scope,$stateParams,commandService){
+  .controller('singleCommandController',function($scope,$stateParams,commandService, userService){
     var index= $stateParams.commandId;
     var command=commandService.getCommandByIndex(index);
+    $scope.calPortraitNumber = userService.calPortraitNumber;
     $scope.command=command;
     //content=content.replace('\n', '<br>').replace('\t', '<br>').replace('\r', '<br>');//正确
     //console.log(content);

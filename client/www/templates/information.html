@@ -11,7 +11,7 @@
       <div class="list card" ng-click="showDetailInformation(info)">
 
         <div class="item item-avatar">
-          <img src="img/txp.png">
+          <img src="img/{{calPortraitNumber(info.publisher.id)}}.jpg">
           <h2>{{info.publisher.name}}</h2>
           <p>{{properTime(info.updated_time)}}</p>
           <div align="right" ng-show="info.urgent">

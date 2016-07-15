@@ -29,6 +29,14 @@ app.factory('userService', function($http){
     this.level = level;
   }
 
+  function calPortraitNumber(uid) {
+    var num = 1;
+    for (var i in uid){
+      num *= uid[i].charCodeAt();
+    }
+    return (num % 7) + 1;
+  }
+
   var user = {}
 
   var fillUser = function (id, pass, authnum) {
@@ -43,7 +51,9 @@ app.factory('userService', function($http){
         user.region = response.region;
         user.description = response.description;
         user.phone = response.phone;
+        user.portrait = calPortraitNumber(user.id);
         console.log("app userService method-fillUser Success ");
+        console.log("头像编号 ： " + user.portrait);
       })
       .error(function (response) {
         alert("Fail to get the user by id : " + id);
@@ -79,7 +89,13 @@ app.factory('userService', function($http){
 
     getUserId : function () {
       return user.id;
-    }
+    },
+
+    getUserPortrait : function () {
+      return user.portrait;
+    },
+    
+    calPortraitNumber : calPortraitNumber
   };
 });
 
