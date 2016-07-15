@@ -321,6 +321,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.existed = false;
 
     $scope.$on('$ionicView.beforeEnter', function () {
+      $scope.images = [];
+      $scope.pictureSource = [];
       $scope.samePublisher = false;
       detailInformationService.getInformation($scope.infoID, function(response){
         $scope.detailInfo = response;
