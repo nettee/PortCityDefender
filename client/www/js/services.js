@@ -474,7 +474,7 @@ app.factory('informationService', function ($http) {
 
 app.factory('detailInformationService', function ($http) {
 
-  function getInformation(infoID, callback){
+  function getInformation(infoID, callback, callbackError){
     $http({
       method : "GET",
       url : ipAddress + "/information/" + infoID,
@@ -486,6 +486,7 @@ app.factory('detailInformationService', function ($http) {
       callback(data);
     }).error(function (data, status, headers, config) {
       console.log("获取详细信息失败");
+      callbackError(data);
     })
   }
 
@@ -551,7 +552,7 @@ app.factory('replicationServer',function ($http) {
     }).error(function (data, status, headers, config) {
       console.log("回复发送失败");
       if (status == 404)
-        alert("该情报已删除");
+        console.log("该情报已删除");
       callbackFail();
     })
   }
