@@ -13,7 +13,9 @@
         <div ng-repeat="picSource in pictureSource">
           <img src="{{picSource}}" height="180" width="210"/>
         </div>
-        <p>{{detailInfo.text}}</p>
+        <p style="text-indent:2em" ng-repeat="content in a.textArray track by $index">
+          {{content}}
+        </p>
         <div align="right">
           <i class="ResButton ion-android-textsms"  ng-click="responseInformation()"></i>
           <i ng-show="samePublisher" class="ResButton ion-ios-trash-outline" ng-click="deleteInformation()"></i>

@@ -220,7 +220,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $http.get($scope.ipAddress + "/users",{headers:{Authorization : $scope.auth}})
           .success(function (response) {
             for (var i in response){
-              if (response[i].name.indexOf(searchcontent) != -1){
+              if (response[i].name.indexOf(searchcontent) != -1||response[i].id.indexOf(searchcontent) != -1){
                 $scope.searchResults.push(response[i]);
               }
             }
@@ -318,6 +318,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
   .controller('detailInformationController', function ($scope, $state, $stateParams, $ionicPopup, detailInformationService,userService) {
     $scope.infoID = $stateParams.infoID;
     $scope.images = [];
+    $scope.a={};
     $scope.pictureSource = [];
     $scope.samePublisher = false;
     $scope.existed = false;
@@ -329,6 +330,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       detailInformationService.getInformation($scope.infoID, function(response){
         $scope.detailInfo = response;
         $scope.existed = true;
+        $scope.a.textArray=$scope.detailInfo.text.split("\n");
         console.log("response id : " + response.publisher.id);
         console.log("user id : " + userService.getUserId());
         if (response.publisher.id == userService.getUserId())

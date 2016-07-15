@@ -40,7 +40,13 @@
       <ion-item ng-repeat="item in searchResults" ng-click="showDetailContact(item.id)">
         {{item.name}}
          &nbsp;
-        {{item.level}}
+          <div>
+            <div id="classBackground">
+              <span id="classValue">
+                {{item.level}}
+              </span>
+            </div>
+          </div>
       </ion-item>
     </ion-list>
      </span>
