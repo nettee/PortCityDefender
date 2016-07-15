@@ -19,3 +19,1352 @@
 {"id": "tangjie", "name": "唐杰", "level": 3, "region": "东南", "description": "助理员3", "phone": "025-83593460"}
 {"id": "shanglin", "name": "商琳", "level": 3, "region": "东北", "description": "助理员4", "phone": "025-83686556"}
 {"id": "qzz", "name": "钱柱中", "level": 3, "region": "东北", "description": "助理员5", "phone": ""}
+{
+"id" : "user1001",
+"name" : "范宇",
+"level" : "4",
+"region" : "东北",
+"phone" : "024-30000",
+"description" : "东北区部长"
+}
+
+{
+"id" : "user1002",
+"name" : "付萍",
+"level" : "5",
+"region" : "东北",
+"phone" : "024-30001",
+"description" : "东北区副部长"
+}
+
+{
+"id" : "user1003",
+"name" : "郭铭仁",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-30002",
+"description" : "民兵"
+}
+
+{
+"id" : "user1004",
+"name" : "荆玉坤",
+"level" : "4",
+"region" : "东南",
+"phone" : "026-30003",
+"description" : "东南区部长"
+}
+
+{
+"id" : "user1005",
+"name" : "李丽丽",
+"level" : "5",
+"region" : "东南",
+"phone" : "026-30004",
+"description" : "东南区副部长"
+}
+
+{
+"id" : "user1006",
+"name" : "罗鑫",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-30005",
+"description" : "民兵"
+}
+
+{
+"id" : "user1007",
+"name" : "聂宇豪",
+"level" : "4",
+"region" : "西南",
+"phone" : "028-30006",
+"description" : "西南区部长"
+}
+
+{
+"id" : "user1008",
+"name" : "潘雪",
+"level" : "5",
+"region" : "西南",
+"phone" : "028-30007",
+"description" : "西南区副部长"
+}
+
+{
+"id" : "user1009",
+"name" : "尚佳钰",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-30008",
+"description" : "民兵"
+}
+
+{
+"id" : "user1010",
+"name" : "邵徐",
+"level" : "4",
+"region" : "西北",
+"phone" : "029-30009",
+"description" : "西北区部长"
+}
+
+{
+"id" : "user1011",
+"name" : "宿翔阁",
+"level" : "5",
+"region" : "西北",
+"phone" : "029-300010",
+"description" : "西北区副部长"
+}
+
+{
+"id" : "user1012",
+"name" : "孙旭文",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300011",
+"description" : "民兵"
+}
+
+{
+"id" : "user1013",
+"name" : "谭泽宁",
+"level" : "4",
+"region" : "东北",
+"phone" : "024-300012",
+"description" : "东北区政委"
+}
+
+{
+"id" : "user1014",
+"name" : "王琳",
+"level" : "5",
+"region" : "东北",
+"phone" : "024-300013",
+"description" : "东北区参谋"
+}
+
+{
+"id" : "user1015",
+"name" : "王元辰",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300014",
+"description" : "民兵"
+}
+
+{
+"id" : "user1016",
+"name" : "闻淑琴",
+"level" : "4",
+"region" : "东南",
+"phone" : "026-300015",
+"description" : "东南区政委"
+}
+
+{
+"id" : "user1017",
+"name" : "修正",
+"level" : "5",
+"region" : "东南",
+"phone" : "026-300016",
+"description" : "东南区参谋"
+}
+
+{
+"id" : "user1018",
+"name" : "徐铭谦",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300017",
+"description" : "民兵"
+}
+
+{
+"id" : "user1019",
+"name" : "杨硕",
+"level" : "4",
+"region" : "西南",
+"phone" : "028-300018",
+"description" : "西南区政委"
+}
+
+{
+"id" : "user1020",
+"name" : "于雪巍",
+"level" : "5",
+"region" : "西南",
+"phone" : "028-300019",
+"description" : "西南区参谋"
+}
+
+{
+"id" : "user1021",
+"name" : "张博楠",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300020",
+"description" : "民兵"
+}
+
+{
+"id" : "user1022",
+"name" : "周智欣",
+"level" : "4",
+"region" : "西北",
+"phone" : "029-300021",
+"description" : "西北区政委"
+}
+
+{
+"id" : "user1023",
+"name" : "毕靖",
+"level" : "5",
+"region" : "西北",
+"phone" : "029-300022",
+"description" : "西北区参谋"
+}
+
+{
+"id" : "user1024",
+"name" : "曹江琦",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300023",
+"description" : "民兵"
+}
+
+{
+"id" : "user1025",
+"name" : "高铭",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300024",
+"description" : "民兵"
+}
+
+{
+"id" : "user1026",
+"name" : "刘永恒",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300025",
+"description" : "民兵"
+}
+
+{
+"id" : "user1027",
+"name" : "卢婧",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300026",
+"description" : "民兵"
+}
+
+{
+"id" : "user1028",
+"name" : "马洪宇",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300027",
+"description" : "民兵"
+}
+
+{
+"id" : "user1029",
+"name" : "倪春雪",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300028",
+"description" : "民兵"
+}
+
+{
+"id" : "user1030",
+"name" : "王宝达",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300029",
+"description" : "民兵"
+}
+
+{
+"id" : "user1031",
+"name" : "王晶",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300030",
+"description" : "民兵"
+}
+
+{
+"id" : "user1032",
+"name" : "王璐",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300031",
+"description" : "民兵"
+}
+
+{
+"id" : "user1033",
+"name" : "王珊珊",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300032",
+"description" : "民兵"
+}
+
+{
+"id" : "user1034",
+"name" : "王思月",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300033",
+"description" : "民兵"
+}
+
+{
+"id" : "user1035",
+"name" : "王晓玉",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300034",
+"description" : "民兵"
+}
+
+{
+"id" : "user1036",
+"name" : "王笑颖",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300035",
+"description" : "民兵"
+}
+
+{
+"id" : "user1037",
+"name" : "杨婧",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300036",
+"description" : "民兵"
+}
+
+{
+"id" : "user1038",
+"name" : "殷玉婷",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300037",
+"description" : "民兵"
+}
+
+{
+"id" : "user1039",
+"name" : "映慧",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300038",
+"description" : "民兵"
+}
+
+{
+"id" : "user1040",
+"name" : "袁蕾",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300039",
+"description" : "民兵"
+}
+
+{
+"id" : "user1041",
+"name" : "张大鹏",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300040",
+"description" : "民兵"
+}
+
+{
+"id" : "user1042",
+"name" : "张晋嘉",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300041",
+"description" : "民兵"
+}
+
+{
+"id" : "user1043",
+"name" : "张凯",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300042",
+"description" : "民兵"
+}
+
+{
+"id" : "user1044",
+"name" : "张硕",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300043",
+"description" : "民兵"
+}
+
+{
+"id" : "user1045",
+"name" : "周文文",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300044",
+"description" : "民兵"
+}
+
+{
+"id" : "user1046",
+"name" : "陈小娟",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300045",
+"description" : "民兵"
+}
+
+{
+"id" : "user1047",
+"name" : "董茜茜",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300046",
+"description" : "民兵"
+}
+
+{
+"id" : "user1048",
+"name" : "顾雅婷",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300047",
+"description" : "民兵"
+}
+
+{
+"id" : "user1049",
+"name" : "胡勇",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300048",
+"description" : "民兵"
+}
+
+{
+"id" : "user1050",
+"name" : "贾彬",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300049",
+"description" : "民兵"
+}
+
+{
+"id" : "user1051",
+"name" : "李姣月",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300050",
+"description" : "民兵"
+}
+
+{
+"id" : "user1052",
+"name" : "李淼",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300051",
+"description" : "民兵"
+}
+
+{
+"id" : "user1053",
+"name" : "李琪",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300052",
+"description" : "民兵"
+}
+
+{
+"id" : "user1054",
+"name" : "李昕妍",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300053",
+"description" : "民兵"
+}
+
+{
+"id" : "user1055",
+"name" : "李占林",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300054",
+"description" : "民兵"
+}
+
+{
+"id" : "user1056",
+"name" : "蔺晓茹",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300055",
+"description" : "民兵"
+}
+
+{
+"id" : "user1057",
+"name" : "刘佳龙",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300056",
+"description" : "民兵"
+}
+
+{
+"id" : "user1058",
+"name" : "刘梦",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300057",
+"description" : "民兵"
+}
+
+{
+"id" : "user1059",
+"name" : "刘蕊",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300058",
+"description" : "民兵"
+}
+
+{
+"id" : "user1060",
+"name" : "刘晓巍",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300059",
+"description" : "民兵"
+}
+
+{
+"id" : "user1061",
+"name" : "卢慧妍",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300060",
+"description" : "民兵"
+}
+
+{
+"id" : "user1062",
+"name" : "马钰杰",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300061",
+"description" : "民兵"
+}
+
+{
+"id" : "user1063",
+"name" : "乔云飞",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300062",
+"description" : "民兵"
+}
+
+{
+"id" : "user1064",
+"name" : "邵翠娥",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300063",
+"description" : "民兵"
+}
+
+{
+"id" : "user1065",
+"name" : "宋晓琪",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300064",
+"description" : "民兵"
+}
+
+{
+"id" : "user1066",
+"name" : "隋广琦",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300065",
+"description" : "民兵"
+}
+
+{
+"id" : "user1067",
+"name" : "谭秀琪",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300066",
+"description" : "民兵"
+}
+
+{
+"id" : "user1068",
+"name" : "田雪",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300067",
+"description" : "民兵"
+}
+
+{
+"id" : "user1069",
+"name" : "王苗苗",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300068",
+"description" : "民兵"
+}
+
+{
+"id" : "user1070",
+"name" : "王晓婧",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300069",
+"description" : "民兵"
+}
+
+{
+"id" : "user1071",
+"name" : "王玉杰",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300070",
+"description" : "民兵"
+}
+
+{
+"id" : "user1072",
+"name" : "魏浩文",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300071",
+"description" : "民兵"
+}
+
+{
+"id" : "user1073",
+"name" : "魏萌晓",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300072",
+"description" : "民兵"
+}
+
+{
+"id" : "user1074",
+"name" : "张婧",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300073",
+"description" : "民兵"
+}
+
+{
+"id" : "user1075",
+"name" : "张丽婧",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300074",
+"description" : "民兵"
+}
+
+{
+"id" : "user1076",
+"name" : "张艳",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300075",
+"description" : "民兵"
+}
+
+{
+"id" : "user1077",
+"name" : "赵宇飞",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300076",
+"description" : "民兵"
+}
+
+{
+"id" : "user1078",
+"name" : "周姣姣",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300077",
+"description" : "民兵"
+}
+
+{
+"id" : "user1079",
+"name" : "周双",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300078",
+"description" : "民兵"
+}
+
+{
+"id" : "user1080",
+"name" : "周颖",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300079",
+"description" : "民兵"
+}
+
+{
+"id" : "user1081",
+"name" : "陈雷",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300080",
+"description" : "民兵"
+}
+
+{
+"id" : "user1082",
+"name" : "陈阵",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300081",
+"description" : "民兵"
+}
+
+{
+"id" : "user1083",
+"name" : "崔红媛",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300082",
+"description" : "民兵"
+}
+
+{
+"id" : "user1084",
+"name" : "崔婧馨",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300083",
+"description" : "民兵"
+}
+
+{
+"id" : "user1085",
+"name" : "丁宁",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300084",
+"description" : "民兵"
+}
+
+{
+"id" : "user1086",
+"name" : "段佳慧",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300085",
+"description" : "民兵"
+}
+
+{
+"id" : "user1087",
+"name" : "耿金雪",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300086",
+"description" : "民兵"
+}
+
+{
+"id" : "user1088",
+"name" : "郭婉茹",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300087",
+"description" : "民兵"
+}
+
+{
+"id" : "user1089",
+"name" : "韩一玮",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300088",
+"description" : "民兵"
+}
+
+{
+"id" : "user1090",
+"name" : "何晓爽",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300089",
+"description" : "民兵"
+}
+
+{
+"id" : "user1091",
+"name" : "吉青华",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300090",
+"description" : "民兵"
+}
+
+{
+"id" : "user1092",
+"name" : "李秉桐",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300091",
+"description" : "民兵"
+}
+
+{
+"id" : "user1093",
+"name" : "李昊",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-300092",
+"description" : "民兵"
+}
+
+{
+"id" : "user1094",
+"name" : "李佳",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300093",
+"description" : "民兵"
+}
+
+{
+"id" : "user1095",
+"name" : "李婧",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300094",
+"description" : "民兵"
+}
+
+{
+"id" : "user1096",
+"name" : "李娜",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-300095",
+"description" : "民兵"
+}
+
+{
+"id" : "user1097",
+"name" : "李相莹",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300096",
+"description" : "民兵"
+}
+
+{
+"id" : "user1098",
+"name" : "李芯",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300097",
+"description" : "民兵"
+}
+
+{
+"id" : "user1099",
+"name" : "刘美娇",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-300098",
+"description" : "民兵"
+}
+
+{
+"id" : "user1100",
+"name" : "刘鹏成",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-300099",
+"description" : "民兵"
+}
+
+{
+"id" : "user1101",
+"name" : "刘雨",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000100",
+"description" : "民兵"
+}
+
+{
+"id" : "user1102",
+"name" : "罗鑫柳",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000101",
+"description" : "民兵"
+}
+
+{
+"id" : "user1103",
+"name" : "裴春月",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000102",
+"description" : "民兵"
+}
+
+{
+"id" : "user1104",
+"name" : "宋雅楠",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000103",
+"description" : "民兵"
+}
+
+{
+"id" : "user1105",
+"name" : "王婧瑶",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000104",
+"description" : "民兵"
+}
+
+{
+"id" : "user1106",
+"name" : "王娜",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000105",
+"description" : "民兵"
+}
+
+{
+"id" : "user1107",
+"name" : "王瑞",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000106",
+"description" : "民兵"
+}
+
+{
+"id" : "user1108",
+"name" : "王思齐",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000107",
+"description" : "民兵"
+}
+
+{
+"id" : "user1109",
+"name" : "魏秀莹",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000108",
+"description" : "民兵"
+}
+
+{
+"id" : "user1110",
+"name" : "吴天航",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000109",
+"description" : "民兵"
+}
+
+{
+"id" : "user1111",
+"name" : "于家雯",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000110",
+"description" : "民兵"
+}
+
+{
+"id" : "user1112",
+"name" : "张美凤",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000111",
+"description" : "民兵"
+}
+
+{
+"id" : "user1113",
+"name" : "张鹏",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000112",
+"description" : "民兵"
+}
+
+{
+"id" : "user1114",
+"name" : "张颖",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000113",
+"description" : "民兵"
+}
+
+{
+"id" : "user1115",
+"name" : "赵伟星",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000114",
+"description" : "民兵"
+}
+
+{
+"id" : "user1116",
+"name" : "郑碧晗",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000115",
+"description" : "民兵"
+}
+
+{
+"id" : "user1117",
+"name" : "周洁",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000116",
+"description" : "民兵"
+}
+
+{
+"id" : "user1118",
+"name" : "暴晶莹",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000117",
+"description" : "民兵"
+}
+
+{
+"id" : "user1119",
+"name" : "毕晓然",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000118",
+"description" : "民兵"
+}
+
+{
+"id" : "user1120",
+"name" : "陈瑶瑶",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000119",
+"description" : "民兵"
+}
+
+{
+"id" : "user1121",
+"name" : "邓贺",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000120",
+"description" : "民兵"
+}
+
+{
+"id" : "user1122",
+"name" : "侯孟微",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000121",
+"description" : "民兵"
+}
+
+{
+"id" : "user1123",
+"name" : "焦彬玉",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000122",
+"description" : "民兵"
+}
+
+{
+"id" : "user1124",
+"name" : "梁晗",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000123",
+"description" : "民兵"
+}
+
+{
+"id" : "user1125",
+"name" : "刘琦琦",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000124",
+"description" : "民兵"
+}
+
+{
+"id" : "user1126",
+"name" : "刘婷婷",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000125",
+"description" : "民兵"
+}
+
+{
+"id" : "user1127",
+"name" : "刘有元",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000126",
+"description" : "民兵"
+}
+
+{
+"id" : "user1128",
+"name" : "满新明",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000127",
+"description" : "民兵"
+}
+
+{
+"id" : "user1129",
+"name" : "牛洪爽",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000128",
+"description" : "民兵"
+}
+
+{
+"id" : "user1130",
+"name" : "庞羽",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000129",
+"description" : "民兵"
+}
+
+{
+"id" : "user1131",
+"name" : "祁锁艳",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000130",
+"description" : "民兵"
+}
+
+{
+"id" : "user1132",
+"name" : "曲明哲",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000131",
+"description" : "民兵"
+}
+
+{
+"id" : "user1133",
+"name" : "石环宇",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000132",
+"description" : "民兵"
+}
+
+{
+"id" : "user1134",
+"name" : "隋斯文",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000133",
+"description" : "民兵"
+}
+
+{
+"id" : "user1135",
+"name" : "孙广辰",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000134",
+"description" : "民兵"
+}
+
+{
+"id" : "user1136",
+"name" : "王凤娥",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000135",
+"description" : "民兵"
+}
+
+{
+"id" : "user1137",
+"name" : "王雪",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000136",
+"description" : "民兵"
+}
+
+{
+"id" : "user1138",
+"name" : "王雪涵",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000137",
+"description" : "民兵"
+}
+
+{
+"id" : "user1139",
+"name" : "徐萌",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000138",
+"description" : "民兵"
+}
+
+{
+"id" : "user1140",
+"name" : "闫毓琴",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000139",
+"description" : "民兵"
+}
+
+{
+"id" : "user1141",
+"name" : "杨超",
+"level" : "6",
+"region" : "西南",
+"phone" : "028-3000140",
+"description" : "民兵"
+}
+
+{
+"id" : "user1142",
+"name" : "杨珊",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000141",
+"description" : "民兵"
+}
+
+{
+"id" : "user1143",
+"name" : "杨霞",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000142",
+"description" : "民兵"
+}
+
+{
+"id" : "user1144",
+"name" : "于佳弘",
+"level" : "6",
+"region" : "西北",
+"phone" : "029-3000143",
+"description" : "民兵"
+}
+
+{
+"id" : "user1145",
+"name" : "张晓玉",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000144",
+"description" : "民兵"
+}
+
+{
+"id" : "user1146",
+"name" : "张新萍",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000145",
+"description" : "民兵"
+}
+
+{
+"id" : "user1147",
+"name" : "张艳艳",
+"level" : "6",
+"region" : "东北",
+"phone" : "024-3000146",
+"description" : "民兵"
+}
+
+{
+"id" : "user1148",
+"name" : "赵金婷",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000147",
+"description" : "民兵"
+}
+
+{
+"id" : "user1149",
+"name" : "周莹",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000148",
+"description" : "民兵"
+}
+
+{
+"id" : "user1150",
+"name" : "吴明阳",
+"level" : "6",
+"region" : "东南",
+"phone" : "026-3000149",
+"description" : "民兵"
+}

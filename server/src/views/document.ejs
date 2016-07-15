@@ -11,8 +11,9 @@
         文档详情
         <% } %>
     </h2>
+    <span data-attr-name="id" hidden="hidden"><%= document.id %></span>
 
-    <% if (data.do != 'create') { %>
+    <% if (!data.do) { %>
     <ol class="breadcrumb">
         <li><a href="/dashboard/documents">所有文档</a></li>
         <li class="active"><%= document.class %></li>
@@ -20,12 +21,13 @@
     </ol>
     <% } %>
 
-    <% if (data.do == 'create') { %>
+    <% if (data.do == 'create' || data.do == 'edit') { %>
     <div class="panel-heading">
-        <input type="text" class="form-control" placeholder="标题">
+        <input name="title" type="text" class="form-control" placeholder="标题"
+                <% if (data.do == 'edit') { %> value="<%= document.title %><% } %>">
     </div>
     <div class="panel-body">
-        <textarea class="form-control" rows="13" placeholder="正文"></textarea>
+        <textarea name="text" class="form-control" rows="13" placeholder="正文"><% if (data.do == 'edit') { %><%= document.text %><% } %></textarea>
     </div>
     <div class="panel-body">
         <form class="form-inline">
@@ -48,33 +50,11 @@
         </form>
     </div>
 
-    <% } else if (data.do == 'edit') { %>
-    <!--<div class="panel panel-default">-->
-        <!--<div class="panel-body">-->
-            <input type="text" class="form-control" value="<%= document.title %>">
-            <textarea type="text" class="form-control" rows="13"><%= document.text %></textarea>
-            <!--<div class="btn-group" role="group" aria-label="...">-->
-                <!--<button class="btn btn-default image-button">-->
-                    <!--<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>-->
-                <!--</button>-->
-                <!--<form action="/upload" method="post" enctype="multipart/form-data">-->
-                    <!--<input class="image-input" type="file" style="display: none"/>-->
-                    <!--<input type="submit">-->
-                <!--</form>-->
-            <!--</div>-->
-    <div class="row"><p></p></div>
-        <!--</div>-->
-        <!--<div class="panel-body">-->
-            <!--<div id="fileList" class="uploader-list"></div>-->
-            <!--<div id="filePicker">选择图片</div>-->
-        <!--</div>-->
-    <!--</div>-->
-
-
     <% } else { %>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><%= document.title %></h3>
+
         </div>
         <div class="panel-body">
             <% var paragraphs = document.text.split('\n'); %>
@@ -88,23 +68,22 @@
 
     <% } %>
 
-
-    <a name="alert"></a>
-    <% if (data.do == 'remove') { %>
-    <div class="alert alert-danger" role="alert">确定要删除该文档吗？</div>
-    <% } else if (data.do == 'removed') { %>
-    <div class="alert alert-success" role="alert">文档已删除</div>
+    <% if (data.do == 'create') { %>
+    <div name="created" class="alert alert-success invisible2" role="alert">文档已创建</div>
+    <% } else if (data.do == 'edit') { %>
+    <div name="modified" class="alert alert-success invisible2" role="alert">文档已修改</div>
+    <% } else { %>
+    <div name="confirm-remove" class="alert alert-danger invisible2" role="alert">确定要删除该文档吗？</div>
+    <div name="removed" class="alert alert-success invisible2" role="alert">文档已删除</div>
     <% } %>
 
     <% if (data.do == 'create') { %>
     <div class="btn-toolbar" role="toolbar" aria-label="...">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-primary"
-                    onclick="alert('submitting!');">新建
-            </button>
+            <button name="create" type="button" class="btn btn-primary">新建</button>
         </div>
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"
+            <button name="cancel" type="button" class="btn btn-default"
                     onclick="defender.documents.view();">取消
             </button>
         </div>
@@ -113,57 +92,51 @@
     <% } else if (data.do == 'edit') { %>
     <div class="btn-toolbar" role="toolbar" aria-label="...">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-primary"
-                    onclick="alert('submitting!');">修改
-            </button>
+            <button name="modify" type="button" class="btn btn-primary">修改</button>
         </div>
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"
+            <button name="cancel" type="button" class="btn btn-default"
                     onclick="defender.document('<%= document.id %>').view();">取消
             </button>
         </div>
-    </div>
-
-    <% } else if (data.do == 'remove') { %>
-    <div class="btn-toolbar" role="toolbar" aria-label="...">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-danger"
-                    onclick="defender.document('<%= document.id %>').removed();">确认删除
-            </button>
-        </div>
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"
-                    onclick="defender.document('<%= document.id %>').view();">取消
-            </button>
-        </div>
-    </div>
-
-    <% } else if (data.do == 'removed') { %>
-    <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default"
-                onclick="defender.documents.view();">返回
-        </button>
     </div>
 
     <% } else { %>
     <div class="btn-toolbar" role="toolbar" aria-label="...">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"
+            <button name="edit" type="button" class="btn btn-default"
                     onclick="defender.document('<%= document.id %>').edit();">编辑
             </button>
         </div>
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-danger"
-                    onclick="defender.document('<%= document.id %>').remove();">删除
+            <button name="remove" type="button" class="btn btn-danger">删除
             </button>
         </div>
     </div>
+
+    <div class="btn-toolbar" role="toolbar" aria-label="...">
+        <div class="btn-group" role="group" aria-label="...">
+            <button name="confirm-remove" type="button" class="btn btn-danger invisible2">确认删除</button>
+        </div>
+        <div class="btn-group" role="group" aria-label="...">
+            <button name="cancel" type="button" class="btn btn-default invisible2">取消</button>
+        </div>
+    </div>
     <% } %>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <button name="back" type="button" class="btn btn-default invisible2"
+                onclick="defender.documents.view();">返回
+        </button>
+    </div>
 
 
 </div>
 
 <script>
+    /*
+     * create document
+     */
     $(".class-select").click(function () {
         var class_text = $(this).val();
         $(".subclass-select").find("option").map(function () {
@@ -175,5 +148,159 @@
     $(".image-button").click(function () {
         return $(".image-input").click();
     });
+
+    $("button[name='create']").click(function () {
+        var class_ = $(".class-select").val();
+        var subclass = $(".subclass-select").val();
+        var title = $("input[name='title']").val();
+        var text = $("textarea[name='text']").val();
+
+        var new_document = {
+            'class': class_,
+            'subclass': subclass,
+            'title': title,
+            'text': text,
+            'images': []
+        };
+        console.log(new_document);
+
+        fetch("/documents", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(new_document)
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+
+                $(".alert[name='created']").fadeIn();
+
+                $("button[name='create']").hide();
+                $("button[name='cancel']").hide();
+                $("button[name='back']").fadeIn();
+
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+
+    });
+
+    /*
+     * modify document
+     */
+    $("button[name='modify']").click(function () {
+        var class_ = $(".class-select").val();
+        var subclass = $(".subclass-select").val();
+        var title = $("input[name='title']").val();
+        var text = $("textarea[name='text']").val();
+
+        var updater = {
+            'class': class_,
+            'subclass': subclass,
+            'title': title,
+            'text': text,
+            'images': []
+        };
+        console.log(updater);
+
+        var id = $("span[data-attr-name='id']").text();
+
+        fetch("/documents/" + id, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updater)
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+
+//                $(".alert[name='created']").fadeIn();
+//
+//                $("button[name='create']").hide();
+//                $("button[name='cancel']").hide();
+//                $("button[name='back']").fadeIn();
+
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+
+        $(".alert[name='modified']").fadeIn();
+
+        $("button[name='modify']").hide();
+        $("button[name='cancel']").hide();
+        $("button[name='back']").fadeIn();
+
+
+    });
+
+    /*
+     * remove document
+     */
+    $("button[name='remove']").click(function () {
+        $(".alert[name='removed']").hide();
+        $(".alert[name='confirm-remove']").fadeIn();
+
+        $("button[name='edit']").hide();
+        $("button[name='remove']").hide();
+
+        $("button[name='confirm-remove']").fadeIn();
+        $("button[name='cancel']").fadeIn();
+
+        $("button[name='back']").hide();
+    });
+
+    $("button[name='confirm-remove']").click(function () {
+
+        var id = $("span[data-attr-name='id']").text();
+
+        fetch("/documents/" + id, {
+            method: "DELETE",
+            headers: {},
+            body: ""
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+
+                $(".alert[name='confirm-remove']").hide();
+                $(".alert[name='removed']").fadeIn();
+
+                $("button[name='confirm-remove']").hide();
+                $("button[name='cancel']").hide();
+
+                $("button[name='edit']").hide();
+                $("button[name='remove']").hide();
+
+                $("button[name='back']").fadeIn();
+            } else {
+                alert(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            alert("Error submitting form!");
+        });
+
+    });
+
+    $("button[name='cancel']").click(function () {
+        $(".alert[name='confirm-remove']").hide();
+        $(".alert[name='removed']").hide();
+
+        $("button[name='edit']").fadeIn();
+        $("button[name='remove']").fadeIn();
+
+        $("button[name='confirm-remove']").hide();
+        $("button[name='cancel']").hide();
+
+        $("button[name='back']").hide();
+    });
+
+
 
 </script>
