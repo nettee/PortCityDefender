@@ -414,7 +414,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, userService, informationService, Camera) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, $ionicPopup, userService, informationService, Camera) {
     $scope.information = informationService.informationInstance();
     $scope.information.publisher = userService.getUser().id;
     $scope.images = [];
@@ -491,7 +491,16 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
     $scope.publishInformation = function () {
       if ($scope.information.text == ""){
-        alert("情报内容不能为空！");
+        $ionicPopup.show({
+          title: "情报内容不能为空",
+          scope: $scope,
+          buttons:[{
+            text : "确定",
+            type : "button-positive"
+          }]
+        }).then(function (res) {
+          //do nothing
+        });
         return;
       }
       $scope.information.images = $scope.images;

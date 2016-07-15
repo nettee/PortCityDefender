@@ -44,8 +44,11 @@
                 for (var attr_name of attr_names) {
                 %>
                 <td>
-                    <div class="input-group">
+                    <div class="input-group has-feedback"> <!-- .has-error is runtime added -->
                         <input type="text" class="form-control" data-attr-name="<%= attr_name %>">
+                        <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+                              aria-describedby="help-block-for-<%= attr_name %>"></span>
+                        <span id="help-block-for-<%= attr_name %>" class="help-block"></span>
                     </div>
                 </td>
                 <% } %>
@@ -57,12 +60,15 @@
                     var attr = user[attr_name];
                 %>
                 <td>
-                    <div class="input-group">
+                    <div class="input-group has-feedback"> <!-- .has-error is runtime added -->
                         <input type="text" class="form-control"
                                value="<%= attr %>"
                                data-attr-name="<%= attr_name %>"
                                 <% if (attr_name == 'id') { %> readonly <% } %>
                         >
+                        <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+                              aria-describedby="help-block-for-<%= attr_name %>"></span>
+                        <span id="help-block-for-<%= attr_name %>" class="help-block"></span>
                     </div>
                 </td>
                 <% } %>
@@ -165,13 +171,61 @@
 
 <script>
 
-    $("button[name='create']").click(function () {
+    function remove_error_feedback(inputElement) {
+        inputElement.parent().removeClass("has-error").map(function () {
+            $(this).find(".form-control-feedback").hide();
+            $(this).find(".help-block").text('');
+        });
+    }
+
+    function add_error_feedback(inputElement, help_text) {
+        inputElement.parent().addClass("has-error").map(function () {
+            $(this).find(".form-control-feedback").show();
+            $(this).find(".help-block").text(help_text);
+        });
+    }
+
+    function get_user_from_inputs() {
+
+        var has_error = false;
+
         var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
         var new_user = {};
         for (var i = 0; i < attr_names.length; i++) {
             var attr_name = attr_names[i];
-            new_user[attr_name] = $("input[data-attr-name='" + attr_name + "']").val();
+            var selector = "input[data-attr-name='" + attr_name + "']";
+            new_user[attr_name] = $(selector).val();
+
+            remove_error_feedback($(selector));
+
+            if (new_user[attr_name].length == 0) {
+                add_error_feedback($(selector), '该项不能为空');
+                has_error = true;
+            }
         }
+
+        // add error feedback
+        var level = new_user.level;
+        if (!(/^\d$/.test(level)) || level < 1 || level > 6) {
+            add_error_feedback($("input[data-attr-name='level']"), '1~6之间的整数');
+            has_error = true;
+        }
+
+        if (has_error) {
+            return null;
+        } else {
+            return new_user;
+        }
+    }
+
+    $("button[name='create']").click(function () {
+
+        var new_user = get_user_from_inputs();
+
+        if (!new_user) {
+            return
+        }
+
         console.log(new_user);
 
         fetch("/users", {
@@ -198,12 +252,13 @@
     });
 
     $("button[name='modify']").click(function () {
-        var attr_names = ['id', 'name', 'level', 'region', 'description', 'phone'];
-        var updater = {};
-        for (var i = 0; i < attr_names.length; i++) {
-            var attr_name = attr_names[i];
-            updater[attr_name] = $("input[data-attr-name='" + attr_name + "']").val();
+
+        var updater = get_user_from_inputs();
+
+        if (!updater) {
+            return;
         }
+
         console.log(updater);
         var id = updater.id;
 
