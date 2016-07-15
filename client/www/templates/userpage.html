@@ -1,14 +1,14 @@
 <ion-view title="个人信息">
   <ion-content overflow-scroll="true" style="overflow:auto;">
-    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"  refreshing-text="Refreshing!" >
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"  refreshing-text="Refreshing!" >
     </ion-refresher>
     <div class="list" style="margin-top: 0px; background-color: #EEEEEE;">
-      <div class="item item-avatar">
+      <div class="item item-avatar item-icon-right">
         <img src="img/{{user.portrait}}.jpg">
         <h2>{{user.name}}</h2>
         <p>{{user.description}}</p>
         <div align="right">
-          <span class="badge badge-assertive" ng-click="changePassword()">修改密码</span>
+          <span class="badge changePassButton" ng-click="changePassword()">修改密码</span>
         </div>
       </div>
 
