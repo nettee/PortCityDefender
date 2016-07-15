@@ -16,7 +16,7 @@
                   href="#/menu/command/{{$index}}"
                   class="item item-thumbnail-left  ng-cloak ">
           <!--  <img ng-src="{{ command.img }}"> -->
-          <img ng-src="img/txp.png">
+          <img ng-src="img/{{calPortraitNumber(command.sender.id)}}.jpg">
           <h2>{{ command.sender.name}}</h2>
           <p>{{ command.content}}
           </p>

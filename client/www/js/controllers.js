@@ -45,7 +45,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('MenuController', function ($scope, $state, $ionicPopup, userService) {
     $scope.user = userService.getUser();
-    
+
     $scope.userPage = function () {
       $state.go('menu.userpage')
     }
@@ -267,7 +267,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state, informationService) {
+  .controller('InfoController', function ($scope, $state, informationService, userService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
       $state.go('menu.newInformation');
@@ -308,21 +308,27 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       })
     }
 
+    $scope.calPortraitNumber = userService.calPortraitNumber;
+
     $scope.showDetailInformation = function (info) {
       $state.go('menu.detailInformation',{infoID :info.id});
     }
   })
 
-  .controller('detailInformationController', function ($scope, $state, $stateParams, detailInformationService,userService) {
+  .controller('detailInformationController', function ($scope, $state, $stateParams, $ionicPopup, detailInformationService,userService) {
     $scope.infoID = $stateParams.infoID;
     $scope.images = [];
     $scope.pictureSource = [];
     $scope.samePublisher = false;
-
+    $scope.existed = false;
+    $scope.calPortraitNumber = userService.calPortraitNumber;
     $scope.$on('$ionicView.beforeEnter', function () {
+      $scope.images = [];
+      $scope.pictureSource = [];
       $scope.samePublisher = false;
       detailInformationService.getInformation($scope.infoID, function(response){
         $scope.detailInfo = response;
+        $scope.existed = true;
         console.log("response id : " + response.publisher.id);
         console.log("user id : " + userService.getUserId());
         if (response.publisher.id == userService.getUserId())
@@ -337,6 +343,17 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           var str = webkitURL.createObjectURL(blob);
           $scope.pictureSource.push(str);
         })
+      }, function (response) {
+        $ionicPopup.show({
+          title: "该情报已被删除",
+          scope: $scope,
+          buttons:[{
+            text : "确定",
+            type : "button-positive"
+          }]
+        }).then(function (res) {
+          $state.go('menu.information');
+        });
       })
     })
 
@@ -355,18 +372,42 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('responseInformationController', function ($scope, $state, $stateParams, replicationServer, userService) {
+  .controller('responseInformationController', function ($scope, $state, $stateParams, $ionicPopup, replicationServer, userService) {
     $scope.responseInfoID = $stateParams.responseInfoID;
     $scope.replication = replicationServer.replicationInstance();
     $scope.replication.replier = userService.getUser().id;
 
     $scope.responseInformation = function () {
-      replicationServer.sendReplication($scope.replication, $scope.responseInfoID, function () {
-        $state.go('menu.detailInformation',{infoID :$scope.responseInfoID});
-      }, function () {
-        $state.go('menu.information');
-      });
-
+      if ($scope.replication.content == ""){
+        $ionicPopup.show({
+          title: "回复内容不能为空",
+          scope: $scope,
+          buttons:[{
+            text : "确定",
+            type : "button-positive"
+          }]
+        }).then(function (res) {
+          //do nothing
+        });
+      }
+      else {
+        replicationServer.sendReplication($scope.replication, $scope.responseInfoID,
+          function () {
+            $state.go('menu.detailInformation', {infoID: $scope.responseInfoID});
+          },
+          function () {
+            $ionicPopup.show({
+              title: "该情报已被删除",
+              scope: $scope,
+              buttons: [{
+                text: "确定",
+                type: "button-positive"
+              }]
+            }).then(function (res) {
+              $state.go('menu.information');
+          });
+        });
+      }
     }
 
   })
@@ -460,13 +501,16 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('commandController', function ($scope,$state,commandService) {
+  .controller('commandController', function ($scope, $state, commandService, userService) {
 
     $scope.newCommand = function(){
       console.log("in new Command click");
       commandService.setReceiverListNull();
       $state.go('menu.newCommand');
     }
+
+    $scope.calPortraitNumber = userService.calPortraitNumber;
+
     $scope.doRefresh = function(){
       commandService.getCommandList(function(response) {
         commandList = response
@@ -498,9 +542,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     )
   })
 
-  .controller('singleCommandController',function($scope,$stateParams,commandService){
+  .controller('singleCommandController',function($scope,$stateParams,commandService, userService){
     var index= $stateParams.commandId;
     var command=commandService.getCommandByIndex(index);
+    $scope.calPortraitNumber = userService.calPortraitNumber;
     $scope.command=command;
     //content=content.replace('\n', '<br>').replace('\t', '<br>').replace('\r', '<br>');//正确
     //console.log(content);
