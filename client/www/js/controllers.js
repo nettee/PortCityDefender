@@ -374,7 +374,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('responseInformationController', function ($scope, $state, $stateParams, $ionicPopup, replicationServer, userService) {
+  .controller('responseInformationController', function ($scope, $state, $stateParams, $ionicHistory,$ionicPopup, replicationServer, userService) {
     $scope.responseInfoID = $stateParams.responseInfoID;
     $scope.replication = replicationServer.replicationInstance();
     $scope.replication.replier = userService.getUser().id;
@@ -406,7 +406,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
                 type: "button-positive"
               }]
             }).then(function (res) {
-              $state.go('menu.information');
+              //$state.go('menu.information');
+              $ionicHistory.goBack(-2);
           });
         });
       }
