@@ -452,7 +452,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       }
 
       var options = {
-        maximumImagesCount: 2,
+        maximumImagesCount: 6,
         width: 800,
         height: 800,
         quality: 80

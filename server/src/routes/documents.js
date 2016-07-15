@@ -10,26 +10,27 @@ var documents = require('../models/documents');
 
 var router = express.Router();
 
-function infoEssentialChecker(req, res, next) {
+function documentEssentialChecker(req, res, next) {
     var info = req.body;
-    if (informations.hasEssentials(info)) {
+    if (documents.hasEssentials(info)) {
         next();
     } else {
-        var error = new Error('information object essentials missing');
+        var error = new Error('document object essentials missing');
         error.status = 422;
         next(error);
     }
 }
 
-function infoExistenceChecker(req, res, next) {
+function documentExistenceChecker(req, res, next) {
     var id = req.params.id;
-    informations.existsId(id, function(err, exists) {
+    documents.existsId(id, function(err, exists) {
         if (err) {
             return next(new Error(err));
         }
         if (exists) {
             next();
         } else {
+            console.log('document does not exist');
             var error = new Error('information id does not exist');
             error.status = 404;
             next(error);
@@ -37,9 +38,9 @@ function infoExistenceChecker(req, res, next) {
     });
 }
 
-function infoCreator(req, res, next) {
-    var info = req.body;
-    informations.create(info, function(err, result) {
+function documentCreator(req, res, next) {
+    var document = req.body;
+    documents.create(document, function(err, result) {
         if (err) {
             next(new Error(err));
         } else {
@@ -65,7 +66,7 @@ function documentListReader(req, res, next) {
 
 function documentReader(req, res, next) {
     var id = req.params.id;
-    informations.readOne(id, function(err, info) {
+    documents.readOne(id, function(err, info) {
         if (err) {
             next(new Error(err));
         } else {
@@ -75,9 +76,21 @@ function documentReader(req, res, next) {
     });
 }
 
-function infoDeleter(req, res, next) {
+function documentUpdater(req, res, next) {
     var id = req.params.id;
-    informations.deleteById(id, function(err) {
+    var updater = req.body;
+    documents.update(id, updater, function(err, result) {
+        if (err) {
+            return next(new Error(err));
+        }
+        res.status(201).send(result);
+    });
+}
+
+
+function documentDeleter(req, res, next) {
+    var id = req.params.id;
+    documents.deleteById(id, function(err) {
         if (err) {
             next(new Error(err));
         } else {
@@ -148,7 +161,7 @@ function infoReplicationCreator(req, res, next) {
 }
 
 // CREATE new info 
-// router.post('/', infoEssentialChecker, infoCreator);
+router.post('/', documentEssentialChecker, documentCreator);
 
 // READ document list
 router.get('/:class/:subclass/', documentListReader);
@@ -156,7 +169,10 @@ router.get('/:class/:subclass/', documentListReader);
 // READ document
 router.get('/:class/:subclass/:id', documentReader);
 
+// UPDATE document
+router.put('/:id', documentExistenceChecker, documentUpdater);
+
 // DELETE document
-// router.delete('/:id', infoExistenceChecker, infoDeleter);
+router.delete('/:id', documentExistenceChecker, documentDeleter);
 
 module.exports = router;

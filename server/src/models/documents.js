@@ -20,7 +20,7 @@ var documentSchema = new mongoose.Schema({
 });
 
 // var headers = '-_id id publisher text urgent updated_time images replications';
-// var essentials = ['publisher', 'text', 'urgent'];
+var essentials = ['class', 'subclass', 'title', 'text', 'images'];
 
 var Document = db.model('documents', documentSchema);
 
@@ -45,54 +45,29 @@ documents.sanitize = function(document) {
         images: document.images
     };
 };
-//
-// informations.hasEssentials = function(info) {
-//     for (var i = 0; i < essentials.length; i++) {
-//         var e = essentials[i];
-//         if (!info.hasOwnProperty(e)) {
-//             return false;
-//         }
-//     }
-//     return true;
-// };
-//
-// /* Create an information object in database
-//  * @param {Object} info
-//  *     @attr {String} publisher - publisher id
-//  *     @attr {String} text
-//  *     @attr urgent
-//  * @param {Function} callback
-//  *
-//  * callback signature:
-//  * @param err
-//  * @param {Object} result - complete Information object
-//  */
-// informations.create = function(info, callback) {
-//     console.log('info =', info);
-//     users.readOneWithId(info.publisher, function(err, publisher) {
-//         if (err) {
-//             return callback(err, null);
-//         }
-//         console.log('publisher._id =', publisher._id);
-//         Information({
-//             publisher: publisher._id,
-//             text: info.text,
-//             urgent: info.urgent,
-//             images: [],
-//             replications: [],
-//         }).save(function(err, doc) {
-//             if (err) {
-//                 console.log(err);
-//             } else {
-//                 console.log('saved ', doc);
-//             }
-//             doc.populate('publisher images', function(err, pdoc) {
-//                 callback(err, informations.sanitize(pdoc));
-//             });
-//         });
-//     });
-// };
-//
+
+documents.hasEssentials = function(info) {
+    for (var i = 0; i < essentials.length; i++) {
+        var e = essentials[i];
+        if (!info.hasOwnProperty(e)) {
+            return false;
+        }
+    }
+    return true;
+};
+
+documents.create = function(document, callback) {
+    console.log('document =', document);
+        Document(document).save(function(err, doc) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('saved ', doc);
+            }
+            callback(err, documents.sanitize(doc));
+        });
+};
+
 // informations.addImageById = function(_id, image_id, callback) {
 //     Information.findOne({'_id': _id}, function(err, doc) {
 //         if (err) {
@@ -147,24 +122,36 @@ documents.readOne = function(_id, callback) {
         });
 };
 
-// informations.exists = function(condition, callback) {
-//     Information.findOne(condition)
-//         .exec(function(err, result) {
-//             callback(err, result);
-//         });
-// };
-//
-// informations.existsId = function(_id, callback) {
-//     informations.exists({'_id': _id}, function(err, result) {
-//         callback(err, result);
-//     });
-// };
-//
-// informations.deleteById = function(_id, callback) {
-//     Information.remove({'_id': _id})
-//         .remove(function(err) {
-//             callback(err);
-//         });
-// };
+documents.exists = function(condition, callback) {
+    Document.findOne(condition)
+        .exec(function(err, result) {
+            callback(err, result);
+        });
+};
+
+documents.existsId = function(_id, callback) {
+    documents.exists({'_id': _id}, function(err, result) {
+        callback(err, result);
+    });
+};
+
+documents.update = function(_id, updater, callback) {
+    Document.findOneAndUpdate({'_id': _id}, updater, {new: true})
+        .exec(function(err, doc) {
+            if (err) {
+                console.log(err);
+                callback(err, {});
+            } else {
+                callback(null, documents.sanitize(doc));
+            }
+        });
+};
+
+documents.deleteById = function(_id, callback) {
+    Document.remove({'_id': _id})
+        .remove(function(err) {
+            callback(err);
+        });
+};
 
 module.exports = documents;

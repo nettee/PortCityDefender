@@ -103,3 +103,12 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+.image-default {
+  float: left;
+  margin-right: 10px;
+}
+
+.invisible2 {
+  display: none;
+}

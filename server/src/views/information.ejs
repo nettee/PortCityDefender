@@ -39,7 +39,11 @@
         </div>
         <% if (info.images.length > 0) { %>
         <div class="panel-body">
-            <img src="http://s2.cn.bing.net/th?id=OJ.8OrhgbJMbE3hPg&pid=MSNJVFeeds" class="img-responsive img-thumbnail" alt="Responsive image">
+            <% for (var i = 0; i < info.images.length; i++) { %>
+            <img data-index="<%= i %>" src="" class="img-responsive img-rounded image-default"
+                 alt="图片<%= i+1 %>" style="display: none">
+            <% } %>
+
         </div>
         <% } %>
     </div>
@@ -109,10 +113,33 @@
 </div>
 
 <script>
-    $("button[name='confirm-remove']").click(function () {
+    var id = $("span[data-attr-name='id']").text();
 
-        var id = $("span[data-attr-name='id']").text();
+    $(function () {
         console.log(id);
+        fetch("/information/" + id, {
+            method: "GET",
+        }).then(function(res) {
+            if (res.ok) {
+                console.log(res.status + ' ' + res.statusText);
+                return res.json();
+            } else {
+                throw Error(res.status + ' ' + res.statusText);
+            }
+        }, function(e) {
+            throw Error (e);
+        }).then(function (data) {
+            var images = data.images;
+            for (var i = 0; i < images.length; i++) {
+                var image = images[i];
+                $("img[data-index='" + i + "']").attr("src", "/images/" + image.id).show();
+            }
+        }).catch(function (e) {
+            alert(e);
+        });
+    });
+
+    $("button[name='confirm-remove']").click(function () {
 
         fetch("/information/" + id, {
             method: "DELETE",
