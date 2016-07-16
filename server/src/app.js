@@ -2,12 +2,17 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var session = require('express-session');
+var Session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = Session({
+    resave: true, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'love' // ???
+});
 
-var routes = require('./routes/index');
+var dashboard_routes = require('./routes/dashboard');
 var test_routes = require('./routes/test');
 var users_routes = require('./routes/users');
 var regions_routes = require('./routes/regions');
@@ -42,13 +47,32 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.get('/login', session, function(req, res, next) {
+    res.render('login');
+});
+
+app.post('/login.do', session, function (req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    console.log('username =', username, 'password =', password);
+    if (username == "admin" && password == "admin") {
+        req.session.user = {
+            username: 'admin'
+        };
+        res.redirect('/dashboard');
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/logout', session, function(req, res, next) {
+    req.session.user = null;
+    res.redirect('/login');
+});
+
 // routes, see routes/*.js
 
-app.use('/', session({
-    resave: true, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-    secret: 'love'
-}), function (req, res, next) {
+app.use('/dashboard', session, function (req, res, next) {
     console.log('req.session = ', req.session);
     if (req.session.user || /^\/login/.test(req.url)) {
         console.log('next');
@@ -57,17 +81,17 @@ app.use('/', session({
         res.redirect('/login');
         console.log('redirect');
     }
-}, routes);
+}, dashboard_routes);
 
 // app.use(auth.forAllUsers);
 
-app.use('/test', test_routes);
-app.use('/authentications', authentications_routes);
-app.use('/users', users_routes);
-app.use('/regions', regions_routes);
-app.use('/information', informations_routes);
-app.use('/commands', commands_routes);
-app.use('/documents', document_routes);
+app.use('/test', auth.forAllUsers, test_routes);
+app.use('/authentications', auth.forAllUsers, authentications_routes);
+app.use('/users', auth.forAllUsers, users_routes);
+app.use('/regions', auth.forAllUsers, regions_routes);
+app.use('/information', auth.forAllUsers, informations_routes);
+app.use('/commands', auth.forAllUsers, commands_routes);
+app.use('/documents', auth.forAllUsers, document_routes);
 app.use('/images', images_routes);
 
 // catch 404 and forward to error handler
