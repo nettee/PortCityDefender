@@ -26,19 +26,19 @@
     <% if (data.do == 'create' || data.do == 'edit') { %>
     <div class="panel-heading">
         <div class="has-feedback">
-        <input name="title" type="text" class="form-control" placeholder="标题"
-                <% if (data.do == 'edit') { %>value="<%= document.title %><% } %>">
-        <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
-              aria-describedby="help-block-for-title"></span>
-        <span id="help-block-for-title" class="help-block"></span>
+            <input name="title" type="text" class="form-control" placeholder="标题"
+                   <% if (data.do == 'edit') { %>value="<%= document.title %><% } %>">
+            <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+                  aria-describedby="help-block-for-title"></span>
+            <span id="help-block-for-title" class="help-block"></span>
         </div>
     </div>
     <div class="panel-body">
         <div class="has-feedback">
-        <textarea name="text" class="form-control" rows="13" placeholder="正文"><% if (data.do == 'edit') { %><%= document.text %><% } %></textarea>
-        <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
-              aria-describedby="help-block-for-text"></span>
-        <span id="help-block-for-text" class="help-block"></span>
+            <textarea name="text" class="form-control" rows="13" placeholder="正文"><% if (data.do == 'edit') { %><%= document.text %><% } %></textarea>
+            <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+                  aria-describedby="help-block-for-text"></span>
+            <span id="help-block-for-text" class="help-block"></span>
         </div>
     </div>
     <div class="panel-body">

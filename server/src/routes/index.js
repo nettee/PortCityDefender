@@ -8,21 +8,27 @@ var informations = require('../models/informations');
 var documents = require('../models/documents');
 var regions = require('../models/regions');
 
-function loginHandler(req, res, next) {
+router.get('/login', function(req, res, next) {
     res.render('login');
-}
-
-router.get('/', loginHandler);
-router.get('/login', loginHandler);
+});
 
 router.post('/login.do', function (req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
     console.log('username =', username, 'password =', password);
-    if (username != "admin") {
+    if (username == "admin" && password == "admin") {
+        req.session.user = {
+            username: 'admin'
+        };
+        res.redirect('/dashboard');
+    } else {
         res.redirect('/login');
     }
-    res.redirect('/dashboard');
+});
+
+router.get('/logout', function(req, res, next) {
+    req.session.user = null;
+    res.redirect('/login');
 });
 
 router.get('/dashboard', function(req, res, next) {

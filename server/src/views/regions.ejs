@@ -7,7 +7,12 @@
 
     <form class="form-inline" onsubmit="return false;">
         <div class="form-group">
-            <input name="region-name" type="text" class="form-control" placeholder="区域名">
+            <div class="has-feedback">
+                <input name="region-name" type="text" class="form-control" placeholder="区域名">
+                <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+                      aria-describedby="help-block-for-title"></span>
+                <span id="help-block-for-title" class="help-block"></span>
+            </div>
         </div>
         <button name="create-region" type="button" class="btn btn-success">新建区域</button>
     </form>
@@ -73,11 +78,37 @@
 </div>
 
 <script>
+    function get_region_from_inputs() {
+
+        var has_error = false;
+
+        var regionInput = $("input[name='region-name']");
+        defender.remove_error_feedback(regionInput);
+
+        var region_name = regionInput.val();
+        if (region_name.length == 0) {
+            defender.add_error_feedback(regionInput, '区域名不能为空');
+            has_error = true;
+        }
+
+        if (has_error) {
+            return null;
+        } else {
+            return {
+                name: region_name
+            };
+        }
+    }
+
+
     $("button[name='create-region']").click(function () {
-        var region_name = $("input[name='region-name']").val();
-        var new_region = {
-            name: region_name,
-        };
+        var new_region = get_region_from_inputs();
+
+        if (!new_region) {
+            return;
+        }
+
+        console.log(new_region);
 
         fetch("/regions", {
             method: "POST",

@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
@@ -42,7 +43,21 @@ app.use(function(req, res, next) {
 });
 
 // routes, see routes/*.js
-app.use('/', routes);
+
+app.use('/', session({
+    resave: true, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'love'
+}), function (req, res, next) {
+    console.log('req.session = ', req.session);
+    if (req.session.user || /^\/login/.test(req.url)) {
+        console.log('next');
+        next();
+    } else {
+        res.redirect('/login');
+        console.log('redirect');
+    }
+}, routes);
 
 // app.use(auth.forAllUsers);
 
