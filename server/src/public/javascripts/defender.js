@@ -142,3 +142,17 @@ defender.feedback_icon = {
     error: $("<span class='glyphicon glyphicon-remove form-control-feedback' aria-hidden='true'></span>")
 };
 
+defender.remove_error_feedback = function (inputElement) {
+    inputElement.parent().removeClass("has-error").map(function () {
+        $(this).find(".form-control-feedback").hide();
+        $(this).find(".help-block").text('');
+    });
+};
+
+defender.add_error_feedback = function (inputElement, help_text) {
+    inputElement.parent().addClass("has-error").map(function () {
+        $(this).find(".form-control-feedback").show();
+        $(this).find(".help-block").text(help_text);
+    });
+};
+

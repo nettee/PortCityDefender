@@ -42,7 +42,9 @@ documents.sanitize = function(document) {
         subclass: document.subclass,
         title: document.title,
         text: document.text,
-        images: document.images
+        images: document.images.map(function (image) {
+            return images.sanitize(image);
+        })
     };
 };
 
@@ -105,6 +107,9 @@ documents.create = function(document, callback) {
 
 documents.read = function(condition, callback) {
     Document.find(condition)
+        .populate(
+            {path: 'images'}
+        )
         .exec(function (err, docs) {
             if (err) {
                 console.log(err);
@@ -116,6 +121,9 @@ documents.read = function(condition, callback) {
 
 documents.readOne = function(_id, callback) {
     Document.where({'_id': _id})
+        .populate(
+            {path: 'images'}
+        )
         .findOne()
         .exec(function(err, doc) {
             callback(err, documents.sanitize(doc));

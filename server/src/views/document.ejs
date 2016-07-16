@@ -11,7 +11,9 @@
         文档详情
         <% } %>
     </h2>
+    <% if (data.do != 'create') { %>
     <span data-attr-name="id" hidden="hidden"><%= document.id %></span>
+    <% } %>
 
     <% if (!data.do) { %>
     <ol class="breadcrumb">
@@ -23,11 +25,21 @@
 
     <% if (data.do == 'create' || data.do == 'edit') { %>
     <div class="panel-heading">
+        <div class="has-feedback">
         <input name="title" type="text" class="form-control" placeholder="标题"
-                <% if (data.do == 'edit') { %> value="<%= document.title %><% } %>">
+                <% if (data.do == 'edit') { %>value="<%= document.title %><% } %>">
+        <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+              aria-describedby="help-block-for-title"></span>
+        <span id="help-block-for-title" class="help-block"></span>
+        </div>
     </div>
     <div class="panel-body">
+        <div class="has-feedback">
         <textarea name="text" class="form-control" rows="13" placeholder="正文"><% if (data.do == 'edit') { %><%= document.text %><% } %></textarea>
+        <span class="glyphicon glyphicon-remove form-control-feedback invisible2"
+              aria-describedby="help-block-for-text"></span>
+        <span id="help-block-for-text" class="help-block"></span>
+        </div>
     </div>
     <div class="panel-body">
         <form class="form-inline">
@@ -49,6 +61,11 @@
             </div>
         </form>
     </div>
+    <div class="panel-body">
+        <label class="control-label">图片</label>
+        <input id="input-44" name="file-data" type="file" multiple class="file-loading">
+        <div id="errorBlock" class="help-block"></div>
+    </div>
 
     <% } else { %>
     <div class="panel panel-default">
@@ -61,8 +78,13 @@
             <% for (var p of paragraphs) { %>
             <p style="text-indent: 2em"><%= p %></p>
             <% } %>
-            <img src="http://s2.cn.bing.net/th?id=OJ.8OrhgbJMbE3hPg&pid=MSNJVFeeds" alt="sample image" class="img-thumbnail">
-            <img src="http://s2.cn.bing.net/th?id=OJ.8OrhgbJMbE3hPg&pid=MSNJVFeeds" alt="sample image" class="img-thumbnail">
+            <% var images = document.images; %>
+            <% for (var i = 0; i < images.length; i++) {
+                var image = images[i];
+            %>
+            <img data-index="<%= i %>" src="/images/<%= image.id %>" class="img-responsive img-rounded image-default"
+                 alt="图片<%= i+1 %>">
+            <% } %>
         </div>
     </div>
 
@@ -134,9 +156,21 @@
 </div>
 
 <script>
-    /*
-     * create document
-     */
+    var images = [];
+
+    $(document).on('ready', function() {
+        $("#input-44").fileinput({
+            language: 'zh',
+            allowedFileExtensions: ["bmp", "jpeg", "png"],
+            uploadUrl: '/images',
+            maxFilePreviewSize: 10240
+        });
+    });
+
+    $('#input-44').on('fileuploaded', function(event, data, previewId, index) {
+        images.push(data.response);
+    });
+
     $(".class-select").click(function () {
         var class_text = $(this).val();
         $(".subclass-select").find("option").map(function () {
@@ -149,19 +183,57 @@
         return $(".image-input").click();
     });
 
-    $("button[name='create']").click(function () {
+    /*
+     * create document
+     */
+    function get_document_from_inputs() {
+
+        var has_error = false;
+
         var class_ = $(".class-select").val();
         var subclass = $(".subclass-select").val();
-        var title = $("input[name='title']").val();
-        var text = $("textarea[name='text']").val();
 
-        var new_document = {
-            'class': class_,
-            'subclass': subclass,
-            'title': title,
-            'text': text,
-            'images': []
-        };
+        var titleInput = $("input[name='title']");
+        defender.remove_error_feedback(titleInput);
+        var title = titleInput.val();
+        if (title.length == 0) {
+            defender.add_error_feedback(titleInput, '标题不能为空');
+            has_error = true;
+        } else if (title.length > 40) {
+            defender.add_error_feedback(titleInput, '标题过长');
+            has_error = true;
+        }
+
+        var textAreaInput = $("textarea[name='text']");
+        defender.remove_error_feedback(textAreaInput);
+        var text = textAreaInput.val();
+        if (text.length == 0) {
+            defender.add_error_feedback(textAreaInput, '正文不能为空');
+            has_error = true;
+        }
+
+        if (has_error) {
+            return null;
+        } else {
+            return {
+                'class': class_,
+                'subclass': subclass,
+                'title': title,
+                'text': text,
+                'images': images.map(function (image) {
+                    return image.id;
+                })
+            };
+        }
+    }
+
+    $("button[name='create']").click(function () {
+
+        var new_document = get_document_from_inputs();
+
+        if (!new_document) {
+            return;
+        }
         console.log(new_document);
 
         fetch("/documents", {
@@ -193,18 +265,12 @@
      * modify document
      */
     $("button[name='modify']").click(function () {
-        var class_ = $(".class-select").val();
-        var subclass = $(".subclass-select").val();
-        var title = $("input[name='title']").val();
-        var text = $("textarea[name='text']").val();
 
-        var updater = {
-            'class': class_,
-            'subclass': subclass,
-            'title': title,
-            'text': text,
-            'images': []
-        };
+        var updater = get_document_from_inputs();
+
+        if (!updater) {
+            return;
+        }
         console.log(updater);
 
         var id = $("span[data-attr-name='id']").text();

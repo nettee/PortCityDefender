@@ -101,7 +101,7 @@ function infoImageCreator(req, res, next) {
         return next(error);
     }
 
-    images.create(id, {size: size, mime_type: mime_type}, function(err, image, image_id) {
+    images.create({size: size, mime_type: mime_type}, function(err, image, image_id) {
         console.log('image_id =', image_id);
         if (err) {
             return next(new Error(err));

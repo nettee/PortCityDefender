@@ -33,7 +33,7 @@ images.sanitize = function(image) {
     };
 };
 
-images.create = function(info_id, image, callback) {
+images.create = function(image, callback) {
     Image(image).save(function(err, doc) {
         if (err) {
             console.log(err);
