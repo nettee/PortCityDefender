@@ -544,13 +544,20 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-  .controller('commandController', function ($scope, $state, commandService, userService) {
+  .controller('commandController', function ($scope, $state, commandService, $ionicModal,userService,modalService) {
 
     $scope.newCommand = function(){
       console.log("in new Command click");
       commandService.setReceiverListNull();
-      $state.go('menu.newCommand');
+      $scope.modal.show();
     }
+    $ionicModal.fromTemplateUrl('templates/newCommand.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modalService.setCommandModal(modal);
+    });
 
     $scope.calPortraitNumber = userService.calPortraitNumber;
 
@@ -630,6 +637,11 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
      $scope.receiverList=commandService.getReceiverList();
      $scope.$broadcast('scroll.refreshComplete');
    }
+    $scope.closeModal = function () {
+      $scope.a.content="";
+      $scope.modal = modalService.getCommandModal();
+      $scope.modal.hide();
+    }
      $scope.sendCommand = function (content) {
      //sendcommand = command;
      //sendcommand.sender = "mymy";
