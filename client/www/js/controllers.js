@@ -267,7 +267,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state, informationService, userService) {
+  .controller('InfoController', function ($scope, $state, $ionicModal, informationService, userService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
       $state.go('menu.newInformation');
@@ -278,6 +278,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.informations = response;
       })
     });
+    
 
     $scope.properTime = function (time) {
       var date = new Date(time);
