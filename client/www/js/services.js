@@ -94,7 +94,7 @@ app.factory('userService', function($http){
     getUserPortrait : function () {
       return user.portrait;
     },
-    
+
     calPortraitNumber : calPortraitNumber
   };
 });

@@ -482,10 +482,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       };
 
       Camera.getPicture(options).then(function(picUrl) {
-        alert(picUrl);
         $scope.images.push(picUrl);
       }, function(err) {
-        //alert("拍照错误：" + err);
       });
 
     }
