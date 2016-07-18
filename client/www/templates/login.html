@@ -4,6 +4,7 @@
   </ion-header-bar>
 
   <ion-content overflow-scroll="true" style="overflow:auto;">
+    <img ng-src="img/city1.jpg" style="width:100% ">
     <div class="list">
       <label class="item item-input">
         <span class="input-label">用户名</span>
@@ -15,7 +16,7 @@
       </label>
     </div>
     <div class="padding">
-      <button class="button button-block button-positive" ng-click="signIn(user)">
+      <button class="button button-block button-positive" ng-disabled="user.username==='' || user.password==='' " ng-click="signIn(user)">
         立即登录
       </button>
     </div>

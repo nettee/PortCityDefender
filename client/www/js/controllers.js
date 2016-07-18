@@ -1,7 +1,15 @@
 angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('LoginController', function($rootScope, $scope, $ionicPopup, $http, $state, userService) {
+    $scope.user={
+      username:"",
+      password:""
+    }
     $scope.signIn = function(user) {
+      if(user.username==""||user.password==""){
+        alert("用户名和密码不能为空");
+        return;
+      }
       $rootScope.ipAddress = "http://121.40.97.40:3000";
       var auth = window.btoa(user.username + ":" + user.password);
       console.log("base64 number : " + auth);
@@ -614,6 +622,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       commandService.updateReceiver(groups);
     //  $ionicHistory.goBack();
       $state.go('menu.newCommand',{},{reload:true});
+    }
+    $scope.changeChoose=function (group) {
+      for (var i in group.items){
+        group.items[i].ischecked=group.ischecked;
+      }
+
     }
     $scope.$on('$ionicView.beforeEnter',function(){
       //根据联系人列表设置联系人的选中与否
