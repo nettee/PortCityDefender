@@ -113,7 +113,8 @@
         fetch("/regions", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
             },
             body: JSON.stringify(new_region)
         }).then(function(res) {
@@ -141,7 +142,9 @@
         console.log(name);
         fetch("/regions/" + name, {
             method: "DELETE",
-            headers: {},
+            headers: {
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
+            },
             body: ""
         }).then(function(res) {
             if (res.ok) {

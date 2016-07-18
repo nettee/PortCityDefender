@@ -156,3 +156,7 @@ defender.add_error_feedback = function (inputElement, help_text) {
     });
 };
 
+defender.basic_auth = function(username, password) {
+    return "Basic " + btoa(username + ":" + password);
+};
+

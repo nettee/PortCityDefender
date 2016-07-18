@@ -239,7 +239,8 @@
         fetch("/documents", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
             },
             body: JSON.stringify(new_document)
         }).then(function(res) {
@@ -278,7 +279,8 @@
         fetch("/documents/" + id, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
             },
             body: JSON.stringify(updater)
         }).then(function(res) {
@@ -329,7 +331,9 @@
 
         fetch("/documents/" + id, {
             method: "DELETE",
-            headers: {},
+            headers: {
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
+            },
             body: ""
         }).then(function(res) {
             if (res.ok) {
