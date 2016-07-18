@@ -9,7 +9,7 @@ describe('users API test:', function() {
     var url = 'http://localhost:3000/users';
 
     function getUserList(callback) {
-        request.get(url, function(err, response, body) {
+        request.get(url, {'auth': href.basic_auth}, function(err, response, body) {
             expect(err).to.be.null;
             expect(response.statusCode).to.be.equal(200);
             var users = JSON.parse(body);
@@ -20,7 +20,7 @@ describe('users API test:', function() {
     }
 
     function getUser(id, callback) {
-        request.get(url + '/' + id, function(err, response, body) {
+        request.get(url + '/' + id, {'auth': href.basic_auth}, function(err, response, body) {
             expect(err).to.be.null;
             expect(respone.statusCode).to.be.equal(200);
             var user = body;
@@ -28,6 +28,10 @@ describe('users API test:', function() {
             callback(user);
         });
     }
+    //
+    // function createUser(id, callback) {
+    //     request.get(url,)
+    // }
 
     function expectUser(user) {
         expect(user).not.to.have.a.property('_id');
@@ -45,6 +49,7 @@ describe('users API test:', function() {
                 expectUser(user);
             }
             getUserList(function(users2) {
+                // get user list twice, the results should be the same
                 expect(users).to.be.deep.equal(users2);
                 done();
             });
@@ -57,11 +62,11 @@ describe('users API test:', function() {
                 var id = user.id;
                 getUser(id, function(user2) {
                     expectUser(user2);
+                    // get user list and get user should be consistent
                     expect(user).to.be.deep.equal(user2);
                 });
             }
             done();
         });
     });
-    
 });

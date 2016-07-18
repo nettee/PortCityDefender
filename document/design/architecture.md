@@ -151,7 +151,6 @@
 | GET | /users?id=_userid_ | 按ID搜索用户 | 管理员 |
 | GET | /users/_userid_ | 获得用户信息 | 所有用户 |
 | PUT | /users/_userid_ | 修改用户信息 | 管理员 | 
-| PATCH | /users/_userid_ | 部分更新用户信息 | 管理员 | 
 | DELETE | /users/_userid_ | 删除用户 | 管理员 | 
 
 用户数据为一个User对象，包含的属性有：
@@ -193,15 +192,6 @@
     + ID为_userid_的用户不存在：返回404状态码
     + 发送数据User对象的属性不完整：返回422状态码
     + 发送数据User对象的id属性和_userid_不等：返回422状态码
-
-5. PATCH /users/_userid_：部分修改ID为_userid_的用户的信息
-  + 发送数据：一个（不一定完整的）User对象，包含User对象的若干个属性，每个属性代表用户信息的预期修改结果
-  + 返回状态码：201
-  + 返回数据：修改后的User对象
-  + 说明：服务器将ID为_userid_的用户信息根据发送的数据中的User对象进行部分更新
-  + 异常情况
-    + ID为_userid_的用户不存在：返回404状态码
-    + User对象含有id属性且和_userid_不等：返回422状态码
 
 6. DELETE /users/_userid_：删除ID为_userid_的用户
   + 发送数据：无
