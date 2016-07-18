@@ -286,7 +286,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.informations = response;
       })
     });
-    
+
 
     $scope.properTime = function (time) {
       var date = new Date(time);
@@ -557,6 +557,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             $scope.isCommandListEmpty=false;
           }
         })
+      commandService.fillSendCommandList(function(response){
+        $scope.sendCommandList=response;
+        commandService.changeDateStyle($scope.sendCommandList);
+      })
     }
     )
   })
@@ -573,7 +577,17 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     console.log($scope.command.updated_time.toLocaleString());
     //$scope.command.content = content;
   })
-
+  .controller('singleSendCommandController',function($scope,$stateParams,commandService, userService){
+    var index= $stateParams.commandId;
+    var command=commandService.getSendCommandByIndex(index);
+    $scope.calPortraitNumber = userService.calPortraitNumber;
+    $scope.command=command;
+    //content=content.replace('\n', '<br>').replace('\t', '<br>').replace('\r', '<br>');//正确
+    //console.log(content);
+    $scope.contentArray=command.content.split("\n");
+    console.log($scope.contentArray);
+    console.log($scope.command.updated_time.toLocaleString());
+  })
   .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
 
    var sendcommand = {};

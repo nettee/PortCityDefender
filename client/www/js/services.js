@@ -101,7 +101,8 @@ app.factory('userService', function($http){
 
 app.factory('commandService',function($http,userService){
 
-  var commandList =[]
+  var commandList =[];
+  var sendCommandList=[];
   var mygroups=[]
   var receiverList=[]
  //var mygroupsIsfill=false;
@@ -149,6 +150,23 @@ app.factory('commandService',function($http,userService){
         alert("get command List failed");
       })
   }
+
+  var fillSendCommandList=function(callback)
+  {
+    $http.get(ipAddress + "/commands?sender=" + userService.getUser().id,{headers:{Authorization : auth}})
+      .success(function (response) {
+        // commandList = response;
+        for (var i in response){
+          console.log("sendCommandList response"+response[i].updated_time);
+        }
+        sendCommandList=response;
+        callback(response);
+      })
+      .error(function () {
+        alert("get sendCommand List failed");
+      })
+  }
+
   /*
   receiverList[0]={
     id:null,
@@ -261,6 +279,9 @@ app.factory('commandService',function($http,userService){
       fillCommand(callback);
      // console.log("get Command List"+commandList);
     },
+    fillSendCommandList:function (callback) {
+      fillSendCommandList(callback);
+    },
     setCommandList:function(CommandList){
       commandList=CommandList;
     },
@@ -268,6 +289,9 @@ app.factory('commandService',function($http,userService){
      // console.log(index);
       console.log("in get command by index   "+commandList.length);
       return  commandList[index];
+    },
+    getSendCommandByIndex:function(index){
+      return  sendCommandList[index];
     },
     getGroups:function(){
       return mygroups;

@@ -35,7 +35,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         templateUrl: 'templates/menu.html',
         controller: 'MenuController'
       })
-      
+
       .state('menu.password', {
         url: '/password',
         views: {
@@ -171,6 +171,16 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
           'menuContent': {
             templateUrl: 'templates/singleCommand.html',
             controller: 'singleCommandController'
+          }
+        }
+      })
+
+      .state('menu.singleSendCommand', {
+        url: '/sendCommand/:commandId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/singleSendCommand.html',
+            controller: 'singleSendCommandController'
           }
         }
       })
