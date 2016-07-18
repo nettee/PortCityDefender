@@ -286,7 +286,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.informations = response;
       })
     });
-    
+
     $ionicModal.fromTemplateUrl('templates/newInformation.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -662,15 +662,31 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $state.go('menu.newCommand',{},{reload:true});
     }
     $scope.changeChoose=function (group) {
+      console.log("全选  "+group.name);
       for (var i in group.items){
         group.items[i].ischecked=group.ischecked;
       }
 
     }
+    $scope.changeGroupChoose=function(group,ischecked){
+      if(ischecked==false){
+        group.ischecked=false;
+      }else{
+        flag=true;
+        for (var i in group.items){
+          if(group.items[i].ischecked==false)
+            flag=false;
+        }
+        if(flag==true)         group.ischecked=true;
+
+      }
+    }
+
     $scope.$on('$ionicView.beforeEnter',function(){
       //根据联系人列表设置联系人的选中与否
      // commandService.updateCheckedbyReceiverList();
       //$scope.groups=commandService.getGroups();
+     // commandService.changeGroupsChecked($scope.groups);
       for(var i in $scope.groups){
         for(var j in $scope.groups[i].items){
           console.log("after update"+$scope.groups[i].items[j].name+$scope.groups[i].items[j].ischecked);

@@ -28,6 +28,7 @@
         <ion-checkbox class=""
                   ng-repeat="item in group.items"
                   ng-show="isGroupShown(group)"
+                      ng-click="changeGroupChoose(group,item.ischecked)"
                   ng-model="item.ischecked">
           {{item.name}}
           &nbsp;

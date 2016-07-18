@@ -244,6 +244,7 @@ app.factory('commandService',function($http,userService){
           mygroups[i].isfill = true;
           group.show = !group.show;
           updateCheckedbyReceiverList();
+          changeGroupChecked(mygroups[i]);
         })
         .error(function (response) {
           alert("Fail to get the users by region : " + regionlist[i]);
@@ -273,6 +274,16 @@ app.factory('commandService',function($http,userService){
           console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
         })
     return mygroups;
+  }
+
+  var changeGroupChecked=function (group) {
+    flag=true;
+    for (var i in group.items){
+      if(group.items[i].ischecked==false)
+        flag=false;
+    }
+    if(flag==true) group.ischecked=true;
+    else group.ischecked=false;
   }
   return {
     getCommandList:function(callback){
@@ -361,6 +372,11 @@ app.factory('commandService',function($http,userService){
     },
     changeDateStyle: function(commandList) {
       changeDateStyle(commandList);
+    },
+    changeGroupsChecked:function (groups) {
+      for(var i in groups){
+        changeGroupChecked(groups[i]);
+      }
     }
   }
 });
