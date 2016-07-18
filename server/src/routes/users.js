@@ -1,5 +1,4 @@
 var express = require('express');
-var assert = require('assert');
 
 var auth = require('./auth');
 var users = require('../models/users');
@@ -16,9 +15,9 @@ function userCompletementChecker(req, res, next) {
     console.log('in userCompletementChecker');
     var user = req.body;
     if (!users.isCompleteUser(user)) {
-        res.status(400).send({error: 'User information not complete'});
-        res.end();
-        return;
+        var error = new Error("user information not complete");
+        error.status = 422;
+        return next(error);
     }
     next();
 }
@@ -35,29 +34,39 @@ function userExistenceChecker(req, res, next) {
     var id = req.params.id;
     users.existsId(id, function(err, exists) {
         if (err) {
-            res.status(500).send({error: err});
-            return;
+            return next(new Error(err));
         }
         if (!exists) {
-            res.status(404).send({error: 'user ID does not exist'});
-            return;
+            var error = new Error("user id already exists");
+            error.status = 404;
+            return next(error);
         }
         next();
     });
 }
 
-function userCreator(req, res) {
+function userCreator(req, res, next) {
     var user = req.body;
-    users.create(user, function(err) {
+    users.existsId(user.id, function(err, exists) {
         if (err) {
-            res.status(500).send({error: err});
-        } else {
-            res.status(201).send(user);
+            return next(new Error(err));
         }
+        if (exists) {
+            var error = new Error("user id already exists");
+            error.status = 409;
+            return next(error);
+        }
+        users.create(user, function(err) {
+            if (err) {
+                return next(new Error(err));
+            }
+            res.status(201).send(user);
+        });
     });
+
 }
 
-function userListReader(req, res) {
+function userListReader(req, res, next) {
     var query = req.query;
     console.log('query =', query);
     var condition = {};
@@ -75,22 +84,19 @@ function userListReader(req, res) {
     }
     users.read(condition, function(err, list) {
         if (err) {
-            res.status(500).send({error: err});
-        } else {
-            res.status(200).send(list);
+            return next(new Error(err));
         }
+        res.status(200).send(list);
     });
 }
 
-function userReader(req, res) {
+function userReader(req, res, next) {
     var id = req.params.id;
     var condition = {'id': id};
     users.readOne(id, function(err, user) {
         if (err) {
-            res.status(500).send({error: err});
-            return;
+            return next(new Error(err));
         }
-        // FIXME check user == null and return 404
         res.status(200).send(user);
     });
 }
@@ -102,30 +108,29 @@ function userReader(req, res) {
  *     PUT /users/_userid_
  *     PATCH /users/_userid_
  */
-function userUpdater(req, res) {
+function userUpdater(req, res, next) {
     var id = req.params.id;
     var user = req.body;
     if (user.id != id) {
-        res.status(400).send({error: 'user ID is not consistent'});
-        return;
+        var error = new Error("user id not consistent");
+        error.status = 422;
+        return next(error);
     }
     users.update(id, user, function(err, result) {
         if (err) {
-            res.status(500).send({error: err});
-            return;
+            return next(new Error(err));
         }
         res.status(201).send(result);
     });
 }
 
-function userDeleter(req, res) {
+function userDeleter(req, res, next) {
     var id = req.params.id;
     users.deleteById(id, function(err) {
         if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(204).send({});
+            return next(new Error(err));
         }
+        res.status(204).send({});
     });
 }
 
@@ -140,9 +145,6 @@ router.post('/', userCompletementChecker, userCreator);
 
 // UPDATE user information
 router.put('/:id', userCompletementChecker, userExistenceChecker, userUpdater);
-
-// partly UPDATE user information
-router.patch('/:id', userExistenceChecker, userUpdater);
 
 // DELETE user
 router.delete('/:id', userDeleter);

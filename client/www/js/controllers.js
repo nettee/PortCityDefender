@@ -1,7 +1,15 @@
 angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('LoginController', function($rootScope, $scope, $ionicPopup, $http, $state, userService) {
+    $scope.user={
+      username:"",
+      password:""
+    }
     $scope.signIn = function(user) {
+      if(user.username==""||user.password==""){
+        alert("用户名和密码不能为空");
+        return;
+      }
       $rootScope.ipAddress = "http://121.40.97.40:3000";
       var auth = window.btoa(user.username + ":" + user.password);
       console.log("base64 number : " + auth);
@@ -278,7 +286,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.informations = response;
       })
     });
-
+    
     $ionicModal.fromTemplateUrl('templates/newInformation.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -572,6 +580,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             $scope.isCommandListEmpty=false;
           }
         })
+      commandService.fillSendCommandList(function(response){
+        $scope.sendCommandList=response;
+        commandService.changeDateStyle($scope.sendCommandList);
+      })
     }
     )
   })
@@ -588,7 +600,17 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     console.log($scope.command.updated_time.toLocaleString());
     //$scope.command.content = content;
   })
-
+  .controller('singleSendCommandController',function($scope,$stateParams,commandService, userService){
+    var index= $stateParams.commandId;
+    var command=commandService.getSendCommandByIndex(index);
+    $scope.calPortraitNumber = userService.calPortraitNumber;
+    $scope.command=command;
+    //content=content.replace('\n', '<br>').replace('\t', '<br>').replace('\r', '<br>');//正确
+    //console.log(content);
+    $scope.contentArray=command.content.split("\n");
+    console.log($scope.contentArray);
+    console.log($scope.command.updated_time.toLocaleString());
+  })
   .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
 
    var sendcommand = {};
@@ -638,6 +660,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       commandService.updateReceiver(groups);
     //  $ionicHistory.goBack();
       $state.go('menu.newCommand',{},{reload:true});
+    }
+    $scope.changeChoose=function (group) {
+      for (var i in group.items){
+        group.items[i].ischecked=group.ischecked;
+      }
+
     }
     $scope.$on('$ionicView.beforeEnter',function(){
       //根据联系人列表设置联系人的选中与否

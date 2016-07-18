@@ -30,10 +30,8 @@
       </ion-item>
 
     </div>
-        <div id="isCommandListEmptyBackground">
     <div ng-show="isCommandListEmpty" >
       <p id="NoContentShow">暂无命令</p>
-    </div>
     </div>
 
     <ion-item class="item-divider"  style="text-align: center;">
@@ -42,27 +40,26 @@
 
     <div class="list">
 
-      <ion-item ng-repeat="sendCommand in sendCommandList"
+      <ion-item ng-repeat="command in commandList"
                 ng-cloak
-                href="#/menu/sendCommand/{{$index}}"
+                href="#/menu/command/{{$index}}"
                 class="item item-thumbnail-left  ng-cloak ">
-        <!--  <img ng-src="{{ sendCommand.img }}"> -->
-        <img ng-src="img/{{calPortraitNumber(sendCommand.receiver.id)}}.jpg">
-        <h2>{{ sendCommand.receiver.name}}</h2>
-        <p>{{ sendCommand.content}}
+        <!--  <img ng-src="{{ command.img }}"> -->
+        <img ng-src="img/{{calPortraitNumber(command.sender.id)}}.jpg">
+        <h2>{{ command.sender.name}}</h2>
+        <p>{{ command.content}}
         </p>
                     <span class="item-note" id="float-right">
-                        {{sendCommand.updated_time}}
+                        {{command.updated_time}}
                       </span>
 
       </ion-item>
 
     </div>
 
-    <div id="isCommandListEmptyBackground">
-    <div ng-show="!sendCommandList.length" >
+
+    <div ng-show="isCommandListEmpty" >
       <p id="NoContentShow">暂无命令</p>
-    </div>
     </div>
   </ion-content>
 </ion-view>

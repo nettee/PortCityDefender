@@ -21,6 +21,10 @@
           &nbsp;
           {{group.name}}区
         </ion-item>
+        <ion-checkbox    ng-show="isGroupShown(group)"
+                         ng-model="group.ischecked" ng-click="changeChoose(group)" id="chooseall">
+          全选
+        </ion-checkbox>
         <ion-checkbox class=""
                   ng-repeat="item in group.items"
                   ng-show="isGroupShown(group)"
