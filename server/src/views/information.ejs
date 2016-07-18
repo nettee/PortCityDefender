@@ -119,6 +119,9 @@
         console.log(id);
         fetch("/information/" + id, {
             method: "GET",
+            headers: {
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
+            }
         }).then(function(res) {
             if (res.ok) {
                 console.log(res.status + ' ' + res.statusText);
@@ -143,7 +146,9 @@
 
         fetch("/information/" + id, {
             method: "DELETE",
-            headers: {},
+            headers: {
+                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
+            },
             body: ""
         }).then(function(res) {
             if (res.ok) {
