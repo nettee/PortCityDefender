@@ -4,11 +4,11 @@
     </button>
   </ion-nav-buttons>
 
-  <ion-content>
+  <ion-content overflow-scroll="true" style="overflow:auto;">
     <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
     </ion-refresher>
     <div ng-repeat="info in informations">
-      <div class="list card" ng-click="showDetailInformation(info)">
+      <div class="list" ng-click="showDetailInformation(info)">
 
         <div class="item item-avatar">
           <img src="img/{{calPortraitNumber(info.publisher.id)}}.jpg">
@@ -17,11 +17,7 @@
           <div align="right" ng-show="info.urgent">
             <span class="badge badge-assertive">紧急</span>
           </div>
-        </div>
-
-        <div class="item item-body">
           <p>{{properContent(info.text)}}</p>
-
         </div>
 
       </div>

@@ -267,10 +267,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     });
   })
 
-  .controller('InfoController', function ($scope, $state, $ionicModal, informationService, userService) {
+  .controller('InfoController', function ($scope, $state, $ionicModal, informationService, userService, modalService) {
     $scope.newInformation = function() {
       console.log("in new Information click");
-      $state.go('menu.newInformation');
+      $scope.modal.show();
     }
 
     $scope.$on('$ionicView.beforeEnter', function(){
@@ -278,7 +278,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.informations = response;
       })
     });
-    
+
+    $ionicModal.fromTemplateUrl('templates/newInformation.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modalService.setInformationModal(modal);
+    });
 
     $scope.properTime = function (time) {
       var date = new Date(time);
@@ -416,11 +423,20 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   })
 
-  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, $ionicPopup, userService, informationService, Camera) {
+  .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, $ionicPopup, userService, informationService, Camera, modalService) {
     $scope.information = informationService.informationInstance();
     $scope.information.publisher = userService.getUser().id;
     $scope.images = [];
     $scope.selectImage = false;
+
+    $scope.closeModal = function () {
+      $scope.information.text = "";
+      $scope.information.images = [];
+      $scope.information.urgent = false;
+      $scope.images = [];
+      $scope.modal = modalService.getInformationModal();
+      $scope.modal.hide();
+    }
 
     $scope.showPictureChoice = function () {
       var hideSheet = $ionicActionSheet.show({
@@ -507,8 +523,15 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       informationService.sendInformation($scope.information, function (response) {
         $scope.information = response;
         informationService.sendImages(response, $scope.images);
+        $scope.information.publisher = userService.getUser().id;
+        $scope.information.text = "";
+        $scope.information.images = [];
+        $scope.information.urgent = false;
+        $scope.images = [];
       });
-      $state.go('menu.information');
+      $scope.modal = modalService.getInformationModal();
+      $scope.modal.hide();
+
     }
   })
 

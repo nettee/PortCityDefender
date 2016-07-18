@@ -382,8 +382,9 @@ app.factory('informationService', function ($http) {
     }).success(function (response) {
       console.log(response.publisher.name + " succeed in sending information to serve at time : " + response.updated_time);
       callback(response);
-    }).error(function (response) {
-      console.log("Fail to send information to server");
+    }).error(function (response, status) {
+      console.log("status : " + status);
+      console.log("Fail to send information to server : " + response.message);
     });
   }
 
@@ -396,8 +397,12 @@ app.factory('informationService', function ($http) {
 
       if (type[0] == 'j')
         s += "jpeg";
-      if (type[0] == 'p')
-        s += "png";
+      else {
+        if (type[0] == 'p')
+          s += "png";
+        else
+          s += type;
+      }
 
       var xhr = new XMLHttpRequest();
       xhr.open("get", picUrl, true);
@@ -430,7 +435,6 @@ app.factory('informationService', function ($http) {
           if (this.status == 0){
             var blob = this.response;
             console.log(blob.size);
-
             $http({
               method : "POST",
               url : ipAddress + "/information/" + information.id + "/images",
@@ -444,8 +448,8 @@ app.factory('informationService', function ($http) {
               information.images[i] = response;
 
               console.log("发送图片成功");
-            }).error(function (error) {
-
+            }).error(function (error, status) {
+              //alert("发送图片失败 : " + error.message + " 状态码 : " + status);
               console.log("发送图片失败");
             })
           }
@@ -688,5 +692,28 @@ app.factory('passwordService', function ($http){
 
   return {
     changePassword : changePassword
+  }
+})
+
+app.factory('modalService', function(){
+  var informationModal = {};
+  var commandModal = {};
+
+
+  return {
+    setInformationModal : function (modal) {
+      console.log("set modal");
+      informationModal = modal;
+    },
+    getInformationModal : function () {
+      console.log("get modal");
+      return informationModal;
+    },
+    setCommandModal : function (modal) {
+      commandModal = modal;
+    },
+    getCommandModal : function () {
+      return commandModal;
+    }
   }
 })

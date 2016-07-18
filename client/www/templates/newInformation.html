@@ -1,32 +1,33 @@
-<ion-view view-title="写情报">
-  <ion-nav-view animation="slide-in-up"></ion-nav-view>
-    <ion-nav-buttons side="right" >
-      <button class="button button-clear" menu-toggle="right" ng-click="publishInformation()">
-        发布
-      </button>
-    </ion-nav-buttons>
+<div class="modal" ng-controller="newInformationController">
+  <ion-header-bar class="bar bar-header bar-positive">
+    <button class="button button-clear" ng-click="closeModal()">取消</button>
+    <h1 class="title" style="text-align: center">写情报</h1>
+    <button class="button button-clear" menu-toggle="right" ng-click="publishInformation()">
+      发布
+    </button>
+  </ion-header-bar>
 
-  <ion-content overflow-scroll="true" style="overflow:auto;">
-    <ion-list>
-      <ion-item class="item item-input">
-        <textarea ng-model="information.text" style="overflow:auto; resize:none;" placeholder="填写情报..." rows="12"></textarea>
-      </ion-item>
-      <ion-item ng-click="showPictureChoice()" class="item-icon-right">
-        插入图片
-        <i class="icon ion-ios-arrow-right"></i>
-      </ion-item>
+    <ion-content overflow-scroll="true" style="overflow:auto;">
+      <ion-list>
+        <ion-item class="item item-input">
+          <textarea ng-model="information.text" style="overflow:auto; resize:none;" placeholder="填写情报..." rows="12"></textarea>
+        </ion-item>
+        <ion-item ng-click="showPictureChoice()" class="item-icon-right">
+          插入图片
+          <i class="icon ion-ios-arrow-right"></i>
+        </ion-item>
 
-      <div class="card" ng-show="images.length">
-        <div class="row">
-          <div ng-repeat="imagepath in images">
-            <div class="col col-33"><img src="{{imagepath}}" width="70" height="70"></div>
+        <div class="card" ng-show="images.length">
+          <div class="row">
+            <div ng-repeat="imagepath in images">
+              <div class="col col-33"><img src="{{imagepath}}" width="70" height="70"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <ion-checkbox ng-model="information.urgent">
-        紧急发布
-      </ion-checkbox>
-    </ion-list>
-  </ion-content>
-</ion-view>
+        <ion-checkbox ng-model="information.urgent">
+          紧急发布
+        </ion-checkbox>
+      </ion-list>
+    </ion-content>
+</div>
