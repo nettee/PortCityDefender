@@ -110,6 +110,19 @@ commands.readByReceiver = function(receiver, callback) {
         }
     });
 };
+
+commands.readBySender = function(sender, callback) {
+    commands.read(function(err, command_list) {
+        if (err) {
+            callback(err, command_list);
+        } else {
+            var result = command_list.filter(function(command) {
+                return command.sender.id == sender;
+            });
+            callback(err, result);
+        }
+    });
+};
     
 
 module.exports = commands;

@@ -279,7 +279,7 @@
         fetch("/users/" + id, {
             method: "DELETE",
             headers: {
-                "Authorization": defender.basic_auth('<%= data.user_auth.username %>', '<%= data.user_auth.password %>')
+                "Authorization": defender.basic_auth('<%= d2ata.user_auth.username %>', '<%= data.user_auth.password %>')
             },
             body: ""
         }).then(function(res) {

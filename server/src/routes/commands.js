@@ -30,7 +30,14 @@ function commandCreator(req, res, next) {
 function commandListReader(req, res, next) {
     var query = req.query;
     if (query.receiver) {
-        commands.readByReceiver(query.receiver, function(err, list) {
+        commands.readByReceiver(query.receiver, function (err, list) {
+            if (err) {
+                next(new Error(err));
+            }
+            res.status(200).send(list);
+        });
+    } else if (query.sender) {
+        commands.readBySender(query.sender, function (err, list) {
             if (err) {
                 next(new Error(err));
             }
