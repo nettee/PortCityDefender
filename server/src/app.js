@@ -6,6 +6,7 @@ var Session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// create session middleware
 var session = Session({
     resave: true, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
@@ -33,11 +34,19 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
+
+/* Automatically parse json object in request, and store the parsing
+ * result in `req.body`. If request is not json type (i.e., "Content-Type"
+ * is not "application/json", it won't be parsed.
+ */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+// for logging
+// Each time a request reaches, log the verb, url, body of request.
 app.use(function(req, res, next) {
     console.log('====================================================');
     console.log('Request:');
@@ -47,6 +56,21 @@ app.use(function(req, res, next) {
     next();
 });
 
+/*
+ * Session control:
+ *
+ * Session only applies for /login, /login.do, /logout, and url starting with
+ * /dashboard.
+ *
+ * 1. Add `session` middleware for these routes, which can automatically set
+ * session information in `req.session`
+ * 2. When a user log in through /login.do, store login information in session,
+ * specifically, `req.session.user`
+ * 3. Every time a request ask for /dashboard/*, check whether `req.session.user`
+ * is set. If `req.session.user` is undefined, redirect to login page.
+ * 4. When logging out, delete `req.session.user`.
+ *
+ */
 app.get('/login', session, function(req, res, next) {
     res.render('login');
 });
@@ -56,8 +80,10 @@ app.post('/login.do', session, function (req, res, next) {
     var password = req.body.password;
     console.log('username =', username, 'password =', password);
     if (username == "admin" && password == "admin") {
+        // store login information in session
         req.session.user = {
-            username: 'admin'
+            username: 'admin',
+            password: 'admin'
         };
         res.redirect('/dashboard');
     } else {
@@ -66,6 +92,7 @@ app.post('/login.do', session, function (req, res, next) {
 });
 
 app.get('/logout', session, function(req, res, next) {
+    // delete login information in session
     req.session.user = null;
     res.redirect('/login');
 });
@@ -73,6 +100,10 @@ app.get('/logout', session, function(req, res, next) {
 // routes, see routes/*.js
 
 app.use('/dashboard', session, function (req, res, next) {
+    /*
+     * If `req.session.user` exists, it means that user is already logged in.
+     * Otherwise, we should redirect to login page.
+     */
     console.log('req.session = ', req.session);
     if (req.session.user || /^\/login/.test(req.url)) {
         console.log('next');
@@ -83,8 +114,7 @@ app.use('/dashboard', session, function (req, res, next) {
     }
 }, dashboard_routes);
 
-// app.use(auth.forAllUsers);
-
+// routes for RESTful APIs
 app.use('/test', auth.forAllUsers, test_routes);
 app.use('/authentications', auth.forAllUsers, authentications_routes);
 app.use('/users', auth.forAllUsers, users_routes);
@@ -120,7 +150,6 @@ app.use(function (req, res, next) {
  *   }
  *
  */
-
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         console.log('caused development error handler');
