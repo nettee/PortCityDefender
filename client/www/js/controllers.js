@@ -71,6 +71,21 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
     $scope.changePassword = function () {
       if ($scope.password.oldPass == $scope.userPassword) {
+        if ($scope.password.newPass == ""){
+          $ionicPopup.show({
+            title: "新密码不能为空",
+            scope: $scope,
+            buttons:[{
+              text : "确定",
+              type : "button-positive"
+            }]
+          }).then(function (res) {
+            $scope.password.oldPass = "";
+            $scope.password.newPass = "";
+            $scope.password.confirmPass = "";
+          });
+          return;
+        }
         if ($scope.password.newPass == $scope.password.confirmPass) {
           passwordService.changePassword($scope.id, $scope.password.newPass,
             function () {
