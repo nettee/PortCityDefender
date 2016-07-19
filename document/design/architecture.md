@@ -52,8 +52,11 @@
 
 ![架构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/architecture.png)
 
-## 2.4 结构
+客户端使用ionic混合式应用开发框架进行开发，基本采用Angularjs的MVVM架构模式。在用户对界面进行操作时，首先会经过路由确定由哪个View进行显示和渲染，然后以ViewModel为中介进行View和Model之间的交互；View将用户的产生的事件和操作传递给ViewModel，ViewModel将对应的数据更新请求发送给Model，Model会向服务器发送请求获取数据返回给ViewModel，再由ViewModel通知View完成视图更新；其中Controller的作用就是初始化ViewModel的数据和把多个Model组合起来为ViewModel提供数据服务。
 
+![客户端架构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/client-architecture.png)
+
+## 2.4 结构
 
 ### 客户端
 
