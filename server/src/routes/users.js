@@ -106,7 +106,6 @@ function userReader(req, res, next) {
  *
  * used by: 
  *     PUT /users/_userid_
- *     PATCH /users/_userid_
  */
 function userUpdater(req, res, next) {
     var id = req.params.id;
