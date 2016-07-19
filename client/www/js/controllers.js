@@ -623,7 +623,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     console.log($scope.command.updated_time.toLocaleString());
   })
 
-  .controller('newCommandController',function($scope,$state,$ionicHistory,commandService) {
+  .controller('newCommandController',function($scope,$state,$ionicHistory, $ionicPopup,commandService) {
 
    var sendcommand = {};
     $scope.a={content:""};
@@ -652,11 +652,29 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
          console.log("aaaaaan updateReceiver,after ger receiverList" + $scope.receiverList[ii].id);
        }
        if($scope.receiverList.length==0) {
-         alert("接收者不能为空！");
-         return;
+           $ionicPopup.show({
+             title: "命令接收者不能为空",
+             scope: $scope,
+             buttons:[{
+               text : "确定",
+               type : "button-positive"
+             }]
+           }).then(function (res) {
+             //do nothing
+           });
+           return;
        }
        if(content==""){
-         alert("内容不能为空！");
+         $ionicPopup.show({
+           title: "命令内容不能为空",
+           scope: $scope,
+           buttons:[{
+             text : "确定",
+             type : "button-positive"
+           }]
+         }).then(function (res) {
+           //do nothing
+         });
          return;
        }
        console.log("shshshshs"+content)
@@ -738,8 +756,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.searchisnull = true;
     $scope.searchResults = [];
     $scope.search = function (searchcontent) {
-      if (searchcontent == '')
+      if (searchcontent == '') {
         $scope.searchisnull = true;
+        commandService.changeGroupsChecked($scope.groups);
+      }
       else {
         $scope.searchResults.splice(0,$scope.searchResults.length);
         groups=commandService.getGroups();
