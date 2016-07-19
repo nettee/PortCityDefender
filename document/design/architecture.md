@@ -61,7 +61,7 @@
 
 ![系统结构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/structure.png)
 
-## 2.5 功能器求与程序的关系
+## 2.5 功能需求与程序的关系
 
 略。
 
