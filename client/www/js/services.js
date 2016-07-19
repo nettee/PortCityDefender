@@ -562,7 +562,7 @@ app.factory('detailInformationService', function ($http) {
         }
       }).success(function (data, status, headers, config) {
         console.log("成功获取图片（根据ID）");
-        callback(data);
+        callback(data,images[i].mime_type);
       }).error(function (response) {
         console.log("获取图片失败（根据ID）");
       })
@@ -686,6 +686,26 @@ app.factory('documentService',function($http) {
     console.log("-------" + doc.title)
   }
 
+  function getDocumentImages(document, callback) {
+    var images = document.images;
+    for (var i in images){
+      $http({
+        method : "GET",
+        url : ipAddress + "/images/" + images[i].id,
+        responseType: 'arraybuffer',
+        headers : {
+          Authorization : auth
+        }
+      }).success(function (data, status, headers, config) {
+        console.log("成功获取图片（根据ID）");
+        callback(data, images[i].mime_type);
+      }).error(function (response) {
+        console.log("获取图片失败（根据ID）");
+      })
+    }
+  }
+
+
   return {
     getMainclass:function(){
       return MainclassArray;
@@ -699,7 +719,8 @@ app.factory('documentService',function($http) {
     setDocument : setDocument,
     getDetailDocument : function () {
       return doc;
-    }
+    },
+    getDocumentImages : getDocumentImages
   }
 })
 

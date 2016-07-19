@@ -1,10 +1,13 @@
-<ion-nav-view animation="slide-in-up"></ion-nav-view>
-<ion-view view-title="新建命令" >
 
-  <ion-nav-buttons side="right">
-      <button type="submit" class="button  button-clear"   ng-click = "sendCommand(a.content)">发送</button>
-  </ion-nav-buttons>
+<div class="modal" ng-controller="newCommandController">
 
+  <ion-header-bar class="bar bar-header bar-positive">
+    <button class="button button-clear" ng-click="closeModal()">取消</button>
+    <h1 class="title" style="text-align: center">新建命令</h1>
+    <button class="button button-clear" menu-toggle="right" ng-click="sendCommand(a.content)">
+      发送
+    </button>
+  </ion-header-bar>
 
   <ion-content overflow-scroll="true" style="overflow:auto;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
@@ -30,4 +33,5 @@
         </label>
         </div>
     </div>
-</ion-view>
+</ion-content>
+  </div>
