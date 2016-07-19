@@ -60,6 +60,8 @@
 
 ### 客户端
 
+客户端中每一个视图View与一个html文件对应，提供画面的显示和渲染；ViewModel和Controller与controller文件对应，提供绑定数据的初始化和数据服务的中介；Model和service文件相对应，提供数据服务，包括向服务器发送请求和更新数据。在客户端中，app.js完成了路由控制，它负责将视图View和html的绑定，同时将html与其对应的controller文件绑定；而Service通过依赖注入的方式与Controller绑定。
+
 ### 服务器
 
 ![系统结构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/structure.png)
@@ -652,3 +654,7 @@
 ## 6.3 系统维护设计
 
 暂无。
+
+# 附录A 用户界面设计原型图
+
+### 1.登陆与菜单栏
