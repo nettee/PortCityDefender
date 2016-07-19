@@ -14,6 +14,7 @@
 ## 1.3 定义
 
 + REST（Representational State Transfer，表述性状态传递）：一种软件架构风格，通过URI对资源进行唯一的标识，通过HTTP标准方法操作资源。
++ JSON（JavaScript Object Notation）：一种轻量级的数据交换格式，它基于JavaScript的语法，但又是完全独立于语言的文本格式。
 
 ## 1.4 参考资料
 
@@ -39,7 +40,26 @@
 
 ## 2.3 基本设计概念和处理流程
 
+系统使用Cient/Server架构，分为服务器端和客户端；同时，在网页端后台管理部分，系统使用Browser/Server的架构。无论是C/S架构还是B/S架构，服务器和客户端所有的通信都使用HTTP协议。
+
+![部署图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/deployment.png)
+
+客户端-服务器之间的基本交互模式见下面的活动图。
+
+![活动图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/activity.png)
+
+服务器端使用Node.js配合Express框架进行开发，采用MVC架构。当请求到来时，先经过Router（路由）根据请求的路径不同分发到不同的Controller。对于客户端发来的请求，Controller会调用Model得到数据，并将数据转换为JSON格式返回给客户端。对于浏览器发来的请求，Controller会调用Model得到数据，并将数据传给View进行渲染，将渲染得到的HTML返回给浏览器。
+
+![架构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/architecture.png)
+
 ## 2.4 结构
+
+
+### 客户端
+
+### 服务器
+
+![系统结构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/structure.png)
 
 ## 2.5 功能器求与程序的关系
 
@@ -51,7 +71,6 @@
 
 # 3. 接口设计
 
-软件使用C/S架构，分为服务器端和客户端。服务器端和客户端所有的通信都使用HTTP协议
 
 ## 3.1 用户接口
 
@@ -591,6 +610,8 @@
 + `title`：标题
 + `text`：文本内容
 + `images`：图片 - Image对象的数组
+
+![](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/class.png)
 
 ## 5.2 物理结构设计要点
 
