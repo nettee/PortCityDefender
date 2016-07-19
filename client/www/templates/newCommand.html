@@ -1,37 +1,33 @@
+<ion-nav-view animation="slide-in-up"></ion-nav-view>
+<ion-view view-title="新建命令" >
 
-<div class="modal" ng-controller="newCommandController">
+  <ion-nav-buttons side="right">
+    <button type="submit" class="button  button-clear"   ng-click = "sendCommand(a.content)">发送</button>
+  </ion-nav-buttons>
 
-  <ion-header-bar class="bar bar-header bar-positive">
-    <button class="button button-clear" ng-click="closeModal()">取消</button>
-    <h1 class="title" style="text-align: center">新建命令</h1>
-    <button class="button button-clear" menu-toggle="right" ng-click="sendCommand(a.content)">
-      发送
-    </button>
-  </ion-header-bar>
 
   <ion-content overflow-scroll="true" style="overflow:auto;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
     </ion-refresher>
     <div class="list">
       <div class="item   item-icon-right" id="commandContactDisplay">
-       <!-- <label class="item-input-wrapper">
-          <input type="text" placeholder="接收者" ng-model="receiverList">
-        </label>
-        !-->
+        <!-- <label class="item-input-wrapper">
+           <input type="text" placeholder="接收者" ng-model="receiverList">
+         </label>
+         !-->
         <div >
-        <div ng-repeat="receiver in receiverList">
+          <div ng-repeat="receiver in receiverList">
             <div class="item" id="commandContactSingle">{{receiver.name}}</div>
-        </div>
+          </div>
         </div>
         <button class="button button-light icon ion-person-add " ng-click="chooseReceiver()">
         </button>
 
       </div>
       <div class="item item-input-inset">
-      <label class="item-input">
+        <label class="item-input">
           <textarea  id="commandContentDisplay"  style="overflow:auto; resize:none;" placeholder="请输入......" ng-model="a.content"></textarea>
         </label>
-        </div>
+      </div>
     </div>
-</ion-content>
-  </div>
+</ion-view>
