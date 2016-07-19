@@ -52,10 +52,15 @@
 
 ![架构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/architecture.png)
 
+客户端使用ionic混合式应用开发框架进行开发，基本采用Angularjs的MVVM架构模式。在用户对界面进行操作时，首先会经过路由确定由哪个View进行显示和渲染，然后以ViewModel为中介进行View和Model之间的交互；View将用户的产生的事件和操作传递给ViewModel，ViewModel将对应的数据更新请求发送给Model，Model会向服务器发送请求获取数据返回给ViewModel，再由ViewModel通知View完成视图更新；其中Controller的作用就是初始化ViewModel的数据和把多个Model组合起来为ViewModel提供数据服务。
+
+![客户端架构图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/img/client-architecture.png)
+
 ## 2.4 结构
 
-
 ### 客户端
+
+客户端中每一个视图View与一个html文件对应，提供画面的显示和渲染；ViewModel和Controller与controller文件对应，提供绑定数据的初始化和数据服务的中介；Model和service文件相对应，提供数据服务，包括向服务器发送请求和更新数据。在客户端中，app.js完成了路由控制，它负责将视图View和html的绑定，同时将html与其对应的controller文件绑定；而Service通过依赖注入的方式与Controller绑定。
 
 ### 服务器
 
@@ -74,11 +79,11 @@
 
 ## 3.1 用户接口
 
-用户界面的设计由原型图给出，原型图详见附录“”。
+用户界面的设计由原型图给出，原型图详见附录A。
 
 用户接口规定了用户在用户界面上的操作和用户界面之间的转跳关系，如下图所示：
 
-![用户界面关系图](Protograph/用户界面.png)
+![用户界面关系图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2.png)
 
 ## 3.2 外部接口
 
@@ -649,3 +654,85 @@
 ## 6.3 系统维护设计
 
 暂无。
+
+# 附录A 用户界面设计原型图
+
+### 1.登陆与菜单栏
+
+* 登陆界面
+
+![原型图-登陆界面](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E7%99%BB%E9%99%86.png)
+
+* 菜单栏
+
+![原型图-菜单栏](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E5%B7%A6%E4%BE%A7%E8%8F%9C%E5%8D%95%E6%A0%8F.png)
+
+### 2.个人信息
+
+* 个人信息界面
+
+![原型图-个人信息](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF.png)
+
+* 修改密码界面
+
+![原型图-修改密码](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81.png)
+
+### 3.情报动态
+
+* 情报动态界面
+
+![原型图-情报动态](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%83%85%E6%8A%A5%E5%8A%A8%E6%80%81.png)
+
+* 新建情报界面
+
+![原型图-新建情报](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%B0%E5%BB%BA%E6%83%85%E6%8A%A5.png)
+
+* 情报详情界面
+
+![原型图-情报详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%83%85%E6%8A%A5%E8%AF%A6%E6%83%85.png)
+
+* 回复界面
+
+![原型图-回复](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E5%9B%9E%E5%A4%8D%E6%83%85%E6%8A%A5.png)
+
+### 4.控制指挥
+
+* 控制指挥界面
+
+![原型图-控制指挥](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%8E%A7%E5%88%B6%E6%8C%87%E6%8C%A5.png)
+
+* 新建命令界面
+
+![原型图-新建命令](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/新建命令.png)
+
+* 选择联系人界面
+
+![原型图-选择联系人](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E9%80%89%E6%8B%A9%E5%91%BD%E4%BB%A4%E8%81%94%E7%B3%BB%E4%BA%BA.png)
+
+* 命令详情界面
+
+![原型图-命令详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E5%91%BD%E4%BB%A4%E8%AF%A6%E6%83%85.png)
+
+### 5.文档查看
+
+* 文档查看界面
+
+![原型图-文档查看](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%87%E6%A1%A3%E6%9F%A5%E7%9C%8B.png)
+
+* 文档小类/列表界面
+
+![原型图-文档小类/列表](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%87%E6%A1%A3%E5%B0%8F%E7%B1%BB-%E5%88%97%E8%A1%A8.png)
+
+* 文档详情界面
+
+![原型图-文档详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%87%E6%A1%A3%E8%AF%A6%E6%83%85.png)
+
+### 6.通讯录
+
+* 通讯录界面
+
+![原型图-通讯录](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E9%80%9A%E8%AE%AF%E5%BD%95.png)
+
+* 联系人详情界面
+
+![原型图-联系人详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E8%81%94%E7%B3%BB%E4%BA%BA%E8%AF%A6%E6%83%85.png)
