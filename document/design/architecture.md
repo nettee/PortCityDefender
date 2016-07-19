@@ -79,7 +79,7 @@
 
 ## 3.1 用户接口
 
-用户界面的设计由原型图给出，原型图详见附录“”。
+用户界面的设计由原型图给出，原型图详见附录A。
 
 用户接口规定了用户在用户界面上的操作和用户界面之间的转跳关系，如下图所示：
 
@@ -658,3 +658,81 @@
 # 附录A 用户界面设计原型图
 
 ### 1.登陆与菜单栏
+
+* 登陆界面
+
+![原型图-登陆界面](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E7%99%BB%E9%99%86.png)
+
+* 菜单栏
+
+![原型图-菜单栏](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E5%B7%A6%E4%BE%A7%E8%8F%9C%E5%8D%95%E6%A0%8F.png)
+
+### 2.个人信息
+
+* 个人信息界面
+
+![原型图-个人信息](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF.png)
+
+* 修改密码界面
+
+![原型图-修改密码](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81.png)
+
+### 3.情报动态
+
+* 情报动态界面
+
+![原型图-情报动态](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%83%85%E6%8A%A5%E5%8A%A8%E6%80%81.png)
+
+* 新建情报界面
+
+![原型图-新建情报](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%B0%E5%BB%BA%E6%83%85%E6%8A%A5.png)
+
+* 情报详情界面
+
+![原型图-情报详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%83%85%E6%8A%A5%E8%AF%A6%E6%83%85.png)
+
+* 回复界面
+
+![原型图-回复](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E5%9B%9E%E5%A4%8D%E6%83%85%E6%8A%A5.png)
+
+### 4.控制指挥
+
+* 控制指挥界面
+
+![原型图-控制指挥](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%8E%A7%E5%88%B6%E6%8C%87%E6%8C%A5.png)
+
+* 新建命令界面
+
+![原型图-新建命令](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/新建命令.png)
+
+* 选择联系人界面
+
+![原型图-选择联系人](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E9%80%89%E6%8B%A9%E5%91%BD%E4%BB%A4%E8%81%94%E7%B3%BB%E4%BA%BA.png)
+
+* 命令详情界面
+
+![原型图-命令详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E5%91%BD%E4%BB%A4%E8%AF%A6%E6%83%85.png)
+
+### 5.文档查看
+
+* 文档查看界面
+
+![原型图-文档查看](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%87%E6%A1%A3%E6%9F%A5%E7%9C%8B.png)
+
+* 文档小类/列表界面
+
+![原型图-文档小类/列表](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%87%E6%A1%A3%E5%B0%8F%E7%B1%BB-%E5%88%97%E8%A1%A8.png)
+
+* 文档详情界面
+
+![原型图-文档详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E6%96%87%E6%A1%A3%E8%AF%A6%E6%83%85.png)
+
+### 6.通讯录
+
+* 通讯录界面
+
+![原型图-通讯录](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E9%80%9A%E8%AE%AF%E5%BD%95.png)
+
+* 联系人详情界面
+
+![原型图-联系人详情](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E8%81%94%E7%B3%BB%E4%BA%BA%E8%AF%A6%E6%83%85.png)
