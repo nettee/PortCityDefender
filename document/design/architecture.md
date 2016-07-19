@@ -59,7 +59,7 @@
 
 用户接口规定了用户在用户界面上的操作和用户界面之间的转跳关系，如下图所示：
 
-![用户界面关系图](Protograph/用户界面.png)
+![用户界面关系图](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/design/Protograph/%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2.png)
 
 ## 3.2 外部接口
 
