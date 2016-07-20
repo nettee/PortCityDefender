@@ -6,7 +6,7 @@ var regionList = [
     '东南',
     '西南',
     '西北',
-    '菲律宾省'
+    // '菲律宾省'
 ];
 
 var regions = {};
