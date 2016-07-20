@@ -1,16 +1,19 @@
 angular.module('ionicApp.controllers', ['ionicApp.services'])
 
+//用户登录页面的控制器
   .controller('LoginController', function($rootScope, $scope, $ionicPopup, $http, $state, userService) {
     $scope.user={
       username:"",
       password:""
     }
+    //处理登录按钮的事件，向服务器发送请求判断登录是否成功
     $scope.signIn = function(user) {
       if(user.username==""||user.password==""){
         alert("用户名和密码不能为空");
         return;
       }
       $rootScope.ipAddress = "http://121.40.97.40:3000";
+      //认证信息
       var auth = window.btoa(user.username + ":" + user.password);
       console.log("base64 number : " + auth);
       auth = "Basic " + auth;
@@ -22,6 +25,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       console.log("发送地址是 ： " + $scope.ipAddress + "/authentications/" + user.username)//user/check-password?username=" + user.username + "&password=" + user.password)
       $http.get($scope.ipAddress + "/authentications/" + user.username,{headers:{Authorization : auth}})
         .success(function (response, status, headers, config){
+          //登录成功
           if (status == 200){
             console.log("登陆成功");
             console.log("登陆:user id " + user.username);
@@ -32,6 +36,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
           }
         })
+        //登录失败
         .error(function (data, status, headers, config){
           if (status == 401){
             $ionicPopup.show({
@@ -53,26 +58,29 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     };
   })
 
+//左侧菜单的控制器
   .controller('MenuController', function ($scope, $state, $ionicPopup, userService) {
     $scope.user = userService.getUser();
-
+//定义到个人信息页面的跳转
     $scope.userPage = function () {
       $state.go('menu.userpage')
     }
   })
-
+//修改密码页面的控制器
   .controller('PasswordController', function ($rootScope, $scope, $state, $ionicPopup, passwordService, userService) {
     $scope.password = {};
     $scope.id = userService.getUser().id;
-
+//初始化各项值为空
     $scope.$on('$ionicView.beforeEnter',function () {
       $scope.password.oldPass = "";
       $scope.password.newPass = "";
       $scope.password.confirmPass = "";
     })
-
+//点击确认后的事件
     $scope.changePassword = function () {
+      //旧密码输入正确
       if ($scope.password.oldPass == $scope.userPassword) {
+        //新密码为空
         if ($scope.password.newPass == ""){
           $ionicPopup.show({
             title: "新密码不能为空",
@@ -88,7 +96,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           });
           return;
         }
+        //新密码确认密码相同
         if ($scope.password.newPass == $scope.password.confirmPass) {
+          //调用服务中的改密码请求，改密码成功或者失败要调用不同的弹框
           passwordService.changePassword($scope.id, $scope.password.newPass,
             function () {
               $ionicPopup.show({
@@ -118,6 +128,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             })
         }
         else{
+          //新密码与确认密码不同
           $ionicPopup.show({
             title: "确认密码错误",
             template: "请您确认后再次输入！",
@@ -134,6 +145,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         }
       }
       else{
+        //旧密码输入错误
         $ionicPopup.show({
           title: "原密码错误",
           template: "请您确认后再次输入！",
@@ -150,14 +162,15 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       }
     }
   })
-
+//个人信息页面对应的控制器
   .controller('UserController', function ($scope, $state, $ionicPopup, userService) {
     $scope.user = userService.getUser();
-
+//修改密码按钮的点击事件，页面跳转
     $scope.changePassword = function () {
       $state.go('menu.password');
     }
 
+//登出按钮的弹框
     $scope.logout = function () {
       $ionicPopup.show({
         title: "您确定要登出吗",
@@ -184,7 +197,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
+//通讯录页面对应的控制器
   .controller('ContactsController', function ($scope, $state, $http, userService) {
+  //每次进入控制器都获得一次区域列表
     var regionlist = [];
     $scope.groups = [];
 
@@ -204,12 +219,13 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         alert("Fail to get the regions");
         console.log("app ConstactsController Fail to get regions --- error message : ", response.error);
       })
-
+//点击显示联系人详情，进入联系人详情页面
     $scope.showDetailContact = function (id) {
       $state.go('menu.single', {contactId : id});
     }
-
+//每次点击区域名都调用的折叠函数，每点击一次某个区域下的所有人员显示到隐藏或隐藏到显示，
     $scope.toggleGroup = function(group) {
+      //如果该区域还没获得人员则发送http请求
       if (group.isfill == false){
         $http.get($scope.ipAddress + "/users?region=" + group.name,{headers:{Authorization : $scope.auth}})
           .success(function (response) {
@@ -225,9 +241,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
             console.log("app userService method-getUserByRegion Fail to get---error message : ", response.error);
           })
       }
+      //隐藏与否，状态反转
       group.show = !group.show;
     };
-
+    //返回该区域是否隐藏的函数
     $scope.isGroupShown = function(group) {
 
       return group.show;
@@ -236,12 +253,15 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     /**
      * Below is the search
      */
+     //初始化，表示初始时刻搜索框处搜索输入为空，搜索结果也为空
     $scope.searchisnull = true;
     $scope.searchResults = [];
+    //搜索函数，只要搜索框输入变化就调用该函数进行处理，不断更新下方的搜索结果
     $scope.search = function (searchcontent) {
       if (searchcontent == '')
         $scope.searchisnull = true;
       else {
+        //发送http请求得到所有联系人，在其中进行搜索
         $scope.searchResults.splice(0,$scope.searchResults.length);
         $http.get($scope.ipAddress + "/users",{headers:{Authorization : $scope.auth}})
           .success(function (response) {
@@ -259,6 +279,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         $scope.searchisnull = false;
       }
     }
+    //下拉刷新，重新获得区域列表和联系人列表
     $scope.doRefresh=function(){
       var regionlist = [];
       $scope.groups = [];
@@ -286,26 +307,28 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
   })
-
+//单个联系人页面对应的controller
   .controller('ContactController', function ($scope,$stateParams, userService) {
     var username = $stateParams.contactId;
+    //根据链接中的参数（即id）获取联系人详情
     userService.getUserById(username, function (response) {
       $scope.contact = response;
     });
   })
-
+//情报页面对应的controller
   .controller('InfoController', function ($scope, $state, $ionicModal, informationService, userService, modalService) {
+ //新建情报的函数，定义一个情态框，点击新建情报则会跳出 
     $scope.newInformation = function() {
       console.log("in new Information click");
       $scope.modal.show();
     }
-
+//每次进去该页面都首先更新一次情报列表
     $scope.$on('$ionicView.beforeEnter', function(){
       informationService.getInformationList(function (response) {
         $scope.informations = response;
       })
     });
-
+//将情态框和对应的页面绑定，并且设置页面出现方式（从下到上）
     $ionicModal.fromTemplateUrl('templates/newInformation.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -313,12 +336,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $scope.modal = modal;
       modalService.setInformationModal(modal);
     });
-
+//改变时间格式的函数，将标准时间转为本地时间
     $scope.properTime = function (time) {
       var date = new Date(time);
       return date.toLocaleString()
     }
-
+//改变情报列表页面显示的情报摘要，40个以后不再显示，显示省略号
     $scope.properContent = function (text) {
       if (text.length <= 40)
         return text;
@@ -335,7 +358,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       content = content.concat("... ");
       return content;
     }
-
+//刷新页面，重新获取情报列表
     $scope.doRefresh=function(){
       informationService.getInformationList(function (response) {
         $scope.informations = response;
@@ -344,13 +367,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
     $scope.calPortraitNumber = userService.calPortraitNumber;
-
+//进入某一条情报的详情
     $scope.showDetailInformation = function (info) {
       $state.go('menu.detailInformation',{infoID :info.id});
     }
   })
-
+//情报详细内容的controller
   .controller('detailInformationController', function ($scope, $state, $stateParams, $ionicPopup, detailInformationService,userService) {
+    //初始化获得情报id，
     $scope.infoID = $stateParams.infoID;
     $scope.images = [];
     $scope.a={};
@@ -358,7 +382,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     $scope.samePublisher = false;
     $scope.existed = false;
     $scope.calPortraitNumber = userService.calPortraitNumber;
-
+//每次进入获取图片与情报发送者
     $scope.$on('$ionicView.beforeEnter', function () {
       $scope.images = [];
       $scope.pictureSource = [];
@@ -395,22 +419,24 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       })
     })
 
-
+//时间转换为本地时间的函数
     $scope.properTime = function(time){
       return (new Date(time)).toLocaleString();
     }
-
+//删除情报并跳转
     $scope.deleteInformation = function () {
       detailInformationService.deleteInfo($scope.infoID);
       $state.go('menu.information');
     }
-
+//回复情报，跳转到回复页面
     $scope.responseInformation = function(){
       $state.go('menu.responseInformation', {responseInfoID : $scope.infoID});
     }
   })
 
+//回复情报页面对应的controller
   .controller('responseInformationController', function ($scope, $state, $stateParams, $ionicHistory,$ionicPopup, replicationServer, userService) {
+    //初始根据url的参数获得情报
     $scope.responseInfoID = $stateParams.responseInfoID;
     $scope.replication = replicationServer.replicationInstance();
     $scope.replication.replier = userService.getUser().id;
