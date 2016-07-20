@@ -215,7 +215,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           .success(function (response) {
             var i = regionlist.indexOf(group.name);
             for (var j = 0;j < response.length;j++){
-              $scope.groups[i].items.push(response[j]);
+              if (response[j].level >= 4)
+                $scope.groups[i].items.push(response[j]);
             }
             $scope.groups[i].isfill = true;
           })
@@ -246,7 +247,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
           .success(function (response) {
             for (var i in response){
               if (response[i].name.indexOf(searchcontent) != -1||response[i].id.indexOf(searchcontent) != -1){
-                $scope.searchResults.push(response[i]);
+                if (response[i].level >= 4)
+                  $scope.searchResults.push(response[i]);
               }
             }
           })
