@@ -24,6 +24,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         .success(function (response, status, headers, config){
           if (status == 200){
             console.log("登陆成功");
+            console.log("登陆:user id " + user.username);
+            console.log("");
             $state.go('menu.information');
 
             userService.setUsername(user.username, user.password, $scope.auth);
@@ -449,7 +451,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, $ionicPopup, userService, informationService, Camera, modalService) {
     $scope.information = informationService.informationInstance();
-    $scope.information.publisher = userService.getUser().id;
+    $scope.information.publisher = userService.getUserId();
     $scope.images = [];
     $scope.selectImage = false;
 
@@ -544,6 +546,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         return;
       }
       $scope.information.images = $scope.images;
+      $scope.information.publisher = userService.getUser().id;
       informationService.sendInformation($scope.information, function (response) {
         $scope.information = response;
         informationService.sendImages(response, $scope.images);

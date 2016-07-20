@@ -83,6 +83,7 @@ app.factory('userService', function($http){
     getUserById : getUserById,
 
     setUsername : function(id, password, auth){
+      console.log("set user : " + id);
       user.id = id;
       fillUser(id, password, auth);
     },
