@@ -1,5 +1,52 @@
 # 1 客户端代码
 
+## 1.1 客户端构成
+
+客户端``client``的源代码主要在``www``文件夹，其主要包含5个文件夹：
+
+* css：
+
+## 2.2 个文件用途
+
+```
+www
+├── css
+│   └── style.css
+├── img
+├── index.html
+├── js
+│   ├── app.js
+│   ├── controllers.js
+│   └── services.js
+├── lib
+│   ├── angular
+│   ├── angular-animate
+│   ├── angular-sanitize
+│   ├── angular-ui-router
+│   ├── ionic
+│   └── ngCordova
+└── templates
+    ├── command.html
+    ├── commandReceiver.html
+    ├── contact.html
+    ├── contacts.html
+    ├── detailDocument.html
+    ├── detailInformation.html
+    ├── document.html
+    ├── documentSubClass.html
+    ├── documentSubClassItem.html
+    ├── information.html
+    ├── login.html
+    ├── menu.html
+    ├── newCommand.html
+    ├── newInformation.html
+    ├── password.html
+    ├── responseInformation.html
+    ├── singleCommand.html
+    ├── singleSendCommand.html
+    └── userpage.html
+```
+
 # 2 服务器代码
 
 ## 2.1 系统构成
