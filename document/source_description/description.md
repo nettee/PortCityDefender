@@ -27,7 +27,7 @@ src
 │   ├── informations.js 情报
 │   ├── regions.js 区域
 │   └── users.js 用户
-├── public （部分文件省略，为标注的文件来自Boostrap框架和fileinput插件）
+├── public （部分文件省略，未标注的文件来自Boostrap框架和fileinput插件）
 │   ├── favicon.png 网站的标识
 │   ├── fonts
 │   ├── img
