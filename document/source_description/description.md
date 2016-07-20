@@ -4,47 +4,51 @@
 
 客户端``client``的源代码主要在``www``文件夹，其主要包含5个文件夹：
 
-* css：
+* css：视图渲染设置模块
+* templates：模板视图模块
+* js：路由、控制器、数据服务模块
+* lib：ionic视图组件和AngularJS框架代码
+* img：客户端内部图片资源
 
-## 2.2 个文件用途
+## 2.2 各文件用途
 
 ```
-www
-├── css
+www 源代码目录
+├── css 视图渲染设置模块
 │   └── style.css
-├── img
-├── index.html
-├── js
-│   ├── app.js
-│   ├── controllers.js
-│   └── services.js
-├── lib
+├── img 客户端内部图片资源
+├── index.html 用户界面的根页面，包含头文件的引用和应用逻辑模块名称的定义
+├── js 路由、控制器、数据服务模块
+│   ├── app.js 路由控制（将View与Controller绑定）
+│   ├── controllers.js 控制器，包含与每个视图对应的控制器（MVVM的ViewModel和Controller部分）
+│   └── services.js 数据服务（MVVM的Model部分）
+├── lib ionic视图组件和AngularJS框架代码
 │   ├── angular
 │   ├── angular-animate
 │   ├── angular-sanitize
 │   ├── angular-ui-router
 │   ├── ionic
 │   └── ngCordova
-└── templates
-    ├── command.html
-    ├── commandReceiver.html
-    ├── contact.html
-    ├── contacts.html
-    ├── detailDocument.html
-    ├── detailInformation.html
-    ├── document.html
-    ├── documentSubClass.html
-    ├── documentSubClassItem.html
-    ├── information.html
-    ├── login.html
-    ├── menu.html
-    ├── newCommand.html
-    ├── newInformation.html
-    ├── password.html
-    ├── responseInformation.html
-    ├── singleCommand.html
-    ├── singleSendCommand.html
-    └── userpage.html
+└── templates 视图模板（MVVM的View部分）
+    ├── command.html 指挥控制界面
+    ├── commandReceiver.html 联系人选择界面
+    ├── contact.html 联系人详情界面
+    ├── contacts.html 通讯录界面
+    ├── detailDocument.html 文档详情界面
+    ├── detailInformation.html 情报详情界面
+    ├── document.html 文档查看界面
+    ├── documentSubClass.html 文档小类界面
+    ├── documentSubClassItem.html 文档列表界面
+    ├── information.html 情报动态界面
+    ├── login.html 登录界面
+    ├── menu.html 菜单栏
+    ├── newCommand.html 新建命令界面
+    ├── newInformation.html 新建情报界面
+    ├── password.html 修改密码界面
+    ├── responseInformation.html 回复情报界面
+    ├── singleCommand.html 接收命令的详情界面
+    ├── singleSendCommand.html 已发送命令的详情界面
+    └── userpage.html 个人信息界面
 ```
 
 # 2 服务器代码
