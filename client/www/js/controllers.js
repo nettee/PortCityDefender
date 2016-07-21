@@ -314,6 +314,13 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     userService.getUserById(username, function (response) {
       $scope.contact = response;
     });
+    $scope.doRefresh=function(){
+      userService.getUserById(username, function (response) {
+        $scope.contact = response;
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+
+    }
   })
 //情报页面对应的控制器
   .controller('InfoController', function ($scope, $state, $ionicModal, informationService, userService, modalService) {
