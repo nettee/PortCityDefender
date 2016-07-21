@@ -19,7 +19,7 @@
 
 ## 1.3 定义
 
-REST
+* REST（Representational State Transfer，表述性状态传递）：一种软件架构风格，通过URI对资源进行唯一的标识，通过HTTP标准方法操作资源。
 
 ## 1.4 参考资料
 
