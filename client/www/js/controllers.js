@@ -767,14 +767,15 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
     $scope.$on('$ionicView.beforeEnter',function(){
+      commandService.fillGroups(function(){});
+      $scope.groups=commandService.getGroups();
       for(var i in $scope.groups){
         for(var j in $scope.groups[i].items){
           console.log("after update"+$scope.groups[i].items[j].name+$scope.groups[i].items[j].ischecked);
         }
       }
     })
-    commandService.fillGroups(function(){});
-    $scope.groups=commandService.getGroups();
+
    // commandService.updateCheckedbyReceiverList();
 
     function objMerger(obj1, obj2)

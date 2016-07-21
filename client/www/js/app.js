@@ -200,6 +200,7 @@ angular.module('ionicApp', ['ionic', 'ngCordova', 'ionicApp.controllers'])
         url:'/commandReceiver',
         views:{
           'menuContent':{
+            cache:'false',
             templateUrl:'templates/commandReceiver.html',
             controller:'commandReceiverController'
           }
