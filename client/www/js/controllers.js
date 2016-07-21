@@ -307,7 +307,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
   })
-//单个联系人页面对应的controller
+//单个联系人页面对应的控制器
   .controller('ContactController', function ($scope,$stateParams, userService) {
     var username = $stateParams.contactId;
     //根据链接中的参数（即id）获取联系人详情
@@ -315,9 +315,9 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $scope.contact = response;
     });
   })
-//情报页面对应的controller
+//情报页面对应的控制器
   .controller('InfoController', function ($scope, $state, $ionicModal, informationService, userService, modalService) {
- //新建情报的函数，定义一个情态框，点击新建情报则会跳出 
+ //新建情报的函数，定义一个情态框，点击新建情报则会跳出
     $scope.newInformation = function() {
       console.log("in new Information click");
       $scope.modal.show();
@@ -372,7 +372,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $state.go('menu.detailInformation',{infoID :info.id});
     }
   })
-//情报详细内容的controller
+//情报详细内容的控制器
   .controller('detailInformationController', function ($scope, $state, $stateParams, $ionicPopup, detailInformationService,userService) {
     //初始化获得情报id，
     $scope.infoID = $stateParams.infoID;
@@ -434,7 +434,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
-//回复情报页面对应的controller
+//回复情报页面对应的控制器
   .controller('responseInformationController', function ($scope, $state, $stateParams, $ionicHistory,$ionicPopup, replicationServer, userService) {
     //初始根据url的参数获得情报
     $scope.responseInfoID = $stateParams.responseInfoID;
@@ -477,12 +477,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   })
 
+//新建情报控制器
   .controller('newInformationController', function ($scope, $ionicActionSheet, $timeout, $state, $ionicPopup, userService, informationService, Camera, modalService) {
     $scope.information = informationService.informationInstance();
     $scope.information.publisher = userService.getUserId();
     $scope.images = [];
     $scope.selectImage = false;
 
+    //取消新建情报页面，并丢弃已填数据
     $scope.closeModal = function () {
       $scope.information.text = "";
       $scope.information.images = [];
@@ -492,6 +494,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       $scope.modal.hide();
     }
 
+    //显示上拉菜单、读取相册、拍照和发布情报
     $scope.showPictureChoice = function () {
       var hideSheet = $ionicActionSheet.show({
         buttons:[
@@ -590,25 +593,20 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
+//命令控制器
   .controller('commandController', function ($scope, $state, commandService, $ionicModal,userService,modalService) {
 
+    //转跳至新建命令界面
     $scope.newCommand = function(){
       console.log("in new Command click");
       commandService.setReceiverListNull();
       $state.go('menu.newCommand');
      // $scope.modal.show();
     }
-    /*
-    $ionicModal.fromTemplateUrl('templates/newCommand.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
-      modalService.setCommandModal(modal);
-    });
-   */
+
     $scope.calPortraitNumber = userService.calPortraitNumber;
 
+    //刷新获取最新命令列表
     $scope.doRefresh = function(){
       commandService.getCommandList(function(response) {
         commandList = response
@@ -624,6 +622,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       })
 
     }
+
+    //进入页面时获取最新的命令列表
     $scope.$on('$ionicView.beforeEnter',function(){
         commandService.getCommandList(function(response) {
           commandList = response
@@ -644,6 +644,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     )
   })
 
+//接收命令详情控制器
   .controller('singleCommandController',function($scope,$stateParams,commandService, userService){
     var index= $stateParams.commandId;
     var command=commandService.getCommandByIndex(index);
@@ -657,6 +658,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     //$scope.command.content = content;
   })
 
+//发送命令详情控制器
   .controller('singleSendCommandController',function($scope,$stateParams,commandService, userService){
     var index= $stateParams.commandId;
     var command=commandService.getSendCommandByIndex(index);
@@ -669,15 +671,14 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     console.log($scope.command.updated_time.toLocaleString());
   })
 
+//新建命令控制器
   .controller('newCommandController',function($scope,$state,$ionicHistory, $ionicPopup,commandService) {
 
    var sendcommand = {};
     $scope.a={content:""};
    $scope.receiverList=commandService.getReceiverList();
-   //console.log("in newCommand controller  "+$scope.receiverList.length);
-   //for (var receiver in $scope.receiverList) {
-   //  console.log(receiver.name);
-   //}
+
+    //获取选择的联系人
    $scope.$on('$ionicView.beforeEnter',function(){
      $scope.receiverList=commandService.getReceiverList();
    })
@@ -685,12 +686,8 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
      $scope.receiverList=commandService.getReceiverList();
      $scope.$broadcast('scroll.refreshComplete');
    }
-    /*
-    $scope.closeModal = function () {
-      $scope.a.content="";
-      $scope.modal = modalService.getCommandModal();
-      $scope.modal.hide();
-    }*/
+
+    //发送命令
      $scope.sendCommand = function (content) {
      //sendcommand = command;
      //sendcommand.sender = "mymy";
@@ -736,6 +733,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
    }
  })
 
+//选择联系人控制器
   .controller('commandReceiverController',function($scope,$http,$state,$ionicHistory,commandService){
     console.log("into commandReceiverController")
     $scope.updateReceiver=function(groups){
@@ -765,10 +763,6 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
 
     $scope.$on('$ionicView.beforeEnter',function(){
-      //根据联系人列表设置联系人的选中与否
-     // commandService.updateCheckedbyReceiverList();
-      //$scope.groups=commandService.getGroups();
-     // commandService.changeGroupsChecked($scope.groups);
       for(var i in $scope.groups){
         for(var j in $scope.groups[i].items){
           console.log("after update"+$scope.groups[i].items[j].name+$scope.groups[i].items[j].ischecked);
@@ -796,9 +790,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
       return group.show;
     };
 
-    /**
-     * Below is the search
-     */
+    //搜索联系人
     $scope.searchisnull = true;
     $scope.searchResults = [];
     $scope.search = function (searchcontent) {
@@ -833,10 +825,12 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
 
   })
 
+//文档查看控制器
   .controller('DocumentController', function ($scope,documentService) {
     $scope.MainClassArray=documentService.getMainclass();
   })
 
+//文档小类控制器
   .controller('DocumentSubClassController', function ($scope, $state, $stateParams, documentService) {
     var name=$stateParams.classname;
     $scope.classname=name;
@@ -848,6 +842,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
+//文档列表控制器
   .controller('DocumentSubClassItemController',function($scope, $state, $stateParams, documentService){
     $scope.classname = $stateParams.classname;
     $scope.subclass = $stateParams.subclassname;
@@ -867,6 +862,7 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
     }
   })
 
+//文档详情控制器
   .controller('detailDocumentController',function($scope, $stateParams, documentService){
     $scope.classname = $stateParams.classname;
     $scope.subclass = $stateParams.subclassname;
