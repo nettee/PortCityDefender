@@ -618,6 +618,10 @@ angular.module('ionicApp.controllers', ['ionicApp.services'])
         }else{
           $scope.isCommandListEmpty=false;
         }
+        commandService.fillSendCommandList(function(response){
+          $scope.sendCommandList=response;
+          commandService.changeDateStyle($scope.sendCommandList);
+        })
         $scope.$broadcast('scroll.refreshComplete');
       })
 
