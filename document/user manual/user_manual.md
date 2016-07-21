@@ -147,7 +147,7 @@
 点击“插入图片”上传图片，可以选择拍照上传或从相册中选择。输入情报内容，点击右上角“发布”按钮发布情报。
 
 ![图2](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/sendinfo2.png)
-
+![图3](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/sendinfo3.png)
 ![图4](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/sendinfo4.png)
 
 已发布的情报会出现在情报列表中。
@@ -176,7 +176,7 @@
 
 #### 4.2.5.2 操作说明
 
-在指挥控制页面，点击右上角的“+”号新建命令。
+在指挥控制页面，点击右上角的“+”号新建命令,输入命令内容。
 
 ![图1](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand1.png)
 
@@ -184,14 +184,15 @@
 
 ![图2](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand2.png)
 
-可以选择多个联系人，也可以在上方搜索框输入名字搜索联系人进行选择。
-
-![图4](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand4.png)
+可以在上方搜索框输入名字搜索联系人进行选择,也可以在列表中直接选择。
 
 ![图3](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand3.png)
 
-选择好接收人后，输入命令内容，点击右上角的“发送”按钮发送命令。
+![图4](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand4.png)
 
+选择好接收人后，，点击右上角的“发送”按钮发送命令。
+
+![图5](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand5.png)
 ![图6](https://raw.githubusercontent.com/nettee/PortCityDefender/dev/document/user%20manual/images/newcommand6.png)
 
 ### 4.2.6 文档查看
